@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {YearsComponent} from "./invoice/years.component";
-import {MonthsComponent} from "./invoice/months.component";
-import {InvoiceListComponent} from "./invoice/invoice-list.component";
+import {YearsComponent} from "./invoice/years/years.component";
+import {MonthsComponent} from "./invoice/months/months.component";
+import {InvoiceListComponent} from "./invoice/invoice-list/invoice-list.component";
 
 const routes: Routes = [
   {

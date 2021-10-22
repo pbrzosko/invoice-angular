@@ -4,13 +4,13 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {YearsComponent} from "./invoice/years.component";
 import {MatGridListModule} from "@angular/material/grid-list";
-import {DockItemComponent} from "./dock/dock-item.component";
 import {MatCardModule} from "@angular/material/card";
-import {DockComponent} from "./dock/dock.component";
-import {MonthsComponent} from "./invoice/months.component";
-import {InvoiceListComponent} from "./invoice/invoice-list.component";
+import {YearsComponent} from "./invoice/years/years.component";
+import {MonthsComponent} from "./invoice/months/months.component";
+import {InvoiceListComponent} from "./invoice/invoice-list/invoice-list.component";
+import {DockItemComponent} from "./dock/dock-item/dock-item.component";
+import {DockComponent} from "./dock/dock/dock.component";
 
 @NgModule({
   declarations: [

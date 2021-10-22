@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
-import {InvoiceService} from "./invoice.service";
 import {ActivatedRoute} from "@angular/router";
+import {InvoiceService} from "../invoice.service";
 
 @Component({
   selector: 'invoice-months',

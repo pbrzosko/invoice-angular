@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {InvoiceService} from "./invoice.service";
+import {InvoiceService} from "../invoice.service";
 
 @Component({
   selector: 'invoice-years',
