@@ -1,7 +1,7 @@
 <div>
   <mat-grid-list cols="12">
     <mat-grid-tile *ngFor="let year of years">
-      <invoice-folder [year]="year"></invoice-folder>
+      <invoice-dock-item [text]="year" icon="folder"></invoice-dock-item>
     </mat-grid-tile>
   </mat-grid-list>
 </div>
