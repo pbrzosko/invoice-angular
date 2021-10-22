@@ -1,7 +1,5 @@
-<div>
-  <mat-grid-list cols="12">
-    <mat-grid-tile *ngFor="let year of years">
-      <invoice-dock-item [text]="year" icon="folder"></invoice-dock-item>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+<mat-grid-list cols="12">
+  <mat-grid-tile *ngFor="let year of years">
+    <invoice-dock-item [text]="year" icon="folder" [link]="['', year]"></invoice-dock-item>
+  </mat-grid-tile>
+</mat-grid-list>

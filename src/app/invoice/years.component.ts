@@ -7,7 +7,7 @@ import {InvoiceService} from "./invoice.service";
 })
 export class YearsComponent implements OnInit {
 
-  years: Number[] = [];
+  years: number[] = [];
 
   constructor(private invoiceService: InvoiceService) {
   }

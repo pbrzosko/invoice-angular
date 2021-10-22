@@ -23,6 +23,11 @@ export class InvoiceService {
       id: 3
     },
     {
+      month: 2,
+      year: 2021,
+      id: 1
+    },
+    {
       month: 5,
       year: 2020,
       id: 1
@@ -30,8 +35,8 @@ export class InvoiceService {
   ];
 
 
-  findAll(): Promise<Invoice[]> {
-    return Promise.resolve(this.invoices);
+  find(year: number, month: number): Promise<Invoice[]> {
+    return Promise.resolve(this.invoices.filter(invoice => invoice.year === year && invoice.month === month));
   }
 
   save(invoice: Invoice): void {
@@ -39,14 +44,14 @@ export class InvoiceService {
   }
 
   years() {
-    return Promise.resolve([...this.invoices.reduce<Map<Number, Boolean>>((accumulator, current) => {
+    return Promise.resolve([...this.invoices.reduce<Map<number, boolean>>((accumulator, current) => {
       accumulator.set(current.year, true);
       return accumulator;
     }, new Map()).keys()]);
   }
 
   months(year: number) {
-    return Promise.resolve([...this.invoices.filter((item) => item.year === year).reduce<Map<Number, Boolean>>((accumulator, current) => {
+    return Promise.resolve([...this.invoices.filter((item) => item.year === year).reduce<Map<number, boolean>>((accumulator, current) => {
       accumulator.set(current.month, true);
       return accumulator;
     }, new Map()).keys()]);

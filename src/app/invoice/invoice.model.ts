@@ -1,5 +1,5 @@
 export interface Invoice {
-  month: Number,
-  year: Number,
-  id: Number
+  month: number,
+  year: number,
+  id: number
 }

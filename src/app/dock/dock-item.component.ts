@@ -7,6 +7,6 @@ import {Component, Input} from "@angular/core";
 })
 export class DockItemComponent {
   @Input() text: any | undefined;
-  @Input() icon: String | undefined;
-  @Input() link: String | undefined;
+  @Input() icon: string | undefined;
+  @Input() link: string | any[] | null | undefined;
 }

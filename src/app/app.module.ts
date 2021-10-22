@@ -9,11 +9,15 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {DockItemComponent} from "./dock/dock-item.component";
 import {MatCardModule} from "@angular/material/card";
 import {DockComponent} from "./dock/dock.component";
+import {MonthsComponent} from "./invoice/months.component";
+import {InvoiceListComponent} from "./invoice/invoice-list.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     YearsComponent,
+    MonthsComponent,
+    InvoiceListComponent,
     DockItemComponent,
     DockComponent
   ],
