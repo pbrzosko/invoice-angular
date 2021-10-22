@@ -3,7 +3,7 @@ import {InvoiceService} from "../invoice.service";
 
 @Component({
   selector: 'invoice-years',
-  templateUrl: './years.component.html'
+  templateUrl: './years.component.html',
 })
 export class YearsComponent implements OnInit {
 

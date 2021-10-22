@@ -1,21 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {YearsComponent} from "./invoice/years/years.component";
-import {MonthsComponent} from "./invoice/months/months.component";
-import {InvoiceListComponent} from "./invoice/invoice-list/invoice-list.component";
 
 const routes: Routes = [
   {
-    path: '',
-    component: YearsComponent
-  },
-  {
-    path: ':year',
-    component: MonthsComponent,
-  },
-  {
-    path: ':year/:month',
-    component: InvoiceListComponent
+    path: '', redirectTo: '/invoices', pathMatch: 'full'
   }
 ];
 
