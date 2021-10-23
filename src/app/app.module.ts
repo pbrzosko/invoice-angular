@@ -7,12 +7,14 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {InvoiceModule} from "./invoice/invoice.module";
 import {DockModule} from "./dock/dock.module";
 import {CompanyModule} from "./company/company.module";
+import {FlexLayoutModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    FlexLayoutModule,
     BrowserModule,
     BrowserAnimationsModule,
     InvoiceModule,

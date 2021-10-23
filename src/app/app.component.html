@@ -1,10 +1,11 @@
-
-<mat-toolbar color="primary" class="mat-elevation-z6">
-  <span i18n="@@application.title">Invoice Angular</span>
-</mat-toolbar>
-
-<div class="content">
-  <router-outlet></router-outlet>
+<div gdAreas="header | content" gdRows="3em auto" class="app">
+  <div gdArea="header">
+    <mat-toolbar color="primary" class="mat-elevation-z6">
+      <a routerLink="/" routerLinkActive="active" i18n="@@application.title">Invoice Angular</a>
+    </mat-toolbar>
+  </div>
+  <div gdArea="content" class="content">
+    <router-outlet></router-outlet>
+    <invoice-dock></invoice-dock>
+  </div>
 </div>
-
-<invoice-dock></invoice-dock>
