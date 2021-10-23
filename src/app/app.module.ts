@@ -6,6 +6,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {InvoiceModule} from "./invoice/invoice.module";
 import {DockModule} from "./dock/dock.module";
+import {CompanyModule} from "./company/company.module";
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import {DockModule} from "./dock/dock.module";
     BrowserModule,
     BrowserAnimationsModule,
     InvoiceModule,
+    CompanyModule,
     DockModule,
     MatToolbarModule,
     AppRoutingModule
