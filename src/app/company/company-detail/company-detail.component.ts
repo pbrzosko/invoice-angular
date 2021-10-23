@@ -18,19 +18,18 @@ export class CompanyDetailComponent implements OnInit {
   })
 
   constructor(
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private companyService: CompanyService) {
+    protected router: Router,
+    protected formBuilder: FormBuilder,
+    protected companyService: CompanyService) {
   }
 
   async ngOnInit() {
-    this.companyForm.patchValue(await this.companyService.getCompany());
   }
 
   async save() {
     if (this.companyForm.valid) {
-      await this.companyService.save(this.companyForm.value);
-      await this.router.navigate(['']);
+      await this.companyService.add(this.companyForm.value);
+      await this.router.navigate(['companies']);
     }
   }
 }

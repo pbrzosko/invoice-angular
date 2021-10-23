@@ -8,6 +8,7 @@ import {InvoiceModule} from "./invoice/invoice.module";
 import {DockModule} from "./dock/dock.module";
 import {CompanyModule} from "./company/company.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
+import {SettingsModule} from "./settings/settings.module";
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
     BrowserAnimationsModule,
     InvoiceModule,
     CompanyModule,
+    SettingsModule,
     DockModule,
     MatToolbarModule,
     AppRoutingModule

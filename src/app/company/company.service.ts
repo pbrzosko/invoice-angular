@@ -1,20 +1,23 @@
 import { Injectable } from "@angular/core";
 import {Company} from "./company.model";
 
-const COMPANY_KEY:string = 'invoice_company';
+const COMPANIES_KEY:string = 'invoice_companies';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CompanyService {
 
-  async save(company: Company) {
-    localStorage.setItem(COMPANY_KEY, JSON.stringify(company));
+  async add(company: Company) {
+    const companies:Company[] = await this.list();
+    companies.push(company);
+    localStorage.setItem(COMPANIES_KEY, JSON.stringify(companies));
     return Promise.resolve();
   }
 
-  getCompany() {
-    const saved = localStorage.getItem(COMPANY_KEY);
-    return Promise.resolve(saved ? JSON.parse(saved) : null);
+  async list() {
+    const saved = localStorage.getItem(COMPANIES_KEY);
+    const companies:Company[] = saved ? JSON.parse(saved) : [];
+    return Promise.resolve(companies);
   }
 }
