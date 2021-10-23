@@ -2,36 +2,36 @@
   <form [formGroup]="companyForm" (submit)="save()" gdAreas="name name | street street | zip city | tin tin | save save" gdColumns="4fr 8fr" gdGap="1em">
     <div gdArea="name">
       <mat-form-field>
-        <mat-label>Name</mat-label>
+        <mat-label i18n="@@company.name">Name</mat-label>
         <input matInput formControlName="name" required>
       </mat-form-field>
     </div>
     <div gdArea="street">
       <mat-form-field>
-        <mat-label>Street</mat-label>
+        <mat-label i18n="@@company.street">Street</mat-label>
         <input matInput formControlName="street" required>
       </mat-form-field>
     </div>
     <div gdArea="zip">
       <mat-form-field>
-        <mat-label>zip</mat-label>
+        <mat-label i18n="@@company.zip">Zip Code</mat-label>
         <input matInput formControlName="zip" required>
       </mat-form-field>
     </div>
     <div gdArea="city">
       <mat-form-field>
-        <mat-label>City</mat-label>
+        <mat-label i18n="@@company.city">City</mat-label>
         <input matInput formControlName="city" required>
       </mat-form-field>
     </div>
     <div gdArea="tin">
       <mat-form-field>
-        <mat-label>Tax Identification Number</mat-label>
+        <mat-label i18n="@@company.tin">Tax Identification Number</mat-label>
         <input matInput formControlName="tin" required>
       </mat-form-field>
     </div>
-    <div gdArea="save">
-      <button mat-raised-button color="primary" type="submit">Save</button>
+    <div gdArea="save" gdGridAlign="end">
+      <button mat-raised-button color="primary" type="submit" i18n="@@common.save" [disabled]="!companyForm.valid">Save</button>
     </div>
   </form>
 </invoice-detail-layout>
