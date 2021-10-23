@@ -1,8 +1,5 @@
-<mat-grid-list cols="12">
-  <mat-grid-tile>
-    <invoice-dock-item text=".." icon="folder" link="../"></invoice-dock-item>
-  </mat-grid-tile>
-  <mat-grid-tile *ngFor="let month of months">
-    <invoice-dock-item [text]="month" [link]="['./', month]" icon="folder"></invoice-dock-item>
-  </mat-grid-tile>
-</mat-grid-list>
+<invoice-grid-layout>
+  <invoice-dock-item text=".." icon="folder" link="../"></invoice-dock-item>
+  <invoice-dock-item *ngFor="let month of months" [text]="month" [link]="['./', month]"
+                     icon="folder"></invoice-dock-item>
+</invoice-grid-layout>
