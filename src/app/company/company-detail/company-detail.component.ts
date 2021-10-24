@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CompanyService} from "../company.service";
 import {Router} from "@angular/router";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'invoice-company-detail',
@@ -18,7 +19,7 @@ export class CompanyDetailComponent implements OnInit {
   })
 
   constructor(
-    protected router: Router,
+    protected location: Location,
     protected formBuilder: FormBuilder,
     protected companyService: CompanyService) {
   }
@@ -29,7 +30,7 @@ export class CompanyDetailComponent implements OnInit {
   async save() {
     if (this.companyForm.valid) {
       await this.companyService.add(this.companyForm.value);
-      await this.router.navigate(['companies']);
+      this.location.back();
     }
   }
 }

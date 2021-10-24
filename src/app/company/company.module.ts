@@ -9,6 +9,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {CompanyListComponent} from "./company-list/company-list.component";
 import {DockModule} from "../dock/dock.module";
 import {CommonModule} from "@angular/common";
+import {CompanyFormComponent} from "./company-form/company-form.component";
 
 @NgModule({
   imports: [
@@ -22,10 +23,12 @@ import {CommonModule} from "@angular/common";
     ReactiveFormsModule
   ],
   declarations: [
+    CompanyFormComponent,
     CompanyDetailComponent,
     CompanyListComponent
   ],
   exports: [
+    CompanyFormComponent
   ]
 })
 export class CompanyModule {

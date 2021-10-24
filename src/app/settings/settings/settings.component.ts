@@ -1,13 +1,14 @@
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {SettingsService} from "../settings.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'invoice-settings',
   templateUrl: './settings.component.html'
 })
-export class SettingsComponent {
+export class SettingsComponent implements OnInit {
 
   settingsForm: FormGroup = this.formBuilder.group({
     name: [null, [Validators.required]],
@@ -18,7 +19,7 @@ export class SettingsComponent {
   })
 
   constructor(
-    private router: Router,
+    private location: Location,
     private formBuilder: FormBuilder,
     private settingsService: SettingsService) {
   }
@@ -30,7 +31,7 @@ export class SettingsComponent {
   async save() {
     if (this.settingsForm.valid) {
       await this.settingsService.saveSettings(this.settingsForm.value);
-      await this.router.navigate(['']);
+      this.location.back();
     }
   }
 }
