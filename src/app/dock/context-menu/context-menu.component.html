@@ -1,0 +1,12 @@
+<div class="menu-trigger"
+     [matMenuTriggerFor]="contextMenu"
+     [style.left]="menuPosition.x"
+     [style.top]="menuPosition.y">
+</div>
+
+<mat-menu #contextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item routerLink="add">{{addLabel}}</button>
+    <button mat-menu-item *ngIf="item" (click)="itemDeleted(item)" i18n="@@common.delete">Delete</button>
+  </ng-template>
+</mat-menu>

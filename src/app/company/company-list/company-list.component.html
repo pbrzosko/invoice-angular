@@ -1,4 +1,7 @@
-<invoice-grid-layout>
-  <invoice-dock-item *ngFor="let comp of companies" [text]="comp.name" icon="buyer"></invoice-dock-item>
-  <invoice-dock-item text="Add" icon="buyer" link="add"></invoice-dock-item>
+<invoice-context-menu (delete)="delete($event)" addLabel="New company" i18n-addLabel="@@company.add">
+</invoice-context-menu>
+
+<invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
+  <invoice-dock-item *ngFor="let comp of companies" [text]="comp.name" icon="buyer" [link]="['.', comp.id]"
+                     (contextmenu)="contextMenu.openMenu($event, comp)"></invoice-dock-item>
 </invoice-grid-layout>

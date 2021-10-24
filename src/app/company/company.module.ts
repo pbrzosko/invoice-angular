@@ -10,6 +10,7 @@ import {CompanyListComponent} from "./company-list/company-list.component";
 import {DockModule} from "../dock/dock.module";
 import {CommonModule} from "@angular/common";
 import {CompanyFormComponent} from "./company-form/company-form.component";
+import {CompanyAddComponent} from "./company-add/company-add.component";
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import {CompanyFormComponent} from "./company-form/company-form.component";
   ],
   declarations: [
     CompanyFormComponent,
+    CompanyAddComponent,
     CompanyDetailComponent,
     CompanyListComponent
   ],
