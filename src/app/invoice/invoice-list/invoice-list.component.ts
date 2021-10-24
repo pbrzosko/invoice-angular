@@ -28,4 +28,9 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+
+  async delete(invoice: Invoice) {
+    //await this.invoiceService.delete(invoice.id);
+    await this.ngOnInit();
+  }
 }

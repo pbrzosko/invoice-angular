@@ -13,6 +13,7 @@ export class CompanyDetailComponent implements OnInit {
 
   companyForm: FormGroup = this.formBuilder.group({
     name: [{value: null, disabled: true}, [Validators.required]],
+    accountNumber: [null, [Validators.required]],
     street: [null, [Validators.required]],
     zip: [null, [Validators.required]],
     city: [null, [Validators.required]],

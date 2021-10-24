@@ -1,9 +1,15 @@
-<form [formGroup]="companyForm" (submit)="submitForm($event)" gdAreas="name name | street street | zip city | tin tin | save save"
+<form [formGroup]="companyForm" (submit)="submitForm($event)" gdAreas="name name | accountNumber accountNumber | street street | zip city | tin tin | save save"
       gdColumns="4fr 8fr" gdGap="1em">
   <div gdArea="name">
     <mat-form-field>
       <mat-label i18n="@@company.name">Name</mat-label>
       <input matInput formControlName="name" required>
+    </mat-form-field>
+  </div>
+  <div gdArea="accountNumber">
+    <mat-form-field>
+      <mat-label i18n="@@company.accountNumber">Account number</mat-label>
+      <input matInput formControlName="accountNumber" required>
     </mat-form-field>
   </div>
   <div gdArea="street">

@@ -5,4 +5,5 @@ export interface Company {
   zip: string;
   city: string;
   tin: string;
+  accountNumber: string;
 }

@@ -19,8 +19,8 @@ export class CompanyListComponent implements OnInit {
     this.companies = await this.companyService.list();
   }
 
-  async delete(item: Company) {
-    await this.companyService.delete(item.id);
+  async delete(company: Company) {
+    await this.companyService.delete(company.id);
     await this.ngOnInit();
   }
 }
