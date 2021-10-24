@@ -1,0 +1,7 @@
+<invoice-context-menu (delete)="delete($event)" addLabel="New item" i18n-addLabel="@@item.add">
+</invoice-context-menu>
+
+<invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
+  <invoice-dock-item *ngFor="let item of items" [text]="item.name" icon="item" [link]="['.', item.id]"
+                     (contextmenu)="contextMenu.openMenu($event, item)"></invoice-dock-item>
+</invoice-grid-layout>

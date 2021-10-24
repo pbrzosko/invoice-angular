@@ -9,6 +9,7 @@ import {DockModule} from "./dock/dock.module";
 import {CompanyModule} from "./company/company.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {SettingsModule} from "./settings/settings.module";
+import {ItemModule} from "./item/item.module";
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import {SettingsModule} from "./settings/settings.module";
     BrowserAnimationsModule,
     InvoiceModule,
     CompanyModule,
+    ItemModule,
     SettingsModule,
     DockModule,
     MatToolbarModule,
