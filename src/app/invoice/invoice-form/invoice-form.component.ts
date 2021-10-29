@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, Output} from "@angular/core";
-import {FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventEmitter} from "@angular/core";
 import {Location} from "@angular/common";
 import {CompanyService} from "../../company/company.service";
@@ -47,10 +47,55 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   addItem() {
-    this.items.push(this.formBuilder.group({
-      item: [null, [Validators.required]],
-      qty: [null, [Validators.required]]
-    }))
+    const itemControl = new FormControl(null, Validators.required);
+    const qtyControl = new FormControl(null, Validators.required);
+    const priceControl = new FormControl({value: null, disabled: true});
+    const netControl = new FormControl({value: null, disabled: true});
+    const rateControl = new FormControl({value: null, disabled: true});
+    const taxControl = new FormControl({value: null, disabled: true});
+    const grossControl = new FormControl({value: null, disabled: true});
+    const group = new FormGroup({
+      item: itemControl,
+      qty: qtyControl,
+      price: priceControl,
+      net: netControl,
+      rate: rateControl,
+      tax: taxControl,
+      gross: grossControl
+    })
+    itemControl.valueChanges.subscribe(value => {
+      priceControl.setValue(value.price);
+      rateControl.setValue(value.tax);
+    });
+    qtyControl.valueChanges.subscribe(value => {
+      if (priceControl.value) {
+        netControl.setValue(value * priceControl.value);
+      }
+    })
+    priceControl.valueChanges.subscribe(value => {
+      if (qtyControl.value) {
+        netControl.setValue(value.price * qtyControl.value);
+      }
+    });
+    rateControl.valueChanges.subscribe(value => {
+      if (netControl.value) {
+        taxControl.setValue(value * netControl.value / 100);
+      }
+    });
+    netControl.valueChanges.subscribe(value => {
+      if (rateControl.value) {
+        taxControl.setValue(value * rateControl.value / 100);
+      }
+      if (taxControl.value) {
+        grossControl.setValue(value + taxControl.value);
+      }
+    });
+    taxControl.valueChanges.subscribe(value => {
+      if (netControl.value) {
+        grossControl.setValue(value + netControl.value);
+      }
+    })
+    this.items.push(group);
   }
 
   deleteItem(itemIndex: number) {

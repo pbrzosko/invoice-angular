@@ -48,7 +48,7 @@
     <div i18n="@@invoice.item" gdColumn="2" gdRow="4">Item or service</div>
     <div i18n="@@invoice.qty" gdColumn="3" gdRow="4">Qty</div>
     <div i18n="@@invoice.price" gdColumn="4" gdRow="4">Price</div>
-    <div i18n="@@invoice.price" gdColumn="5" gdRow="4">Net</div>
+    <div i18n="@@invoice.net" gdColumn="5" gdRow="4">Net</div>
     <div i18n="@@invoice.rate" gdColumn="6" gdRow="4">Rate</div>
     <div i18n="@@invoice.tax" gdColumn="7" gdRow="4">Tax</div>
     <div i18n="@@invoice.gross" gdColumn="8" gdRow="4">Gross</div>
@@ -74,6 +74,21 @@
             <mat-label i18n="@@invoice.qty">Qty</mat-label>
             <input type="number" matInput formControlName="qty" required/>
           </mat-form-field>
+        </div>
+        <div gdColumn="4" [gdRow]="5 + itemIndex">
+          {{item.get('price')?.value}}
+        </div>
+        <div gdColumn="5" [gdRow]="5 + itemIndex">
+          {{item.get('net')?.value}}
+        </div>
+        <div gdColumn="6" [gdRow]="5 + itemIndex">
+          {{item.get('rate')?.value}}
+        </div>
+        <div gdColumn="7" [gdRow]="5 + itemIndex">
+          {{item.get('tax')?.value}}
+        </div>
+        <div gdColumn="8" [gdRow]="5 + itemIndex">
+          {{item.get('gross')?.value}}
         </div>
       </ng-container>
     </ng-container>
