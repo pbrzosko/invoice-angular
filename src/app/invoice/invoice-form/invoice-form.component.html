@@ -1,0 +1,87 @@
+<form [formGroup]="invoiceForm" (submit)="submitForm($event)">
+  <div
+    gdColumns="1fr 5fr 1fr 1fr 1fr 1fr 1fr 1fr" gdGap="1em" gdAlignColumns="center center">
+    <div gdColumn="3 / span 2" gdRow="1">
+      <mat-form-field>
+        <mat-label i18n="@@invoice.document">Document type</mat-label>
+        <input matInput readonly value="Faktura VAT">
+      </mat-form-field>
+    </div>
+    <div gdColumn="7 / span 2" gdRow="1">
+      <mat-form-field>
+        <mat-label i18n="@@invoice.issueDate">Issue date</mat-label>
+        <input matInput formControlName="issueDate" required type="date">
+      </mat-form-field>
+    </div>
+    <div gdColumn="3 / span 2" gdRow="2">
+      <mat-form-field>
+        <mat-label i18n="@@invoice.number">Number</mat-label>
+        <input matInput readonly value="01/02/2021">
+      </mat-form-field>
+    </div>
+    <div gdColumn="7 / span 2" gdRow="2">
+      <mat-form-field>
+        <mat-label i18n="@@invoice.invoiceDate">Invoice date</mat-label>
+        <input matInput formControlName="invoiceDate" required type="date">
+      </mat-form-field>
+    </div>
+    <div gdColumn="1 / span 2" gdRow="3">
+      <mat-form-field>
+        <mat-label i18n="@@invoice.seller">Seller</mat-label>
+        <input matInput readonly [value]="seller?.name">
+      </mat-form-field>
+    </div>
+    <div gdColumn="3 / span 6" gdRow="3">
+      <mat-form-field>
+        <mat-label i18n="@@invoice.buyer">Buyer</mat-label>
+        <mat-select matInput formControlName="buyer" required>
+          <mat-option *ngFor="let comp of companies" [value]="comp">{{comp.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div gdColumn="1" gdRow="4">
+      <button mat-icon-button color="primary" (click)="addItem()" aria-label="Add new item"
+              aria-label-i18n="@@invoice.addItem" type="button">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div i18n="@@invoice.item" gdColumn="2" gdRow="4">Item or service</div>
+    <div i18n="@@invoice.qty" gdColumn="3" gdRow="4">Qty</div>
+    <div i18n="@@invoice.price" gdColumn="4" gdRow="4">Price</div>
+    <div i18n="@@invoice.price" gdColumn="5" gdRow="4">Net</div>
+    <div i18n="@@invoice.rate" gdColumn="6" gdRow="4">Rate</div>
+    <div i18n="@@invoice.tax" gdColumn="7" gdRow="4">Tax</div>
+    <div i18n="@@invoice.gross" gdColumn="8" gdRow="4">Gross</div>
+
+    <ng-container formArrayName="items" *ngFor="let item of items.controls; let itemIndex=index">
+      <ng-container [formGroupName]="itemIndex">
+        <div gdColumn="1" [gdRow]="5 + itemIndex">
+          <button mat-icon-button color="primary" (click)="deleteItem(itemIndex)" aria-label="Delete item"
+                  aria-label-i18n="@@invoice.deleteItem" type="button">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <div gdColumn="2" [gdRow]="5 + itemIndex">
+          <mat-form-field>
+            <mat-label i18n="@@invoice.item">Item or service</mat-label>
+            <mat-select matInput formControlName="item" required>
+              <mat-option *ngFor="let opt of options" [value]="opt">{{opt.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div gdColumn="3" [gdRow]="5 + itemIndex">
+          <mat-form-field>
+            <mat-label i18n="@@invoice.qty">Qty</mat-label>
+            <input type="number" matInput formControlName="qty" required/>
+          </mat-form-field>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <div formArrayName="items" [gdRow]="items.length + 5" gdColumn="1 / span 8" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em">
+      <button mat-raised-button type="button" i18n="@@common.cancel" (click)="back($event)">Cancel</button>
+      <button mat-raised-button color="primary" type="submit" i18n="@@common.save" [disabled]="!invoiceForm.valid">Save
+      </button>
+    </div>
+  </div>
+</form>

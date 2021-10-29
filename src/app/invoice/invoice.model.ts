@@ -6,8 +6,13 @@ export interface Invoice {
   year: number,
   id: number,
   issueDate: Date,
-  paymentDate: Date,
+  invoiceDate: Date,
   seller: Company,
   buyer: Company,
-  items: Item[]
+  items: InvoiceItem[]
+}
+
+export interface InvoiceItem {
+  item: Item,
+  qty: number
 }

@@ -32,7 +32,7 @@ export class InvoiceService {
       year: 2021,
       id: 1,
       issueDate: new Date(),
-      paymentDate: new Date(),
+      invoiceDate: new Date(),
       seller: seller,
       buyer: buyer,
       items: []
@@ -42,7 +42,7 @@ export class InvoiceService {
       year: 2021,
       id: 2,
       issueDate: new Date(),
-      paymentDate: new Date(),
+      invoiceDate: new Date(),
       seller: seller,
       buyer: buyer,
       items: []
@@ -52,7 +52,7 @@ export class InvoiceService {
       year: 2021,
       id: 3,
       issueDate: new Date(),
-      paymentDate: new Date(),
+      invoiceDate: new Date(),
       seller: seller,
       buyer: buyer,
       items: []
@@ -62,7 +62,7 @@ export class InvoiceService {
       year: 2021,
       id: 1,
       issueDate: new Date(),
-      paymentDate: new Date(),
+      invoiceDate: new Date(),
       seller: seller,
       buyer: buyer,
       items: []
@@ -72,7 +72,7 @@ export class InvoiceService {
       year: 2020,
       id: 1,
       issueDate: new Date(),
-      paymentDate: new Date(),
+      invoiceDate: new Date(),
       seller: seller,
       buyer: buyer,
       items: []
@@ -84,7 +84,7 @@ export class InvoiceService {
     return Promise.resolve(this.invoices.filter(invoice => invoice.year === year && invoice.month === month));
   }
 
-  save(invoice: Invoice): void {
+  add(invoice: Invoice): void {
     this.invoices.push(invoice);
   }
 

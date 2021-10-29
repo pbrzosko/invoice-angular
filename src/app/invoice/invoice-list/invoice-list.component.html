@@ -1,6 +1,3 @@
-<invoice-context-menu (delete)="delete($event)" addLabel="New company" i18n-addLabel="@@company.add">
-</invoice-context-menu>
-
 <invoice-grid-layout>
   <invoice-dock-item text=".." icon="folder" link="../"></invoice-dock-item>
   <invoice-dock-item *ngFor="let inv of invoices" [text]="inv.id" icon="invoice"></invoice-dock-item>

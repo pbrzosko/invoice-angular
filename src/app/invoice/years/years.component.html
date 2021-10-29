@@ -1,3 +1,6 @@
-<invoice-grid-layout>
+<invoice-context-menu addLabel="New invoice" i18n-addLabel="@@invoice.add">
+</invoice-context-menu>
+
+<invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
   <invoice-dock-item *ngFor="let year of years" [text]="year" icon="folder" [link]="['./', year]"></invoice-dock-item>
 </invoice-grid-layout>
