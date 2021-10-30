@@ -11,7 +11,8 @@ import {Invoice} from "../invoice.model";
 
 @Component({
   selector: 'invoice-invoice-form',
-  templateUrl: './invoice-form.component.html'
+  templateUrl: './invoice-form.component.html',
+  styleUrls: ['./invoice-form.component.sass']
 })
 export class InvoiceFormComponent implements OnInit {
 
@@ -74,7 +75,7 @@ export class InvoiceFormComponent implements OnInit {
     })
     priceControl.valueChanges.subscribe(value => {
       if (qtyControl.value) {
-        netControl.setValue(value.price * qtyControl.value);
+        netControl.setValue(value * qtyControl.value);
       }
     });
     rateControl.valueChanges.subscribe(value => {
