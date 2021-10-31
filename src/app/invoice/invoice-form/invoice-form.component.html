@@ -80,7 +80,7 @@
         {{item.get('net')?.value | number:'1.2-2'}}
       </div>
       <div gdColumn="6" [gdRow]="5 + itemIndex" class="mat-small border-bottom">
-        {{item.get('rate')?.value | number:'1.2-2'}}
+        {{item.get('rate')?.value}}%
       </div>
       <div gdColumn="7" [gdRow]="5 + itemIndex" class="mat-small border-bottom background">
         {{item.get('tax')?.value | number:'1.2-2'}}
@@ -91,7 +91,52 @@
     </ng-container>
   </ng-container>
 
-  <div gdColumn="1 / span 8" [gdRow]="items.length + 5" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em" class="last">
+  <div gdColumn="1 / span 8" [gdRow]="items.length + 5"></div>
+
+  <div gdColumn="4" [gdRow]="items.length + 6" class="mat-small border-top border-left border-bottom font-weight-bold"></div>
+  <div i18n="@@invoice.net" gdColumn="5" [gdRow]="items.length + 6" class="mat-small border-top border-bottom background font-weight-bold">Net</div>
+  <div i18n="@@invoice.rate" gdColumn="6" [gdRow]="items.length + 6" class="mat-small border-top border-bottom font-weight-bold">Rate</div>
+  <div i18n="@@invoice.tax" gdColumn="7" [gdRow]="items.length + 6" class="mat-small border-top border-bottom background font-weight-bold">Tax</div>
+  <div i18n="@@invoice.gross" gdColumn="8" [gdRow]="items.length + 6" class="mat-small border-top border-bottom border-right font-weight-bold">Gross</div>
+
+  <ng-container formArrayName="totals" *ngFor="let total of totals.controls; let itemIndex=index">
+    <ng-container [formGroupName]="itemIndex">
+      <div gdColumn="4" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-left border-bottom" [class.font-weight-bold]="itemIndex === 0">
+        {{total.get('label')?.value}}
+      </div>
+      <div gdColumn="5" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom background" [class.font-weight-bold]="itemIndex === 0">
+        {{total.get('net')?.value | number:'1.2-2'}}
+      </div>
+      <div gdColumn="6" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom" [class.font-weight-bold]="itemIndex === 0">
+        {{total.get('rate')?.value}}
+      </div>
+      <div gdColumn="7" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom background" [class.font-weight-bold]="itemIndex === 0">
+        {{total.get('tax')?.value | number:'1.2-2'}}
+      </div>
+      <div gdColumn="8" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom border-right" [class.font-weight-bold]="itemIndex === 0">
+        {{total.get('gross')?.value | number:'1.2-2'}}
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <div gdColumn="4 / span 5" [gdRow]="items.length + 8 + totals.length" class="mat-small border-bottom border-right border-left"
+       fxLayout="column" fxLayoutAlign="center end">
+    <span i18n="@@invoice.total">To pay:</span>
+    <span class="font-weight-bold mat-title mb-0">{{total | currency}}</span>
+  </div>
+
+  <div gdColumn="4 / span 5" [gdRow]="items.length + 9 + totals.length" class="mat-small border-bottom border-right border-left"
+       fxLayout="column" fxLayoutAlign="center end">
+    <span i18n="@@invoice.totalWords">In words:</span>
+    <span>
+      <span i18n="@@invoice.total.million" *ngIf="millions > 0">{millions, plural, =1 {one million} other {{{millions}} millions}} </span>
+      <span i18n="@@invoice.total.thousand" *ngIf="thousands > 0">{thousands, plural, =1 {one thousand} other {{{thousands}} thousands}} </span>
+      <span i18n="@@invoice.total.ones">{ones, plural, =1 {one dollar} other {{{ones}} dollars}} </span>
+      <span i18n="@@invoice.total.fraction">{fraction, plural, =1 {one cent} other {{{fraction}} cents}}</span>
+    </span>
+  </div>
+
+  <div gdColumn="1 / span 8" [gdRow]="items.length + 10 + totals.length" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em" class="last">
     <button mat-raised-button type="button" i18n="@@common.cancel" (click)="back($event)">Cancel</button>
     <button mat-raised-button color="primary" type="submit" i18n="@@common.save" [disabled]="!invoiceForm.valid">Save
     </button>
