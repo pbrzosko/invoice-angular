@@ -17,6 +17,6 @@ export class InvoiceAddComponent {
   async add(invoice: Invoice) {
     //await this.invoiceService.add(this.invoiceForm.value);
     console.log('Saving invoice', invoice);
-    this.location.back();
+    // this.location.back();
   }
 }

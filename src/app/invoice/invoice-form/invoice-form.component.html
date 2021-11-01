@@ -71,6 +71,7 @@
         <mat-form-field>
           <mat-label i18n="@@invoice.qty">Qty</mat-label>
           <input type="number" matInput formControlName="qty" required/>
+          <span matSuffix>{{item.get('item')?.value?.unit}}</span>
         </mat-form-field>
       </div>
       <div gdColumn="4" [gdRow]="5 + itemIndex" class="mat-small border-bottom">
@@ -128,12 +129,7 @@
   <div gdColumn="4 / span 5" [gdRow]="items.length + 9 + totals.length" class="mat-small border-bottom border-right border-left"
        fxLayout="column" fxLayoutAlign="center end">
     <span i18n="@@invoice.totalWords">In words:</span>
-    <span>
-      <span i18n="@@invoice.total.million" *ngIf="millions > 0">{millions, plural, =1 {one million} other {{{millions}} millions}} </span>
-      <span i18n="@@invoice.total.thousand" *ngIf="thousands > 0">{thousands, plural, =1 {one thousand} other {{{thousands}} thousands}} </span>
-      <span i18n="@@invoice.total.ones">{ones, plural, =1 {one dollar} other {{{ones}} dollars}} </span>
-      <span i18n="@@invoice.total.fraction">{fraction, plural, =1 {one cent} other {{{fraction}} cents}}</span>
-    </span>
+    <span>{{total | currencyToWords}}</span>
   </div>
 
   <div gdColumn="1 / span 8" [gdRow]="items.length + 10 + totals.length" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em" class="last">

@@ -14,6 +14,7 @@ import {MatInputModule} from "@angular/material/input";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
+import {CurrencyToWordsPipe} from "./currency-to-words.pipe";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {MatIconModule} from "@angular/material/icon";
     MonthsComponent,
     InvoiceListComponent,
     InvoiceFormComponent,
-    InvoiceAddComponent
+    InvoiceAddComponent,
+    CurrencyToWordsPipe
   ],
   imports: [
     FlexLayoutModule,

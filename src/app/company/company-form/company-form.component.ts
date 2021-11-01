@@ -10,7 +10,7 @@ import {Location} from "@angular/common";
 export class CompanyFormComponent {
 
   @Input() companyForm!: FormGroup;
-  @Input() submitLabel: string = $localize `@@common.save:Save`;
+  @Input() submitLabel: string = $localize `:@@common.save:Save`;
   @Output() submit = new EventEmitter<any>();
 
   constructor(private location: Location) {
