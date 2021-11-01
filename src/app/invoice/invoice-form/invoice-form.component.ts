@@ -1,13 +1,14 @@
 import {Component, Input, OnInit, Output} from "@angular/core";
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventEmitter} from "@angular/core";
-import {Location} from "@angular/common";
+import {Location, formatDate} from "@angular/common";
 import {CompanyService} from "../../company/company.service";
 import {ItemService} from "../../item/item.service";
 import {SettingsService} from "../../settings/settings.service";
 import {Company} from "../../company/company.model";
 import {Item} from "../../item/item.model";
 import {Invoice, InvoiceItem} from "../invoice.model";
+import {InvoiceService} from "../invoice.service";
 
 @Component({
   selector: 'invoice-invoice-form',
@@ -20,12 +21,15 @@ export class InvoiceFormComponent implements OnInit {
   @Output() submit = new EventEmitter<Invoice>();
 
   invoiceForm: FormGroup = this.formBuilder.group({
+    month: [null, [Validators.required]],
+    year: [null, [Validators.required]],
+    id: [null, [Validators.required]],
     issueDate: [null, [Validators.required]],
     invoiceDate: [null, [Validators.required]],
     buyer: [null, [Validators.required]],
     items: this.formBuilder.array([], [Validators.required]),
     totals: this.formBuilder.array([]),
-    total: [{value: null, disabled: true}]
+    total: [{value: 0, disabled: true}]
   });
 
   companies: Company[] = [];
@@ -36,14 +40,8 @@ export class InvoiceFormComponent implements OnInit {
               private formBuilder: FormBuilder,
               private companyService: CompanyService,
               private itemService: ItemService,
-              private settingsSerivce: SettingsService) {
-  }
-
-  async ngOnInit() {
-    this.seller = await this.settingsSerivce.getSettings();
-    this.companies = await this.companyService.list();
-    this.options = await this.itemService.list();
-    this.items.valueChanges.subscribe(items => this.itemsChanged(items));
+              private settingsSerivce: SettingsService,
+              private invoiceService: InvoiceService) {
   }
 
   get items(): FormArray {
@@ -55,33 +53,28 @@ export class InvoiceFormComponent implements OnInit {
   }
 
   get total() {
-    const value = this.invoiceForm.get('total')?.value;
-    return value ? value : 0;
+    return this.invoiceForm.get('total');
   }
 
-  get totalString() {
-    return this.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2, minimumIntegerDigits: 12, useGrouping: false});
-  }
-
-  totalSubstring(offset: number, length: number = 3) {
-    const totalString = this.total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2, minimumIntegerDigits: 12, useGrouping: false});
-    return parseInt(totalString.substr(totalString.length - offset, length));
-  }
-
-  get millions() {
-    return this.totalSubstring(12);
-  }
-
-  get thousands() {
-    return this.totalSubstring(9);
-  }
-
-  get ones() {
-    return this.totalSubstring(6);
-  }
-
-  get fraction() {
-    return this.totalSubstring(2, 2);
+  async ngOnInit() {
+    this.seller = await this.settingsSerivce.getSettings();
+    this.companies = await this.companyService.list();
+    this.options = await this.itemService.list();
+    this.items.valueChanges.subscribe(items => this.itemsChanged(items));
+    const now = new Date().toISOString().split('T')[0];
+    const issueDateControl = this.invoiceForm.get('issueDate');
+    issueDateControl?.valueChanges.subscribe(async issueDate => {
+      console.log('Issue date changed', issueDate);
+      const date = new Date(issueDate);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const next = await this.invoiceService.nextId(year, month);
+      this.invoiceForm.get('year')?.setValue(year);
+      this.invoiceForm.get('month')?.setValue(month);
+      this.invoiceForm.get('id')?.setValue(next);
+    });
+    issueDateControl?.setValue(now);
+    this.invoiceForm.get('invoiceDate')?.setValue(now);
   }
 
   itemsChanged(items: InvoiceItem[]) {
@@ -104,15 +97,15 @@ export class InvoiceFormComponent implements OnInit {
     };
     this.totals.clear();
     taxes.forEach((value, key) => {
-      const label = this.totals.length === 0 ? 'W tym' : '';
+      const label = this.totals.length === 0 ? $localize `:@@total.within:Within` : '';
       const tax = (value * key / 100);
       total.net += value;
       total.tax += tax;
       total.gross += value + tax;
       this.totals.push(this.totalItem(label, value, key + '%', tax, value + tax));
     });
-    this.totals.insert(0, this.totalItem('Razem', total.net, 'X', total.tax, total.gross));
-    this.invoiceForm.get('total')?.setValue(total.gross);
+    this.totals.insert(0, this.totalItem($localize `:@@total.total:Total`, total.net, 'X', total.tax, total.gross));
+    this.total?.setValue(total.gross);
   }
 
   totalItem(label: string, net: number, rate: string, tax: number, gross: number) {

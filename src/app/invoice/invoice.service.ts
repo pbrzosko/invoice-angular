@@ -84,6 +84,15 @@ export class InvoiceService {
     return Promise.resolve(this.invoices.filter(invoice => invoice.year === year && invoice.month === month));
   }
 
+  nextId(year: number, month: number) {
+    return Promise.resolve(this.invoices.filter(invoice => invoice.year === year && invoice.month === month).reduce((max, current) => {
+      if (current.id >= max) {
+        max = current.id;
+      }
+      return max;
+    }, 0) + 1);
+  }
+
   add(invoice: Invoice): void {
     this.invoices.push(invoice);
   }

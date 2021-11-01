@@ -14,7 +14,8 @@
   <div gdColumn="4 / span 2" gdRow="2">
     <mat-form-field>
       <mat-label i18n="@@invoice.number">Number</mat-label>
-      <input matInput readonly value="01/02/2021">
+      <input matInput readonly
+             [value]="invoiceForm.get('id')?.value + '/' + invoiceForm.get('month')?.value + '/' + invoiceForm.get('year')?.value">
     </mat-form-field>
   </div>
   <div gdColumn="7 / span 2" gdRow="2" class="last">
@@ -43,13 +44,27 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div i18n="@@invoice.item" gdColumn="2" gdRow="4" class="mat-small border-top border-bottom font-weight-bold">Item or service</div>
-  <div i18n="@@invoice.qty" gdColumn="3" gdRow="4" class="mat-small border-top border-bottom background font-weight-bold">Qty</div>
-  <div i18n="@@invoice.price" gdColumn="4" gdRow="4" class="mat-small border-top border-bottom font-weight-bold">Price</div>
-  <div i18n="@@invoice.net" gdColumn="5" gdRow="4" class="mat-small border-top border-bottom background font-weight-bold">Net</div>
-  <div i18n="@@invoice.rate" gdColumn="6" gdRow="4" class="mat-small border-top border-bottom font-weight-bold">Rate</div>
-  <div i18n="@@invoice.tax" gdColumn="7" gdRow="4" class="mat-small border-top border-bottom background font-weight-bold">Tax</div>
-  <div i18n="@@invoice.gross" gdColumn="8" gdRow="4" class="mat-small border-top border-bottom border-right font-weight-bold">Gross</div>
+  <div i18n="@@invoice.item" gdColumn="2" gdRow="4" fxLayout="row" fxLayoutAlign="start center"
+       class="mat-small border-top border-bottom font-weight-bold">Item or service
+  </div>
+  <div i18n="@@invoice.qty" gdColumn="3" gdRow="4" fxLayout="row" fxLayoutAlign="start center"
+       class="mat-small border-top border-bottom background font-weight-bold">Qty
+  </div>
+  <div i18n="@@invoice.price" gdColumn="4" gdRow="4" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom font-weight-bold">Price
+  </div>
+  <div i18n="@@invoice.net" gdColumn="5" gdRow="4" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom background font-weight-bold">Net
+  </div>
+  <div i18n="@@invoice.rate" gdColumn="6" gdRow="4" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom font-weight-bold">Rate
+  </div>
+  <div i18n="@@invoice.tax" gdColumn="7" gdRow="4" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom background font-weight-bold">Tax
+  </div>
+  <div i18n="@@invoice.gross" gdColumn="8" gdRow="4" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom border-right font-weight-bold">Gross
+  </div>
 
   <ng-container formArrayName="items" *ngFor="let item of items.controls; let itemIndex=index">
     <ng-container [formGroupName]="itemIndex">
@@ -74,19 +89,19 @@
           <span matSuffix>{{item.get('item')?.value?.unit}}</span>
         </mat-form-field>
       </div>
-      <div gdColumn="4" [gdRow]="5 + itemIndex" class="mat-small border-bottom">
+      <div gdColumn="4" [gdRow]="5 + itemIndex" class="mat-small border-bottom" fxLayout="row" fxLayoutAlign="end center">
         {{item.get('price')?.value | number:'1.2-2'}}
       </div>
-      <div gdColumn="5" [gdRow]="5 + itemIndex" class="mat-small border-bottom background">
+      <div gdColumn="5" [gdRow]="5 + itemIndex" class="mat-small border-bottom background" fxLayout="row" fxLayoutAlign="end center">
         {{item.get('net')?.value | number:'1.2-2'}}
       </div>
-      <div gdColumn="6" [gdRow]="5 + itemIndex" class="mat-small border-bottom">
-        {{item.get('rate')?.value}}%
+      <div gdColumn="6" [gdRow]="5 + itemIndex" class="mat-small border-bottom" fxLayout="row" fxLayoutAlign="end center">
+        {{item.get('rate')?.value}}{{item.get('rate')?.value ? '%' : ''}}
       </div>
-      <div gdColumn="7" [gdRow]="5 + itemIndex" class="mat-small border-bottom background">
+      <div gdColumn="7" [gdRow]="5 + itemIndex" class="mat-small border-bottom background" fxLayout="row" fxLayoutAlign="end center">
         {{item.get('tax')?.value | number:'1.2-2'}}
       </div>
-      <div gdColumn="8" [gdRow]="5 + itemIndex" class="mat-small border-bottom border-right">
+      <div gdColumn="8" [gdRow]="5 + itemIndex" class="mat-small border-bottom border-right" fxLayout="row" fxLayoutAlign="end center">
         {{item.get('gross')?.value | number:'1.2-2'}}
       </div>
     </ng-container>
@@ -94,45 +109,67 @@
 
   <div gdColumn="1 / span 8" [gdRow]="items.length + 5"></div>
 
-  <div gdColumn="4" [gdRow]="items.length + 6" class="mat-small border-top border-left border-bottom font-weight-bold"></div>
-  <div i18n="@@invoice.net" gdColumn="5" [gdRow]="items.length + 6" class="mat-small border-top border-bottom background font-weight-bold">Net</div>
-  <div i18n="@@invoice.rate" gdColumn="6" [gdRow]="items.length + 6" class="mat-small border-top border-bottom font-weight-bold">Rate</div>
-  <div i18n="@@invoice.tax" gdColumn="7" [gdRow]="items.length + 6" class="mat-small border-top border-bottom background font-weight-bold">Tax</div>
-  <div i18n="@@invoice.gross" gdColumn="8" [gdRow]="items.length + 6" class="mat-small border-top border-bottom border-right font-weight-bold">Gross</div>
+  <div gdColumn="4" [gdRow]="items.length + 6"
+       class="mat-small border-top border-left border-bottom font-weight-bold"></div>
+  <div i18n="@@invoice.net" gdColumn="5" [gdRow]="items.length + 6" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom background font-weight-bold">Net
+  </div>
+  <div i18n="@@invoice.rate" gdColumn="6" [gdRow]="items.length + 6" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom font-weight-bold">Rate
+  </div>
+  <div i18n="@@invoice.tax" gdColumn="7" [gdRow]="items.length + 6" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom background font-weight-bold">Tax
+  </div>
+  <div i18n="@@invoice.gross" gdColumn="8" [gdRow]="items.length + 6" fxLayout="row" fxLayoutAlign="end center"
+       class="mat-small border-top border-bottom border-right font-weight-bold">Gross
+  </div>
 
   <ng-container formArrayName="totals" *ngFor="let total of totals.controls; let itemIndex=index">
     <ng-container [formGroupName]="itemIndex">
-      <div gdColumn="4" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-left border-bottom" [class.font-weight-bold]="itemIndex === 0">
+      <div gdColumn="4" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-left border-bottom"
+           fxLayout="row" fxLayoutAlign="end center"
+           [class.font-weight-bold]="itemIndex === 0">
         {{total.get('label')?.value}}
       </div>
-      <div gdColumn="5" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom background" [class.font-weight-bold]="itemIndex === 0">
+      <div gdColumn="5" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom background"
+           fxLayout="row" fxLayoutAlign="end center"
+           [class.font-weight-bold]="itemIndex === 0">
         {{total.get('net')?.value | number:'1.2-2'}}
       </div>
-      <div gdColumn="6" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom" [class.font-weight-bold]="itemIndex === 0">
+      <div gdColumn="6" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom"
+           fxLayout="row" fxLayoutAlign="end center"
+           [class.font-weight-bold]="itemIndex === 0">
         {{total.get('rate')?.value}}
       </div>
-      <div gdColumn="7" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom background" [class.font-weight-bold]="itemIndex === 0">
+      <div gdColumn="7" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom background"
+           fxLayout="row" fxLayoutAlign="end center"
+           [class.font-weight-bold]="itemIndex === 0">
         {{total.get('tax')?.value | number:'1.2-2'}}
       </div>
-      <div gdColumn="8" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom border-right" [class.font-weight-bold]="itemIndex === 0">
+      <div gdColumn="8" [gdRow]="items.length + 7 + itemIndex" class="mat-small border-bottom border-right"
+           fxLayout="row" fxLayoutAlign="end center"
+           [class.font-weight-bold]="itemIndex === 0">
         {{total.get('gross')?.value | number:'1.2-2'}}
       </div>
     </ng-container>
   </ng-container>
 
-  <div gdColumn="4 / span 5" [gdRow]="items.length + 8 + totals.length" class="mat-small border-bottom border-right border-left"
+  <div gdColumn="4 / span 5" [gdRow]="items.length + 8 + totals.length"
+       class="mat-small border-bottom border-right border-left"
        fxLayout="column" fxLayoutAlign="center end">
     <span i18n="@@invoice.total">To pay:</span>
-    <span class="font-weight-bold mat-title mb-0">{{total | currency}}</span>
+    <span class="font-weight-bold mat-title mb-0">{{total?.value | currency}}</span>
   </div>
 
-  <div gdColumn="4 / span 5" [gdRow]="items.length + 9 + totals.length" class="mat-small border-bottom border-right border-left"
+  <div gdColumn="4 / span 5" [gdRow]="items.length + 9 + totals.length"
+       class="mat-small border-bottom border-right border-left"
        fxLayout="column" fxLayoutAlign="center end">
     <span i18n="@@invoice.totalWords">In words:</span>
-    <span>{{total | currencyToWords}}</span>
+    <span>{{total?.value | currencyToWords}}</span>
   </div>
 
-  <div gdColumn="1 / span 8" [gdRow]="items.length + 10 + totals.length" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em" class="last">
+  <div gdColumn="1 / span 8" [gdRow]="items.length + 10 + totals.length" fxLayout="row" fxLayoutAlign="end"
+       fxLayoutGap="1em" class="last">
     <button mat-raised-button type="button" i18n="@@common.cancel" (click)="back($event)">Cancel</button>
     <button mat-raised-button color="primary" type="submit" i18n="@@common.save" [disabled]="!invoiceForm.valid">Save
     </button>
