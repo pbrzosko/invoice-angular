@@ -26,58 +26,7 @@ const buyer = {
 })
 export class InvoiceService {
 
-  invoices: Invoice[] = [
-    {
-      month: 12,
-      year: 2021,
-      id: 1,
-      issueDate: new Date(),
-      invoiceDate: new Date(),
-      seller: seller,
-      buyer: buyer,
-      items: []
-    },
-    {
-      month: 12,
-      year: 2021,
-      id: 2,
-      issueDate: new Date(),
-      invoiceDate: new Date(),
-      seller: seller,
-      buyer: buyer,
-      items: []
-    },
-    {
-      month: 12,
-      year: 2021,
-      id: 3,
-      issueDate: new Date(),
-      invoiceDate: new Date(),
-      seller: seller,
-      buyer: buyer,
-      items: []
-    },
-    {
-      month: 2,
-      year: 2021,
-      id: 1,
-      issueDate: new Date(),
-      invoiceDate: new Date(),
-      seller: seller,
-      buyer: buyer,
-      items: []
-    },
-    {
-      month: 5,
-      year: 2020,
-      id: 1,
-      issueDate: new Date(),
-      invoiceDate: new Date(),
-      seller: seller,
-      buyer: buyer,
-      items: []
-    }
-  ];
+  invoices: Invoice[] = [];
 
 
   find(year: number, month: number): Promise<Invoice[]> {

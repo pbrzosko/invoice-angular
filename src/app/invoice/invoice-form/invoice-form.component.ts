@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output} from "@angular/core";
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventEmitter} from "@angular/core";
-import {Location, formatDate} from "@angular/common";
+import {Location} from "@angular/common";
 import {CompanyService} from "../../company/company.service";
 import {ItemService} from "../../item/item.service";
 import {SettingsService} from "../../settings/settings.service";
@@ -9,6 +9,7 @@ import {Company} from "../../company/company.model";
 import {Item} from "../../item/item.model";
 import {Invoice, InvoiceItem} from "../invoice.model";
 import {InvoiceService} from "../invoice.service";
+import {InvoicePdfService} from "../invoice-pdf.service";
 
 @Component({
   selector: 'invoice-invoice-form',
@@ -41,7 +42,8 @@ export class InvoiceFormComponent implements OnInit {
               private companyService: CompanyService,
               private itemService: ItemService,
               private settingsSerivce: SettingsService,
-              private invoiceService: InvoiceService) {
+              private invoiceService: InvoiceService,
+              private invoicePdfService: InvoicePdfService) {
   }
 
   get items(): FormArray {
@@ -75,6 +77,23 @@ export class InvoiceFormComponent implements OnInit {
     });
     issueDateControl?.setValue(now);
     this.invoiceForm.get('invoiceDate')?.setValue(now);
+  }
+
+  async export() {
+    const invoice = this.invoiceForm.value as Invoice;
+    const blob = await this.invoicePdfService.saveInvoice(invoice);;
+    const url = URL.createObjectURL(blob);
+    this.saveFile(url, 'test.pdf');
+  }
+
+  saveFile(url: string, fileName: string) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.setAttribute("style", "display: none;");
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   }
 
   itemsChanged(items: InvoiceItem[]) {
