@@ -16,3 +16,11 @@ export interface InvoiceItem {
   item: Item,
   qty: number
 }
+
+export interface TotalItem {
+  label: string,
+  net: number,
+  rate: string,
+  tax: number,
+  gross: number
+}

@@ -7,9 +7,10 @@ import {ItemService} from "../../item/item.service";
 import {SettingsService} from "../../settings/settings.service";
 import {Company} from "../../company/company.model";
 import {Item} from "../../item/item.model";
-import {Invoice, InvoiceItem} from "../invoice.model";
+import {Invoice, InvoiceItem, TotalItem} from "../invoice.model";
 import {InvoiceService} from "../invoice.service";
 import {InvoicePdfService} from "../invoice-pdf.service";
+import {InvoiceCalculateService} from "../invoice-calculate.service";
 
 @Component({
   selector: 'invoice-invoice-form',
@@ -27,6 +28,7 @@ export class InvoiceFormComponent implements OnInit {
     id: [null, [Validators.required]],
     issueDate: [null, [Validators.required]],
     invoiceDate: [null, [Validators.required]],
+    seller: [null, [Validators.required]],
     buyer: [null, [Validators.required]],
     items: this.formBuilder.array([], [Validators.required]),
     totals: this.formBuilder.array([]),
@@ -43,7 +45,8 @@ export class InvoiceFormComponent implements OnInit {
               private itemService: ItemService,
               private settingsSerivce: SettingsService,
               private invoiceService: InvoiceService,
-              private invoicePdfService: InvoicePdfService) {
+              private invoicePdfService: InvoicePdfService,
+              private invoiceCalculateService: InvoiceCalculateService) {
   }
 
   get items(): FormArray {
@@ -60,6 +63,7 @@ export class InvoiceFormComponent implements OnInit {
 
   async ngOnInit() {
     this.seller = await this.settingsSerivce.getSettings();
+    this.invoiceForm.get('seller')?.setValue(this.seller);
     this.companies = await this.companyService.list();
     this.options = await this.itemService.list();
     this.items.valueChanges.subscribe(items => this.itemsChanged(items));
@@ -79,61 +83,27 @@ export class InvoiceFormComponent implements OnInit {
     this.invoiceForm.get('invoiceDate')?.setValue(now);
   }
 
-  async export() {
+  export() {
     const invoice = this.invoiceForm.value as Invoice;
-    const blob = await this.invoicePdfService.saveInvoice(invoice);;
-    const url = URL.createObjectURL(blob);
-    this.saveFile(url, 'test.pdf');
-  }
-
-  saveFile(url: string, fileName: string) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = fileName;
-    a.setAttribute("style", "display: none;");
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    this.invoicePdfService.saveInvoice(invoice);
   }
 
   itemsChanged(items: InvoiceItem[]) {
-    const taxes = items.reduce<Map<number, number>>((accumulator, current) => {
-      if (current.item && current.qty) {
-        const currentTax = accumulator.get(current.item.tax);
-        const price = current.item.price * current.qty;
-        if (currentTax) {
-          accumulator.set(current.item.tax, currentTax + price);
-        } else {
-          accumulator.set(current.item.tax, price);
-        }
-      }
-      return accumulator;
-    }, new Map());
-    const total = {
-      net: 0,
-      tax: 0,
-      gross: 0
-    };
     this.totals.clear();
-    taxes.forEach((value, key) => {
-      const label = this.totals.length === 0 ? $localize `:@@total.within:Within` : '';
-      const tax = (value * key / 100);
-      total.net += value;
-      total.tax += tax;
-      total.gross += value + tax;
-      this.totals.push(this.totalItem(label, value, key + '%', tax, value + tax));
+    const totals = this.invoiceCalculateService.calculateTotals(items);
+    this.total?.setValue(totals[0].gross);
+    totals.forEach(total => {
+      this.totals.push(this.totalItem(total));
     });
-    this.totals.insert(0, this.totalItem($localize `:@@total.total:Total`, total.net, 'X', total.tax, total.gross));
-    this.total?.setValue(total.gross);
   }
 
-  totalItem(label: string, net: number, rate: string, tax: number, gross: number) {
+  totalItem(total: TotalItem) {
     return this.formBuilder.group({
-      label: [{value: label, disabled: true}],
-      net: [{value: net, disabled: true}],
-      rate: [{value: rate, disabled: true}],
-      tax: [{value: tax, disabled: true}],
-      gross: [{value: gross, disabled: true}]
+      label: [{value: total.label, disabled: true}],
+      net: [{value: total.net, disabled: true}],
+      rate: [{value: total.rate, disabled: true}],
+      tax: [{value: total.tax, disabled: true}],
+      gross: [{value: total.gross, disabled: true}]
     });
   }
 
