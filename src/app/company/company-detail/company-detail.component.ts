@@ -1,9 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CompanyService} from "../company.service";
-import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-import {switchMap} from "rxjs/operators";
 
 @Component({
   selector: 'invoice-company-detail',
@@ -12,7 +11,8 @@ import {switchMap} from "rxjs/operators";
 export class CompanyDetailComponent implements OnInit {
 
   companyForm: FormGroup = this.formBuilder.group({
-    name: [{value: null, disabled: true}, [Validators.required]],
+    id: [null, [Validators.required]],
+    name: [null, [Validators.required]],
     accountNumber: [null, [Validators.required]],
     street: [null, [Validators.required]],
     zip: [null, [Validators.required]],
@@ -37,7 +37,7 @@ export class CompanyDetailComponent implements OnInit {
 
   async save() {
     if (this.companyForm.valid) {
-      await this.companyService.add(this.companyForm.value);
+      await this.companyService.update(this.companyForm.value);
       this.location.back();
     }
   }

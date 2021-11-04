@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import {Item} from "./item.model";
+import {Item} from "../db/item.model";
+import {DatabaseService} from "../db/database.service";
 
 const ITEMS_KEY:string = 'invoice_items';
 
@@ -8,29 +9,26 @@ const ITEMS_KEY:string = 'invoice_items';
 })
 export class ItemService {
 
+  constructor(private db: DatabaseService) {
+  }
+
   async add(item: Item) {
-    const items:Item[] = await this.list();
-    item.id = items.length + 1;
-    items.push(item);
-    localStorage.setItem(ITEMS_KEY, JSON.stringify(items));
-    return Promise.resolve();
+    await this.db.items.add(item);
+  }
+
+  async update(item: Item) {
+    await this.db.items.update(item.id, item);
   }
 
   async list() {
-    const saved = localStorage.getItem(ITEMS_KEY);
-    const items:Item[] = saved ? JSON.parse(saved) : [];
-    return Promise.resolve(items);
+    return this.db.items.toArray();
   }
 
   async get(id: number) {
-    const items:Item[] = await this.list();
-    return items.find(item => item.id === id);
+    return this.db.items.get(id);
   }
 
   async delete(id: number) {
-    let items:Item[] = await this.list();
-    items = items.filter(item => item.id !== id);
-    localStorage.setItem(ITEMS_KEY, JSON.stringify(items));
-    return Promise.resolve();
+    await this.db.items.delete(id);
   }
 }

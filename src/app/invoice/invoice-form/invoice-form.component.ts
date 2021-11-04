@@ -5,12 +5,12 @@ import {Location} from "@angular/common";
 import {CompanyService} from "../../company/company.service";
 import {ItemService} from "../../item/item.service";
 import {SettingsService} from "../../settings/settings.service";
-import {Company} from "../../company/company.model";
-import {Item} from "../../item/item.model";
-import {Invoice, InvoiceItem, TotalItem} from "../invoice.model";
 import {InvoiceService} from "../invoice.service";
 import {InvoicePdfService} from "../invoice-pdf.service";
 import {InvoiceCalculateService} from "../invoice-calculate.service";
+import {Invoice, InvoiceItem, TotalItem} from "../../db/invoice.model";
+import {Company} from "../../db/company.model";
+import {Item} from "../../db/item.model";
 
 @Component({
   selector: 'invoice-invoice-form',
@@ -23,9 +23,9 @@ export class InvoiceFormComponent implements OnInit {
   @Output() submit = new EventEmitter<Invoice>();
 
   invoiceForm: FormGroup = this.formBuilder.group({
+    id: [null, [Validators.required]],
     month: [null, [Validators.required]],
     year: [null, [Validators.required]],
-    id: [null, [Validators.required]],
     issueDate: [null, [Validators.required]],
     invoiceDate: [null, [Validators.required]],
     seller: [null, [Validators.required]],

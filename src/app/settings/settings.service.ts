@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Company } from "../company/company.model";
+import {Company} from "../db/company.model";
 
 const SETTINGS_KEY:string = 'invoice_settings';
 

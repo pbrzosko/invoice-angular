@@ -1,62 +1,46 @@
 import { Injectable } from "@angular/core";
-import {Invoice} from "./invoice.model";
-
-const seller = {
-  id: 1,
-  name: 'NAND Przemyslaw Brzosko',
-  accountNumber: '34 2343 2343 4541 4543 5453 5454 5444',
-  street: 'Jana Krysta 5/8',
-  zip: '01-106',
-  city: 'Warszawa',
-  tin: '527244453'
-};
-
-const buyer = {
-  id: 2,
-  name: 'Buyer',
-  accountNumber: '34 7878 3466 8896 4378 4563 8976 4656',
-  street: 'Marszalkowska 29',
-  zip: '01-100',
-  city: 'Warszawa',
-  tin: '5275272222'
-}
+import {Invoice} from "../db/invoice.model";
+import {DatabaseService} from "../db/database.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceService {
 
-  invoices: Invoice[] = [];
-
-
-  find(year: number, month: number): Promise<Invoice[]> {
-    return Promise.resolve(this.invoices.filter(invoice => invoice.year === year && invoice.month === month));
+  constructor(private db: DatabaseService) {
   }
 
-  nextId(year: number, month: number) {
-    return Promise.resolve(this.invoices.filter(invoice => invoice.year === year && invoice.month === month).reduce((max, current) => {
-      if (current.id >= max) {
-        max = current.id;
+  async find(year: number, month: number) {
+    return this.db.invoices.where({year: year, month: month}).toArray();
+  }
+
+  async nextId(year: number, month: number) {
+    let max = 0;
+    await this.db.invoices.where({year: year, month: month}).eachPrimaryKey(key => {
+      if (key[2] >= max) {
+        max = key[2];
       }
-      return max;
-    }, 0) + 1);
+    });
+    return max + 1;
   }
 
-  add(invoice: Invoice): void {
-    this.invoices.push(invoice);
+  async get(year: number, month: number, id: number) {
+    return this.db.invoices.get([year, month, id]);
   }
 
-  years() {
-    return Promise.resolve([...this.invoices.reduce<Map<number, boolean>>((accumulator, current) => {
-      accumulator.set(current.year, true);
-      return accumulator;
-    }, new Map()).keys()]);
+  async add(invoice: Invoice) {
+    await this.db.invoices.add(invoice);
   }
 
-  months(year: number) {
-    return Promise.resolve([...this.invoices.filter((item) => item.year === year).reduce<Map<number, boolean>>((accumulator, current) => {
-      accumulator.set(current.month, true);
-      return accumulator;
-    }, new Map()).keys()]);
+  async update(invoice: Invoice) {
+    await this.db.invoices.update([invoice.year, invoice.month, invoice.id], invoice);
+  }
+
+  async years() {
+    return await this.db.invoices.orderBy('year').uniqueKeys() as number[];
+  }
+
+  async months(year: number) {
+    return await this.db.invoices.orderBy('month').filter(invoice => invoice.year === year).uniqueKeys() as number[];
   }
 }

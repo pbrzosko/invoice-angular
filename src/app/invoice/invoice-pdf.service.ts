@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {jsPDF} from "jspdf";
 import autoTable, {CellHookData, RowInput} from "jspdf-autotable";
-import {Invoice, InvoiceItem} from "./invoice.model";
-import {Company} from "../company/company.model";
 import {InvoiceCalculateService} from "./invoice-calculate.service";
+import {Invoice, InvoiceItem} from "../db/invoice.model";
+import {Company} from "../db/company.model";
 
 const MARGIN = 14;
 const FONT_SIZE = 8;

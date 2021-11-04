@@ -1,5 +1,5 @@
-import {InvoiceItem, TotalItem} from "./invoice.model";
 import {Injectable} from "@angular/core";
+import {InvoiceItem, TotalItem} from "../db/invoice.model";
 
 
 @Injectable({

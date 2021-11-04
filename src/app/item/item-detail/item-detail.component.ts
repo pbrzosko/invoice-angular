@@ -11,7 +11,8 @@ import {Location} from "@angular/common";
 export class ItemDetailComponent implements OnInit {
 
   itemForm: FormGroup = this.formBuilder.group({
-    name: [{value: null, disabled: true}, [Validators.required]],
+    id: [null, [Validators.required]],
+    name: [null, [Validators.required]],
     unit: [null, [Validators.required]],
     price: [null, [Validators.required]],
     tax: [null, [Validators.required]]
@@ -34,7 +35,7 @@ export class ItemDetailComponent implements OnInit {
 
   async save() {
     if (this.itemForm.valid) {
-      await this.itemService.add(this.itemForm.value);
+      await this.itemService.update(this.itemForm.value);
       this.location.back();
     }
   }

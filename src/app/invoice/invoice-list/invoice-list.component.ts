@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {InvoiceService} from "../invoice.service";
-import {Invoice} from "../invoice.model";
+import {Invoice} from "../../db/invoice.model";
 
 @Component({
   selector: 'invoice-invoice-list',

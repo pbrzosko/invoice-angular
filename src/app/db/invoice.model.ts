@@ -1,5 +1,5 @@
-import {Company} from "../company/company.model";
-import {Item} from "../item/item.model";
+import {Company} from "./company.model";
+import {Item} from "./item.model";
 
 export interface Invoice {
   month: number,

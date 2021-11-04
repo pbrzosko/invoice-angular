@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 import {Location} from "@angular/common";
 import {InvoiceService} from "../invoice.service";
-import {Invoice} from "../invoice.model";
+import {Invoice} from "../../db/invoice.model";
 
 @Component({
   selector: 'invoice-invoice-add',
@@ -15,8 +15,7 @@ export class InvoiceAddComponent {
   }
 
   async add(invoice: Invoice) {
-    //await this.invoiceService.add(this.invoiceForm.value);
-    console.log('Saving invoice', invoice);
-    // this.location.back();
+    await this.invoiceService.add(invoice);
+    this.location.back();
   }
 }

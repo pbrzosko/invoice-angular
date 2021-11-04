@@ -21,6 +21,7 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
+    "dexie": "^3.0.3",
     "jspdf": "^2.4.0",
     "jspdf-autotable": "^3.5.23",
     "rxjs": "~6.6.0",

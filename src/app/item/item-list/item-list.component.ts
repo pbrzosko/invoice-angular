@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
-import {Item} from "../item.model";
 import {ItemService} from "../item.service";
 import {ContextMenuComponent} from "../../dock/context-menu/context-menu.component";
+import {Item} from "../../db/item.model";
 
 @Component({
   selector: 'invoice-item-list',

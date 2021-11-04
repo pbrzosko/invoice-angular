@@ -11,6 +11,7 @@ import {DockModule} from "../dock/dock.module";
 import {CommonModule} from "@angular/common";
 import {CompanyFormComponent} from "./company-form/company-form.component";
 import {CompanyAddComponent} from "./company-add/company-add.component";
+import {DatabaseModule} from "../db/db.module";
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import {CompanyAddComponent} from "./company-add/company-add.component";
     MatInputModule,
     LayoutModule,
     CompanyRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DatabaseModule
   ],
   declarations: [
     CompanyFormComponent,
