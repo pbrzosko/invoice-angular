@@ -1,20 +1,21 @@
 import { Injectable } from "@angular/core";
 import {Company} from "../db/company.model";
-
-const SETTINGS_KEY:string = 'invoice_settings';
+import {DatabaseService} from "../db/database.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SettingsService {
 
-  async saveSettings(settings: Company) {
-    localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
-    return Promise.resolve();
+  constructor(private databaseService: DatabaseService) {
   }
 
-  getSettings() {
-    const saved = localStorage.getItem(SETTINGS_KEY);
-    return Promise.resolve(saved ? JSON.parse(saved) : null);
+  async saveSettings(settings: Company) {
+    settings.id = 1;
+    await this.databaseService.settings.put(settings);
+  }
+
+  async getSettings() {
+    return this.databaseService.settings.get(1);
   }
 }

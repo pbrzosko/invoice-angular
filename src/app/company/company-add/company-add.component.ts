@@ -3,6 +3,9 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CompanyService} from "../company.service";
 import {Router} from "@angular/router";
 import {Location} from "@angular/common";
+import {Subject} from "rxjs";
+import {Invoice} from "../../db/invoice.model";
+import {Company} from "../../db/company.model";
 
 @Component({
   selector: 'invoice-company-add',
@@ -10,28 +13,21 @@ import {Location} from "@angular/common";
 })
 export class CompanyAddComponent implements OnInit {
 
-  companyForm: FormGroup = this.formBuilder.group({
-    name: [null, [Validators.required]],
-    accountNumber: [null, [Validators.required]],
-    street: [null, [Validators.required]],
-    zip: [null, [Validators.required]],
-    city: [null, [Validators.required]],
-    tin: [null, [Validators.required]],
-  })
+  company$ = new Subject<Company | undefined>();
 
   constructor(
     private location: Location,
-    private formBuilder: FormBuilder,
     private companyService: CompanyService) {
   }
 
   async ngOnInit() {
+    await Promise.resolve();
+    this.company$.next(undefined);
+    this.company$.complete();
   }
 
-  async add() {
-    if (this.companyForm.valid) {
-      await this.companyService.add(this.companyForm.value);
-      this.location.back();
-    }
+  async add(company: Company) {
+    await this.companyService.add(company);
+    this.location.back();
   }
 }

@@ -6,6 +6,7 @@ import {Invoice} from "./invoice.model";
 export class DatabaseService extends Dexie {
 
   companies!: Dexie.Table<Company, number>;
+  settings!: Dexie.Table<Company, number>;
   items!: Dexie.Table<Item, number>;
   invoices!: Dexie.Table<Invoice, [number, number, number]>;
 
@@ -15,7 +16,8 @@ export class DatabaseService extends Dexie {
     this.version(1).stores({
       companies: '++id',
       items: '++id',
-      invoices: '[year+month+id],year,month'
+      settings: 'id',
+      invoices: '[year+month+id],[year+month],year,month'
     });
   }
 

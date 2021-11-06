@@ -1,8 +1,9 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CompanyService} from "../company.service";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
+import {Subject} from "rxjs";
+import {Company} from "../../db/company.model";
 
 @Component({
   selector: 'invoice-company-detail',
@@ -10,35 +11,23 @@ import {Location} from "@angular/common";
 })
 export class CompanyDetailComponent implements OnInit {
 
-  companyForm: FormGroup = this.formBuilder.group({
-    id: [null, [Validators.required]],
-    name: [null, [Validators.required]],
-    accountNumber: [null, [Validators.required]],
-    street: [null, [Validators.required]],
-    zip: [null, [Validators.required]],
-    city: [null, [Validators.required]],
-    tin: [null, [Validators.required]],
-  })
+  company$ = new Subject<Company | undefined>();
 
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
     private companyService: CompanyService) {
   }
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    let company = await this.companyService.get(parseInt(id, 10));
-    if (company) {
-      this.companyForm.patchValue(company);
-    }
+    const company = await this.companyService.get(parseInt(id, 10));
+    this.company$.next(company);
+    this.company$.complete();
   }
 
-  async save() {
-    if (this.companyForm.valid) {
-      await this.companyService.update(this.companyForm.value);
-      this.location.back();
-    }
+  async save(company: Company) {
+    await this.companyService.update(company);
+    this.location.back();
   }
 }

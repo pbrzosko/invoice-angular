@@ -41,7 +41,7 @@ export class InvoiceFormComponent implements OnInit {
   readonly: boolean | undefined;
   companies: Company[] = [];
   options: Item[] = [];
-  seller!: Company;
+  seller!: Company | undefined;
 
   constructor(private location: Location,
               private formBuilder: FormBuilder,

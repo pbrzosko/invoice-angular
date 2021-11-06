@@ -1,4 +1,4 @@
 <invoice-detail-layout>
-  <h2 i18n="@@company.edit">Edit company</h2>
-  <invoice-company-form [companyForm]="companyForm" (submit)="save()"></invoice-company-form>
+  <h2 i18n="@@company.edit">Company</h2>
+  <invoice-company-form (submit)="save($event)" [company$]="company$"></invoice-company-form>
 </invoice-detail-layout>

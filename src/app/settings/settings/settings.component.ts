@@ -1,8 +1,8 @@
-import {Router} from "@angular/router";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Component, OnInit} from "@angular/core";
 import {SettingsService} from "../settings.service";
 import {Location} from "@angular/common";
+import {Company} from "../../db/company.model";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'invoice-settings',
@@ -10,28 +10,21 @@ import {Location} from "@angular/common";
 })
 export class SettingsComponent implements OnInit {
 
-  settingsForm: FormGroup = this.formBuilder.group({
-    name: [null, [Validators.required]],
-    street: [null, [Validators.required]],
-    zip: [null, [Validators.required]],
-    city: [null, [Validators.required]],
-    tin: [null, [Validators.required]],
-  })
+  settings$ = new Subject<Company | undefined>();
 
   constructor(
     private location: Location,
-    private formBuilder: FormBuilder,
     private settingsService: SettingsService) {
   }
 
   async ngOnInit() {
-    this.settingsForm.patchValue(await this.settingsService.getSettings());
+    const settings = await this.settingsService.getSettings();
+    this.settings$.next(settings);
+    this.settings$.complete();
   }
 
-  async save() {
-    if (this.settingsForm.valid) {
-      await this.settingsService.saveSettings(this.settingsForm.value);
-      this.location.back();
-    }
+  async save(settings: Company) {
+    await this.settingsService.saveSettings(settings);
+    this.location.back();
   }
 }

@@ -1,4 +1,4 @@
 <invoice-detail-layout>
   <h2 i18n="@@company.add">Add new company</h2>
-  <invoice-company-form [companyForm]="companyForm" (submit)="add()"></invoice-company-form>
+  <invoice-company-form (submit)="add($event)" [company$]="company$"></invoice-company-form>
 </invoice-detail-layout>
