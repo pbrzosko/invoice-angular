@@ -4,6 +4,7 @@ import {MonthsComponent} from "./months/months.component";
 import {InvoiceListComponent} from "./invoice-list/invoice-list.component";
 import {NgModule} from "@angular/core";
 import {InvoiceAddComponent} from "./invoice-add/invoice-add.component";
+import {InvoiceDetailComponent} from "./invoice-detail/invoice-detail.component";
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'invoices/:year/:month',
     component: InvoiceListComponent
+  },
+  {
+    path: 'invoices/:year/:month/:id',
+    component: InvoiceDetailComponent
   }
 ];
 

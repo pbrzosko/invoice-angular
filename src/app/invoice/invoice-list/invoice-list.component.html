@@ -1,4 +1,4 @@
 <invoice-grid-layout>
   <invoice-dock-item text=".." icon="folder" link="../"></invoice-dock-item>
-  <invoice-dock-item *ngFor="let inv of invoices" [text]="inv.id" icon="invoice"></invoice-dock-item>
+  <invoice-dock-item *ngFor="let inv of invoices" [text]="inv.id" icon="invoice" [link]="['.', inv.id]"></invoice-dock-item>
 </invoice-grid-layout>

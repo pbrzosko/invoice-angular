@@ -1,12 +1,15 @@
+@use '~@angular/material' as mat
+@use "sass:map"
+
 $border-color: rgba(0,0,0,.12)
 $background-color: rgba(0,0,0,.05)
 
 form
   & > *
-    padding: 1em
-
-  & > .mat-small
     padding: 0.5em
+
+  & > .p-0
+    padding: 0
 
   & > .first
     padding-left: 0
@@ -31,3 +34,10 @@ form
 
   & > .font-weight-bold
     font-weight: bold
+
+  .mat-title.mb-0
+    margin-bottom: 0
+
+  .table-header
+    background-color: map.get(mat.$light-blue-palette, 500)
+    color: white

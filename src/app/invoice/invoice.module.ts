@@ -15,6 +15,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
 import {CurrencyToWordsPipe} from "./currency-to-words.pipe";
+import {InvoiceDetailComponent} from "./invoice-detail/invoice-detail.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import {CurrencyToWordsPipe} from "./currency-to-words.pipe";
     InvoiceListComponent,
     InvoiceFormComponent,
     InvoiceAddComponent,
+    InvoiceDetailComponent,
     CurrencyToWordsPipe
   ],
   imports: [

@@ -11,6 +11,7 @@ import {InvoiceCalculateService} from "../invoice-calculate.service";
 import {Invoice, InvoiceItem, TotalItem} from "../../db/invoice.model";
 import {Company} from "../../db/company.model";
 import {Item} from "../../db/item.model";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'invoice-invoice-form',
@@ -19,8 +20,10 @@ import {Item} from "../../db/item.model";
 })
 export class InvoiceFormComponent implements OnInit {
 
+  @Input() invoice$!: Subject<Invoice | undefined>;
   @Input() submitLabel: string = $localize`@@common.save:Save`;
   @Output() submit = new EventEmitter<Invoice>();
+  @Output() export = new EventEmitter<Invoice>();
 
   invoiceForm: FormGroup = this.formBuilder.group({
     id: [null, [Validators.required]],
@@ -35,6 +38,7 @@ export class InvoiceFormComponent implements OnInit {
     total: [{value: 0, disabled: true}]
   });
 
+  readonly: boolean | undefined;
   companies: Company[] = [];
   options: Item[] = [];
   seller!: Company;
@@ -49,6 +53,22 @@ export class InvoiceFormComponent implements OnInit {
               private invoiceCalculateService: InvoiceCalculateService) {
   }
 
+  ngOnInit() {
+    const subscription = this.invoice$.subscribe(async invoice => {
+      this.seller = await this.settingsSerivce.getSettings();
+      this.invoiceForm.get('seller')?.setValue(this.seller);
+      this.companies = await this.companyService.list();
+      this.options = await this.itemService.list();
+      this.items.valueChanges.subscribe(items => this.itemsChanged(items));
+      if (invoice) {
+        await this.initExistingInvoice(invoice);
+      } else {
+        await this.initNewInvoice();
+      }
+      subscription.unsubscribe();
+    });
+  }
+
   get items(): FormArray {
     return this.invoiceForm.get('items') as FormArray;
   }
@@ -61,31 +81,23 @@ export class InvoiceFormComponent implements OnInit {
     return this.invoiceForm.get('total');
   }
 
-  async ngOnInit() {
-    this.seller = await this.settingsSerivce.getSettings();
-    this.invoiceForm.get('seller')?.setValue(this.seller);
-    this.companies = await this.companyService.list();
-    this.options = await this.itemService.list();
-    this.items.valueChanges.subscribe(items => this.itemsChanged(items));
-    const now = new Date().toISOString().split('T')[0];
-    const issueDateControl = this.invoiceForm.get('issueDate');
-    issueDateControl?.valueChanges.subscribe(async issueDate => {
-      console.log('Issue date changed', issueDate);
-      const date = new Date(issueDate);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const next = await this.invoiceService.nextId(year, month);
-      this.invoiceForm.get('year')?.setValue(year);
-      this.invoiceForm.get('month')?.setValue(month);
-      this.invoiceForm.get('id')?.setValue(next);
-    });
-    issueDateControl?.setValue(now);
-    this.invoiceForm.get('invoiceDate')?.setValue(now);
+  get loaded() {
+    return this.readonly !== undefined;
   }
 
-  export() {
-    const invoice = this.invoiceForm.value as Invoice;
-    this.invoicePdfService.saveInvoice(invoice);
+  async initExistingInvoice(invoice: Invoice) {
+    this.readonly = true;
+    invoice.items.forEach(() => this.addItem());
+    this.invoiceForm.patchValue(invoice);
+  }
+
+  async initNewInvoice() {
+    this.readonly = false;
+    this.invoiceForm.get('issueDate')?.valueChanges.subscribe(issueDate => this.issueDateChanged(issueDate));
+    // setup initial dates
+    const now = new Date().toISOString().split('T')[0];
+    this.invoiceForm.get('issueDate')?.setValue(now);
+    this.invoiceForm.get('invoiceDate')?.setValue(now);
   }
 
   itemsChanged(items: InvoiceItem[]) {
@@ -95,6 +107,16 @@ export class InvoiceFormComponent implements OnInit {
     totals.forEach(total => {
       this.totals.push(this.totalItem(total));
     });
+  }
+
+  async issueDateChanged(issueDate: string) {
+    const date = new Date(issueDate);
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const next = await this.invoiceService.nextId(year, month);
+    this.invoiceForm.get('year')?.setValue(year);
+    this.invoiceForm.get('month')?.setValue(month);
+    this.invoiceForm.get('id')?.setValue(next);
   }
 
   totalItem(total: TotalItem) {
@@ -172,6 +194,10 @@ export class InvoiceFormComponent implements OnInit {
   submitForm(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    this.submit.emit(this.invoiceForm.value);
+    if (this.readonly) {
+      this.export.emit(this.invoiceForm.value);
+    } else {
+      this.submit.emit(this.invoiceForm.value);
+    }
   }
 }

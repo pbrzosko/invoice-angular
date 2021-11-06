@@ -1,4 +1,4 @@
 <invoice-detail-layout>
   <h2 i18n="@@invoice.add">Add new invoice</h2>
-  <invoice-invoice-form (submit)="add($event)"></invoice-invoice-form>
+  <invoice-invoice-form (submit)="add($event)" [invoice$]="invoice$"></invoice-invoice-form>
 </invoice-detail-layout>
