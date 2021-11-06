@@ -1,4 +1,4 @@
 <invoice-detail-layout>
-  <h2 i18n="@@item.add">Edit item</h2>
-  <invoice-item-form [itemForm]="itemForm" (submit)="save()"></invoice-item-form>
+  <h2 i18n="@@item.add">Item</h2>
+  <invoice-item-form [item$]="item$" (submit)="save($event)"></invoice-item-form>
 </invoice-detail-layout>

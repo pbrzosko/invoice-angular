@@ -24,7 +24,6 @@ export class CompanyFormComponent implements OnInit {
     city: [null, [Validators.required]],
     tin: [null, [Validators.required]],
   });
-  readonly: boolean | undefined;
 
   constructor(private location: Location,
               private formBuilder: FormBuilder) {
@@ -33,14 +32,11 @@ export class CompanyFormComponent implements OnInit {
   ngOnInit() {
     const subscription = this.company$.subscribe(company => {
       if (company) {
-        this.readonly = true;
         this.companyForm.addControl('id', new FormControl(null, [Validators.required]));
         this.companyForm.patchValue(company);
         if (this.disableName) {
           this.companyForm.get('name')?.disable();
         }
-      } else {
-        this.readonly = false;
       }
       subscription.unsubscribe();
     });

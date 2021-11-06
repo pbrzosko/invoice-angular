@@ -11,6 +11,7 @@ import {DockModule} from "../dock/dock.module";
 import {CommonModule} from "@angular/common";
 import {ItemFormComponent} from "./item-form/item-form.component";
 import {ItemAddComponent} from "./item-add/item-add.component";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import {ItemAddComponent} from "./item-add/item-add.component";
     FlexLayoutModule,
     MatButtonModule,
     MatInputModule,
+    MatSelectModule,
     LayoutModule,
     ItemRoutingModule,
     ReactiveFormsModule

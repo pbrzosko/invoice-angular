@@ -20,8 +20,10 @@
   </div>
   <div gdArea="tax">
     <mat-form-field>
-      <mat-label i18n="@@itemtax">Tax</mat-label>
-      <input matInput formControlName="tax" required type="number">
+      <mat-label i18n="@@item.tax">Tax</mat-label>
+      <mat-select matInput formControlName="tax" required>
+        <mat-option *ngFor="let tax of [0,5,8,23]" [value]="tax">{{tax}}</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
   <div gdArea="save" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em">

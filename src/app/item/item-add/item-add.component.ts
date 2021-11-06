@@ -2,6 +2,8 @@ import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ItemService} from "../item.service";
 import {Location} from "@angular/common";
+import {Subject} from "rxjs";
+import {Item} from "../../db/item.model";
 
 @Component({
   selector: 'invoice-item-add',
@@ -9,12 +11,7 @@ import {Location} from "@angular/common";
 })
 export class ItemAddComponent implements OnInit {
 
-  itemForm: FormGroup = this.formBuilder.group({
-    name: [null, [Validators.required]],
-    unit: [null, [Validators.required]],
-    price: [null, [Validators.required]],
-    tax: [null, [Validators.required]]
-  })
+  item$ = new Subject<Item | undefined>();
 
   constructor(
     private location: Location,
@@ -23,12 +20,13 @@ export class ItemAddComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await Promise.resolve();
+    this.item$.next(undefined);
+    this.item$.complete();
   }
 
-  async add() {
-    if (this.itemForm.valid) {
-      await this.itemService.add(this.itemForm.value);
-      this.location.back();
-    }
+  async add(item: Item) {
+    await this.itemService.add(item);
+    this.location.back();
   }
 }

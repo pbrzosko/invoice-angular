@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ItemService} from "../item.service";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
+import {Subject} from "rxjs";
+import {Item} from "../../db/item.model";
 
 @Component({
   selector: 'invoice-item-detail',
@@ -10,13 +12,7 @@ import {Location} from "@angular/common";
 })
 export class ItemDetailComponent implements OnInit {
 
-  itemForm: FormGroup = this.formBuilder.group({
-    id: [null, [Validators.required]],
-    name: [null, [Validators.required]],
-    unit: [null, [Validators.required]],
-    price: [null, [Validators.required]],
-    tax: [null, [Validators.required]]
-  })
+  item$ = new Subject<Item | undefined>();
 
   constructor(
     private location: Location,
@@ -27,16 +23,13 @@ export class ItemDetailComponent implements OnInit {
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    let item = await this.itemService.get(parseInt(id, 10));
-    if (item) {
-      this.itemForm.patchValue(item);
-    }
+    const item = await this.itemService.get(parseInt(id, 10));
+    this.item$.next(item);
+    this.item$.complete();
   }
 
-  async save() {
-    if (this.itemForm.valid) {
-      await this.itemService.update(this.itemForm.value);
-      this.location.back();
-    }
+  async save(item: Item) {
+    await this.itemService.update(item);
+    this.location.back();
   }
 }
