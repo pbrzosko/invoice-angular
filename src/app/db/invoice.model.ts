@@ -7,6 +7,7 @@ export interface Invoice {
   id: number,
   issueDate: string,
   invoiceDate: string,
+  paymentDate: string,
   seller: Company,
   buyer: Company,
   items: InvoiceItem[]

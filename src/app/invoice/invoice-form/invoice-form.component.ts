@@ -31,6 +31,7 @@ export class InvoiceFormComponent implements OnInit {
     year: [null, [Validators.required]],
     issueDate: [null, [Validators.required]],
     invoiceDate: [null, [Validators.required]],
+    paymentDate: [null, [Validators.required]],
     seller: [null, [Validators.required]],
     buyer: [null, [Validators.required]],
     items: this.formBuilder.array([], [Validators.required]),
@@ -117,6 +118,8 @@ export class InvoiceFormComponent implements OnInit {
     this.invoiceForm.get('year')?.setValue(year);
     this.invoiceForm.get('month')?.setValue(month);
     this.invoiceForm.get('id')?.setValue(next);
+    date.setDate(date.getDate() + 14);
+    this.invoiceForm.get('paymentDate')?.setValue(date.toISOString().split('T')[0]);
   }
 
   totalItem(total: TotalItem) {
