@@ -4,7 +4,7 @@ import {YearsComponent} from "./years/years.component";
 import {MonthsComponent} from "./months/months.component";
 import {InvoiceListComponent} from "./invoice-list/invoice-list.component";
 import {DockModule} from "../dock/dock.module";
-import {CommonModule} from "@angular/common";
+import {CommonModule, CurrencyPipe} from "@angular/common";
 import {LayoutModule} from "../layout/layout.module";
 import {InvoiceFormComponent} from "./invoice-form/invoice-form.component";
 import {InvoiceAddComponent} from "./invoice-add/invoice-add.component";
@@ -38,6 +38,10 @@ import {InvoiceDetailComponent} from "./invoice-detail/invoice-detail.component"
     InvoiceRoutingModule,
     DockModule,
     ReactiveFormsModule
+  ],
+  providers: [
+    CurrencyToWordsPipe,
+    CurrencyPipe
   ]
 })
 export class InvoiceModule {

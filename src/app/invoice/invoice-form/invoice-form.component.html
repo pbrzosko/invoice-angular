@@ -1,4 +1,5 @@
-<form [formGroup]="invoiceForm" (submit)="submitForm($event)" gdColumns="1fr 1fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr" *ngIf="loaded" class="invoice-form">
+<form [formGroup]="invoiceForm" (submit)="submitForm($event)" gdColumns="1fr 1fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr 2fr"
+      *ngIf="loaded" class="invoice-form">
   <div gdColumn="7 / span 2" gdRow="1">
     <mat-form-field>
       <mat-label i18n="@@invoice.document">Document type</mat-label>
@@ -24,16 +25,18 @@
       <input matInput formControlName="invoiceDate" required type="date" [readonly]="readonly">
     </mat-form-field>
   </div>
-  <div gdColumn="1 / span 6" gdRow="3" class="first invoice-company mat-small">
+  <div gdColumn="1 / span 6" gdRow="3" class="first invoice-company">
     <mat-form-field>
       <mat-label i18n="@@invoice.seller">Seller</mat-label>
       <input matInput readonly [value]="seller?.name">
     </mat-form-field>
-    <div>{{seller?.street}}</div>
-    <div>{{seller?.zip}} {{seller?.city}}</div>
-    <div><span i18n="@@company.tin" *ngIf="seller">NIP: </span>{{seller?.tin}}</div>
+    <div class="mat-small">
+      <div>{{seller?.street}}</div>
+      <div>{{seller?.zip}} {{seller?.city}}</div>
+      <div><span i18n="@@company.tin" *ngIf="seller">NIP: </span>{{seller?.tin}}</div>
+    </div>
   </div>
-  <div gdColumn="7 / span 5" gdRow="3" class="last invoice-company mat-small">
+  <div gdColumn="7 / span 5" gdRow="3" class="last invoice-company">
     <mat-form-field>
       <mat-label i18n="@@invoice.buyer">Buyer</mat-label>
       <input matInput readonly [value]="invoiceForm.get('buyer')?.value?.name" *ngIf="readonly">
@@ -41,11 +44,15 @@
         <mat-option *ngFor="let comp of companies" [value]="comp">{{comp.name}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <div>{{invoiceForm.get('buyer')?.value?.street}}</div>
-    <div>{{invoiceForm.get('buyer')?.value?.zip}} {{invoiceForm.get('buyer')?.value?.city}}</div>
-    <div><span i18n="@@company.tin" *ngIf="invoiceForm.get('buyer')?.value">NIP: </span>{{invoiceForm.get('buyer')?.value?.tin}}</div>
+    <div class="mat-small">
+      <div>{{invoiceForm.get('buyer')?.value?.street}}</div>
+      <div>{{invoiceForm.get('buyer')?.value?.zip}} {{invoiceForm.get('buyer')?.value?.city}}</div>
+      <div><span i18n="@@company.tin"
+                 *ngIf="invoiceForm.get('buyer')?.value">NIP: </span>{{invoiceForm.get('buyer')?.value?.tin}}</div>
+    </div>
   </div>
-  <div gdColumn="1" gdRow="4" class="p-0 border-left border-top border-bottom table-header" fxLayout="row" fxLayoutAlign="center center">
+  <div gdColumn="1" gdRow="4" class="p-0 border-left border-top border-bottom table-header" fxLayout="row"
+       fxLayoutAlign="center center">
     <div class="mat-icon-button" *ngIf="readonly" i18n="@@invoice.idx">Idx</div>
     <button mat-icon-button color="white" (click)="addItem()" aria-label="Add new item"
             aria-label-i18n="@@invoice.addItem" type="button" *ngIf="!readonly">
@@ -76,7 +83,8 @@
 
   <ng-container formArrayName="items" *ngFor="let item of items.controls; let itemIndex=index">
     <ng-container [formGroupName]="itemIndex">
-      <div gdColumn="1" [gdRow]="5 + itemIndex" class="p-0 border-left border-bottom" fxLayout="row" fxLayoutAlign="center center">
+      <div gdColumn="1" [gdRow]="5 + itemIndex" class="p-0 border-left border-bottom" fxLayout="row"
+           fxLayoutAlign="center center">
         <button mat-icon-button color="primary" (click)="deleteItem(itemIndex)" aria-label="Delete item"
                 aria-label-i18n="@@invoice.deleteItem" type="button" *ngIf="!readonly">
           <mat-icon>delete</mat-icon>
@@ -110,7 +118,8 @@
       <div gdColumn="10" [gdRow]="5 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
         {{item.get('tax')?.value | number:'1.2-2'}}
       </div>
-      <div gdColumn="11" [gdRow]="5 + itemIndex" class="border-bottom border-right" fxLayout="row" fxLayoutAlign="end center">
+      <div gdColumn="11" [gdRow]="5 + itemIndex" class="border-bottom border-right" fxLayout="row"
+           fxLayoutAlign="end center">
         {{item.get('gross')?.value | number:'1.2-2'}}
       </div>
     </ng-container>
@@ -118,7 +127,8 @@
 
   <div gdColumn="1 / span 11" [gdRow]="items.length + 5"><h1></h1></div>
 
-  <div gdColumn="1 / span 6" [gdRow]="(items.length + 6) + '/ span ' + (totals.length + 5)" gdColumns="repeat(5, 1fr)" gdAlignColumns="start" class="p-0">
+  <div gdColumn="1 / span 6" [gdRow]="(items.length + 6) + '/ span ' + (totals.length + 5)" gdColumns="repeat(5, 1fr)"
+       gdAlignColumns="start" class="p-0">
     <mat-form-field gdColumn="1 / span 2">
       <mat-label i18n="@@invoice.paymentDate">Payment date</mat-label>
       <input matInput formControlName="paymentDate" required type="date" readonly>
@@ -134,7 +144,8 @@
   </div>
 
   <div gdColumn="7" [gdRow]="items.length + 6"
-       class="p-0 border-top border-left border-bottom table-header font-weight-bold" fxLayout="row" fxLayoutAlign="end center">
+       class="p-0 border-top border-left border-bottom table-header font-weight-bold" fxLayout="row"
+       fxLayoutAlign="end center">
     <div class="mat-icon-button"></div>
   </div>
   <div i18n="@@invoice.net" gdColumn="8" [gdRow]="items.length + 6" fxLayout="row" fxLayoutAlign="end center"
