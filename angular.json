@@ -40,7 +40,10 @@
               "src/styles.sass",
               "src/theme.sass"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "core-js", "raf"
+            ]
           },
           "configurations": {
             "pl": {
