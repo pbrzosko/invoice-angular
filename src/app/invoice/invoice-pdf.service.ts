@@ -1,22 +1,46 @@
-import {Injectable} from "@angular/core";
-import {jsPDF} from "jspdf";
-import {InvoiceCalculateService} from "./invoice-calculate.service";
-import {Invoice, InvoiceItem} from "../db/invoice.model";
-import {Company} from "../db/company.model";
-import {CurrencyToWordsPipe} from "./currency-to-words.pipe";
-import {CurrencyPipe} from "@angular/common";
+import {Injectable} from '@angular/core';
+import {jsPDF, TextOptionsLight} from 'jspdf';
+import {InvoiceCalculateService} from './invoice-calculate.service';
+import {Invoice, InvoiceItem} from '../db/invoice.model';
+import {Company} from '../db/company.model';
+import {CurrencyToWordsPipe} from './currency-to-words.pipe';
+import {CurrencyPipe} from '@angular/common';
 
 const MARGIN = 14;
-const FONT_SIZE = 14;
 const MEDIUM_FONT_SIZE = 10;
+const FONT_SIZE = 14;
 const SMALL_FONT_SIZE = 8;
+const PADDING = 2;
+const HEADER_BACKGROUND = '#03a9f4';
+const HEADER_COLOR = 'white';
+const BORDER_COLOR = '#e0e0e0';
+const ROW_BACKGROUND = 'white';
+const ROW_COLOR = 'black';
+const SPACER = 10;
 
 interface Cell {
+  value: string,
   label?: string,
-  value: string | null,
-  alignment: 'left' | 'right',
   col: number,
-  span: number
+  span: number,
+  align?: 'left' | 'right',
+  bold?: boolean,
+  nowrap?: boolean,
+  fontSize?: number,
+  padding?: boolean
+}
+
+interface CellDrawing {
+  values: string | string[],
+  labels?: string | string[],
+  x: number,
+  y: number,
+  ly?: number,
+  h: number,
+  fontSize: number,
+  bold: boolean,
+  baseline: 'alphabetic' | 'ideographic' | 'bottom' | 'top' | 'middle' | 'hanging' | undefined,
+  align: 'left' | 'right' | 'center' | 'justify' | undefined,
 }
 
 @Injectable({
@@ -32,150 +56,199 @@ export class InvoicePdfService {
   saveInvoice(invoice: Invoice) {
     const doc = new jsPDF();
     doc.setFontSize(FONT_SIZE);
+    let y = 20;
 
-    this.drawValue(doc, 'Document type', 'Faktura VAT', 10, 20);
-    this.drawValue(doc, 'Issue date', invoice.issueDate, 16, 20);
-    this.drawValue(doc, 'Number', `${invoice.id}/${invoice.month}/${invoice.year}`, 10, 35);
-    this.drawValue(doc, 'Invoice date', invoice.invoiceDate, 16, 35);
+    const documentType:Cell = {label: 'Document type', value: 'Faktura VAT', col: 10, span: 4, bold: true};
+    const issueDate:Cell = {label: 'Issue date', value: invoice.issueDate, col: 16, span: 4, align: 'right'};
+    this.drawValue(doc, documentType, y);
+    y += this.drawValue(doc, issueDate, y) + SPACER;
 
-    this.drawCompany(doc, invoice.seller, 'Seller', 0, 55);
-    this.drawCompany(doc, invoice.buyer, 'Buyer', 10, 55);
 
-    let y = this.drawItems(doc, invoice.items, 80);
+    const invoiceNumber:Cell = {label: 'Number', value: `${invoice.id}/${invoice.month}/${invoice.year}`, col: 10, span: 4, bold: true};
+    const invoiceDate:Cell = {label: 'Invoice date', value: invoice.invoiceDate, col: 16, span: 4, align: 'right'};
+    this.drawValue(doc, invoiceNumber, y);
+    y += this.drawValue(doc, invoiceDate, y) + SPACER;
 
-    this.drawTotals(doc, invoice.items, y + 10);
+    this.drawCompany(doc, invoice.seller, 'Seller', 0, 10, y);
+    y += this.drawCompany(doc, invoice.buyer, 'Buyer', 10, 10, y) + 10;
 
-    // this.drawValue(doc, 'Payment date', invoice.paymentDate, 0, itemsY);
-    // this.drawValue(doc, 'Payment type', 'Money transfer', 0, itemsY + 15);
-    // this.drawValue(doc, 'Account number', invoice.seller.accountNumber, 0, itemsY + 30);
+    y += this.drawItems(doc, invoice.items, y) + SPACER;
+
+    this.drawTotals(doc, invoice.items, y);
+
+    const paymentDate:Cell = {label: 'Payment date', value: invoice.paymentDate, col: 0, span: 10};
+    y += this.drawValue(doc, paymentDate, y);
+    const paymentType:Cell = {label: 'Payment type', value: 'Money transfer', col: 0, span: 10};
+    y += this.drawValue(doc, paymentType, y);
+    const accountNumber:Cell = {label: 'Account number', value: invoice.seller.accountNumber, col: 0, span: 10};
+    this.drawValue(doc, accountNumber, y);
+
+    const sy = doc.internal.pageSize.height - 22;
+    this.drawSignature(doc, 'Seller', 0, 4, sy);
+    this.drawSignature(doc, 'Buyer', 16, 4, sy);
 
     doc.save(`${invoice.seller.name}_${invoice.id}/${invoice.month}/${invoice.year}.pdf`);
   }
 
-  getMaxHeight(doc: jsPDF, cells: Cell[]) {
-    return cells.reduce((accumulator, cell) => {
-      if (cell.value) {
-        const size = doc.getTextDimensions(cell.value);
-        if (size.h >= accumulator) {
-          return size.h;
-        } else {
-          return accumulator;
-        }
-      } else {
-        return accumulator;
-      }
-    }, 0);
-  }
-
-  drawTableLine(doc: jsPDF, cells: Cell[], y: number, fillColor: string, drawColor: string, textColor: string, col: number = 0) {
-    const h = this.getMaxHeight(doc, cells);
-    const padding = h / 4;
-    const height = h + 2 * padding;
-    doc.setFillColor(fillColor);
-    doc.setDrawColor(drawColor);
-    // TODO: figure out col from lowest col from cells and max from col and span
-    doc.rect(this.columnX(doc, col), y, this.columnWidth(doc, 20 - col), height, 'DF');
-    cells.forEach(cell => {
-      if (cell.value) {
-        const x = this.columnX(doc, cell.col);
-        const w = this.columnWidth(doc, cell.span);
-        const finalx = cell.alignment === 'left' ? x + padding : x + w - padding;
-        doc.setTextColor(textColor);
-        doc.setFontSize(MEDIUM_FONT_SIZE);
-        doc.text(cell.value, finalx, y + padding + h / 2, {baseline: 'middle', align: cell.alignment});
-        doc.setFontSize(FONT_SIZE);
-      }
+  drawSignature(doc: jsPDF, label: string, col: number, span: number, y: number) {
+    doc.setFontSize(SMALL_FONT_SIZE);
+    doc.setFont('helvetica', 'bold')
+    doc.setTextColor(0, 0, 0, 0.54);
+    doc.text(label, this.columnX(doc,col + span / 2), y + 1, {
+      align: 'center',
+      baseline: 'top'
     });
-    return y + height;
+    doc.line(this.columnX(doc, col), y, this.columnX(doc, col + span), y);
   }
 
   drawTotals(doc: jsPDF, items:InvoiceItem[], y:number) {
     let cy = y;
-    cy = this.drawTableLine(doc, [
-      {value: null, alignment: 'right', col: 10, span: 2},
-      {value: 'Net', alignment: 'right', col: 12, span: 2},
-      {value: 'Rate', alignment: 'right', col: 14, span: 2},
-      {value: 'Tax', alignment: 'right', col: 16, span: 2},
-      {value: 'Gross', alignment: 'right', col: 18, span: 2},
-    ], cy, '#03a9f4', '#e0e0e0', 'white', 10);
+    cy += this.drawTableLine(doc, [
+      {value: '', align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Net', align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Rate', align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Tax', align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Gross', align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
+    ], cy, HEADER_BACKGROUND, HEADER_COLOR);
     const totals = this.invoiceCalculateService.calculateTotals(items);
-    totals.forEach(total => {
-      cy = this.drawTableLine(doc, [
-        {value: total.label, alignment: 'right', col: 10, span: 2},
-        {value: total.net.toFixed(2), alignment: 'right', col: 12, span: 2},
-        {value: total.rate, alignment: 'right', col: 14, span: 2},
-        {value: total.tax.toFixed(2), alignment: 'right', col: 16, span: 2},
-        {value: total.gross.toFixed(2), alignment: 'right', col: 18, span: 2},
-      ], cy, 'white', '#e0e0e0', 'black', 10);
+    totals.forEach((total, index) => {
+      const bold = index === 0;
+      cy += this.drawTableLine(doc, [
+        {value: total.label, align: 'right', col: 10, span: 2, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: total.net.toFixed(2), align: 'right', col: 12, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: total.rate, align: 'right', col: 14, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: total.tax.toFixed(2), align: 'right', col: 16, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: total.gross.toFixed(2), align: 'right', col: 18, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+      ], cy, ROW_BACKGROUND, ROW_COLOR);
     });
-    cy = this.drawTableLine(doc, [
-      {value: this.currencyPipe.transform(totals[0].gross), alignment: 'right', col: 10, span: 10}
-    ], cy, 'white', '#e0e0e0', 'black', 10);
-    cy = this.drawTableLine(doc, [
-      {value: this.currencyToWordsPipe.transform(totals[0].gross), alignment: 'right', col: 10, span: 10}
-    ], cy, 'white', '#e0e0e0', 'black', 10);
-    return cy;
+    const total = this.currencyPipe.transform(totals[0].gross) || '';
+    cy += this.drawTableLine(doc, [
+      {label: 'To pay', value: total, align: 'right', col: 10, span: 10, nowrap: true, bold: true}
+    ], cy, ROW_BACKGROUND, ROW_COLOR);
+    cy += this.drawTableLine(doc, [
+      {label: 'In words', value: this.currencyToWordsPipe.transform(totals[0].gross), align: 'right', col: 10, span: 10, fontSize: SMALL_FONT_SIZE}
+    ], cy, ROW_BACKGROUND, ROW_COLOR);
+    return cy - y;
   }
 
   drawItems(doc: jsPDF, items:InvoiceItem[], y:number) {
     let cy = y;
-    cy = this.drawTableLine(doc, [
-      {value: 'Idx', alignment: 'left', col: 0, span: 1},
-      {value: 'Item', alignment: 'left', col: 1, span: 7},
-      {value: 'Qty', alignment: 'left', col: 8, span: 2},
-      {value: 'Price', alignment: 'right', col: 10, span: 2},
-      {value: 'Net', alignment: 'right', col: 12, span: 2},
-      {value: 'Rate', alignment: 'right', col: 14, span: 2},
-      {value: 'Tax', alignment: 'right', col: 16, span: 2},
-      {value: 'Gross', alignment: 'right', col: 18, span: 2},
-    ], cy, '#03a9f4', '#e0e0e0', 'white');
+    cy += this.drawTableLine(doc, [
+      {value: 'Idx', align: 'left', col: 0, span: 1, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Item', align: 'left', col: 1, span: 7, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Qty', align: 'left', col: 8, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Price', align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Net', align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Rate', align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Tax', align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: 'Gross', align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
+    ], cy, HEADER_BACKGROUND, HEADER_COLOR);
     items.map((item, index) => {
       const net = item.item.price * item.qty;
       const tax = net * item.item.tax / 100;
-      cy = this.drawTableLine(doc, [
-        {value: (index + 1) + '.', alignment: 'left', col: 0, span: 1},
-        {value: item.item.name, alignment: 'left', col: 1, span: 7},
-        {value: item.qty + '', alignment: 'left', col: 8, span: 2},
-        {value: item.item.price.toFixed(2), alignment: 'right', col: 10, span: 2},
-        {value: net.toFixed(2), alignment: 'right', col: 12, span: 2},
-        {value: item.item.tax.toFixed(2), alignment: 'right', col: 14, span: 2},
-        {value: tax.toFixed(2), alignment: 'right', col: 16, span: 2},
-        {value: (net + tax).toFixed(2), alignment: 'right', col: 18, span: 2},
-      ], cy, 'white', '#e0e0e0', 'black');
+      cy += this.drawTableLine(doc, [
+        {value: (index + 1) + '.', align: 'left', col: 0, span: 1, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: item.item.name, align: 'left', col: 1, span: 7, fontSize: SMALL_FONT_SIZE},
+        {value: item.qty + ' ' + item.item.unit, align: 'left', col: 8, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: item.item.price.toFixed(2), align: 'right', col: 10, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: net.toFixed(2), align: 'right', col: 12, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: item.item.tax.toFixed(2), align: 'right', col: 14, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: tax.toFixed(2), align: 'right', col: 16, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: (net + tax).toFixed(2), align: 'right', col: 18, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+      ], cy, ROW_BACKGROUND, ROW_COLOR);
     });
-    return cy;
+    return cy - y;
   }
 
-  drawCompany(doc: jsPDF, company:Company, label: string, col: number, y:number) {
-    this.drawValue(doc, label, company.name, col, y);
-    this.drawMultiline(doc, [
+  drawCompany(doc: jsPDF, company:Company, label: string, col: number, span: number, y:number) {
+    const h = this.drawValue(doc, {
+      label: label,
+      value: company.name,
+      col: col,
+      span: span,
+    }, y);
+    const hm = this.drawMultiline(doc, [
       company.street,
       company.zip + ' ' + company.city,
       'NIP: ' + company.tin
-    ], col, y + 10);
+    ], col, span, y + h);
+    return hm + h;
   }
 
-  drawMultiline(doc: jsPDF, lines:string[], col: number, y:number) {
-    doc.setFontSize(MEDIUM_FONT_SIZE);
+  drawMultiline(doc: jsPDF, lines:string[], col: number, span: number, y:number, fontSize: number = MEDIUM_FONT_SIZE) {
+    doc.setFontSize(fontSize);
     let cordy = y;
     lines.forEach((line, index) => {
-      doc.text(line, this.columnX(doc, col), cordy);
+      doc.text(line, this.columnX(doc, col), cordy, {baseline: 'top'});
       cordy += doc.getTextDimensions(line).h + 1;
     });
-    doc.setFontSize(FONT_SIZE);
+    return cordy - y;
   }
 
-  drawValue(doc: jsPDF, label: string, value: string, col: number, y: number, bold: boolean = false) {
-    doc.setFontSize(SMALL_FONT_SIZE);
-    doc.setFont("helvetica", "bold")
-    doc.setTextColor(0, 0, 0, 0.54);
-    doc.text(label, this.columnX(doc, col), y);
-    doc.setFontSize(FONT_SIZE);
-    doc.setTextColor(1);
-    if (!bold) {
-      doc.setFont("helvetica", "normal")
+  drawTableLine(doc: jsPDF, cells: Cell[], y: number, fillColor: string, textColor: string) {
+    cells.forEach(cell => cell.padding = true);
+    const height = this.drawRowRect(doc, cells, y, fillColor);
+    cells.forEach(cell => {
+      this.drawValue(doc, cell, y, textColor);
+    });
+    return height;
+  }
+
+  drawRowRect(doc: jsPDF, cells: Cell[], y: number, color: string) {
+    const first = Math.min(...cells.map(cell => cell.col));
+    const last = Math.max(...cells.map(cell => cell.col + cell.span));
+    const height = Math.max(...cells.map(cell => this.cellDrawing(doc, cell, y).h));
+    doc.setFillColor(color);
+    doc.setDrawColor(BORDER_COLOR);
+    doc.rect(this.columnX(doc, first), y, this.columnWidth(doc, last - first), height,'DF');
+    return height;
+  }
+
+  drawValue(doc: jsPDF, cell: Cell, y: number, color: string = ROW_COLOR) {
+    const drawing = this.cellDrawing(doc, cell, y);
+    const options: TextOptionsLight = {baseline: drawing.baseline, align: drawing.align};
+    if (drawing.labels) {
+      doc.setFontSize(SMALL_FONT_SIZE);
+      doc.setFont('helvetica', 'bold')
+      doc.setTextColor(0, 0, 0, 0.54);
+      doc.text(drawing.labels, drawing.x, drawing.ly || drawing.y, options);
     }
-    doc.text(value, this.columnX(doc, col), y + 6);
+    doc.setFontSize(drawing.fontSize);
+    doc.setTextColor(color);
+    doc.setFont('helvetica', drawing.bold ? 'bold' : 'normal')
+    doc.text(drawing.values, drawing.x, drawing.y, options);
+    doc.setFont('helvetica', 'normal')
+    return drawing.h;
+  }
+
+  cellDrawing(doc: jsPDF, cell: Cell, y: number, height?: number): CellDrawing {
+    const px = cell.padding ? PADDING : 0;
+    const w = this.columnWidth(doc, cell.span) - PADDING - px;
+    const fontSize = cell.fontSize || FONT_SIZE;
+    doc.setFontSize(fontSize);
+    const values = doc.splitTextToSize(cell.value, w);
+    let valuesHeight = doc.getTextDimensions(values).h;
+    let labels = null;
+    let labelsHeight = 0;
+    let separation = 0;
+    if (cell.label) {
+      doc.setFontSize(SMALL_FONT_SIZE);
+      labels = doc.splitTextToSize(cell.label, w);
+      labelsHeight = doc.getTextDimensions(labels).h;
+      separation = PADDING;
+    }
+    return {
+      values: values,
+      labels: labels,
+      x: cell.align === 'right' ? this.columnX(doc, cell.col + cell.span) - px : this.columnX(doc, cell.col) + px,
+      y: cell.label ? y + PADDING + labelsHeight + separation : y + PADDING,
+      ly: cell.label ? y + PADDING : undefined,
+      h: valuesHeight + labelsHeight + 2 * PADDING + separation,
+      fontSize: fontSize,
+      bold: cell.bold || false,
+      align: cell.align || 'left',
+      baseline: 'top'
+    }
   }
 
   columnX(doc: jsPDF, col: number) {
