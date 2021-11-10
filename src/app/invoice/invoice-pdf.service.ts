@@ -176,13 +176,15 @@ export class InvoicePdfService {
   }
 
   drawMultiline(doc: jsPDF, lines:string[], col: number, span: number, y:number, fontSize: number = MEDIUM_FONT_SIZE) {
+    const w = this.columnWidth(doc, span) - PADDING;
     doc.setFontSize(fontSize);
-    let cordy = y;
-    lines.forEach((line, index) => {
-      doc.text(line, this.columnX(doc, col), cordy, {baseline: 'top'});
-      cordy += doc.getTextDimensions(line).h + 1;
+    let height = 0;
+    lines.forEach(line => {
+      const lines = doc.splitTextToSize(line, w);
+      doc.text(lines, this.columnX(doc, col), y + height, {baseline: 'top'});
+      height += doc.getTextDimensions(lines).h + 1;
     });
-    return cordy - y;
+    return height;
   }
 
   drawTableLine(doc: jsPDF, cells: Cell[], y: number, fillColor: string, textColor: string) {
