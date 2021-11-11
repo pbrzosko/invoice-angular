@@ -10,6 +10,7 @@ import {CompanyModule} from "./company/company.module";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {SettingsModule} from "./settings/settings.module";
 import {ItemModule} from "./item/item.module";
+import {NgxMaskModule} from "ngx-mask";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {ItemModule} from "./item/item.module";
     SettingsModule,
     DockModule,
     MatToolbarModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

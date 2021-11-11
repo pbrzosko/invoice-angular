@@ -12,6 +12,7 @@ import {CommonModule} from "@angular/common";
 import {CompanyFormComponent} from "./company-form/company-form.component";
 import {CompanyAddComponent} from "./company-add/company-add.component";
 import {DatabaseModule} from "../db/db.module";
+import {NgxMaskModule} from "ngx-mask";
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import {DatabaseModule} from "../db/db.module";
     LayoutModule,
     CompanyRoutingModule,
     ReactiveFormsModule,
-    DatabaseModule
+    DatabaseModule,
+    NgxMaskModule.forChild()
   ],
   declarations: [
     CompanyFormComponent,

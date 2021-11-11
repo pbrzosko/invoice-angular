@@ -9,7 +9,7 @@
   <div gdArea="accountNumber">
     <mat-form-field>
       <mat-label i18n="@@company.accountNumber">Account number</mat-label>
-      <input matInput formControlName="accountNumber" required>
+      <input matInput formControlName="accountNumber" required mask="00 0000 0000 0000 0000 0000 0000" [showMaskTyped]="true">
     </mat-form-field>
   </div>
   <div gdArea="street">
@@ -21,7 +21,7 @@
   <div gdArea="zip">
     <mat-form-field>
       <mat-label i18n="@@company.zip">Zip Code</mat-label>
-      <input matInput formControlName="zip" required>
+      <input matInput formControlName="zip" required mask="00-000" [showMaskTyped]="true">
     </mat-form-field>
   </div>
   <div gdArea="city">
@@ -33,7 +33,7 @@
   <div gdArea="tin">
     <mat-form-field>
       <mat-label i18n="@@company.tin">Tax Identification Number</mat-label>
-      <input matInput formControlName="tin" required>
+      <input matInput formControlName="tin" required mask="000-000-00-00" [showMaskTyped]="true">
     </mat-form-field>
   </div>
   <div gdArea="save" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1em">

@@ -9,9 +9,11 @@
       <mat-label i18n="@@invoice.paymentType">Payment type</mat-label>
       <input matInput readonly value="Money transfer">
     </mat-form-field>
-    <mat-form-field gdColumn="1 / span 3">
-      <mat-label i18n="@@invoice.accountNumber">Account number</mat-label>
-      <input matInput readonly [value]="this.invoiceForm.get('seller')?.value?.accountNumber">
-    </mat-form-field>
+    <ng-container formGroupName="seller">
+      <mat-form-field gdColumn="1 / span 3">
+        <mat-label i18n="@@invoice.accountNumber">Account number</mat-label>
+        <input matInput readonly formControlName="accountNumber" mask="00 0000 0000 0000 0000 0000 0000">
+      </mat-form-field>
+    </ng-container>
   </div>
 </ng-container>

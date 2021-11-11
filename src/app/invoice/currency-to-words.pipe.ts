@@ -83,7 +83,13 @@ let numToWords = (n:string) => {
     [$localize `:@@thousands.all:thousands`, $localize `:@@thousands.1:thousand`, $localize `:@@thousands.24:thousands`],
     [$localize `:@@millions.all:millions`, $localize `:@@millions.1:million`, $localize `:@@millions.24:millions`],
     [$localize `:@@billions.all:billions`, $localize `:@@billions.1:billion`, $localize `:@@billions.24:billions`],
-    [$localize `:@@trillions.all:trillions`, $localize `:@@trillions.1:trillion`, $localize `:@@trillions.24:trillions`]
+    [$localize `:@@quadrillions.all:quadrillions`, $localize `:@@quadrillions.1:quadrillion`, $localize `:@@quadrillions.24:quadrillions`],
+    [$localize `:@@quintillions.all:quintillions`, $localize `:@@quintillions.1:quintillion`, $localize `:@@quintillions.24:quintillions`],
+    [$localize `:@@sextillions.all:sextillions`, $localize `:@@sextillions.1:sextillion`, $localize `:@@sextillions.24:sextillions`],
+    [$localize `:@@septillions.all:septillions`, $localize `:@@septillions.1:septillion`, $localize `:@@septillions.24:septillions`],
+    [$localize `:@@octillions.all:octillions`, $localize `:@@octillions.1:octillion`, $localize `:@@octillions.24:octillions`],
+    [$localize `:@@nonillions.all:nonillions`, $localize `:@@nonillions.1:nonillion`, $localize `:@@nonillions.24:nonillions`],
+    [$localize `:@@decillions.all:decillions`, $localize `:@@decillions.1:decillion`, $localize `:@@decillions.24:decillions`]
   ];
 
   let groupName = (huns:number, tens:number, ones:number, i:number) => {

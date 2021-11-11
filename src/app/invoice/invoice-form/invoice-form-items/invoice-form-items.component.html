@@ -50,7 +50,7 @@
       <div gdColumn="6" [gdRow]="row + 1 + itemIndex" class="border-bottom invoice-item">
         <mat-form-field>
           <input matInput readonly [value]="item.value.qty" *ngIf="readonly">
-          <input type="number" matInput formControlName="qty" required *ngIf="!readonly"/>
+          <input type="text" matInput formControlName="qty" required *ngIf="!readonly" mask="separator.2" thousandSeparator=""/>
           <span matSuffix>{{item.get('item')?.value?.unit}}</span>
         </mat-form-field>
       </div>

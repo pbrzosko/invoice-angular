@@ -24,7 +24,15 @@ export class InvoiceFormComponent extends ObjectListenerComponent<Invoice> {
     issueDate: [null, [Validators.required]],
     invoiceDate: [null, [Validators.required]],
     paymentDate: [null, [Validators.required]],
-    seller: [null, [Validators.required]],
+    seller: this.formBuilder.group({
+      id: [null, [Validators.required]],
+      name: [null, [Validators.required]],
+      street: [null, [Validators.required]],
+      zip: [null, [Validators.required]],
+      city: [null, [Validators.required]],
+      tin: [null, [Validators.required]],
+      accountNumber: [null, [Validators.required]]
+    }),
     buyer: [null, [Validators.required]],
     items: this.formBuilder.array([], [Validators.required]),
     totals: this.formBuilder.array([]),
