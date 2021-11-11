@@ -23,7 +23,7 @@ import {InvoiceFormSignaturesComponent} from "./invoice-form/invoice-form-signat
 import {InvoiceFormTotalsComponent} from "./invoice-form/invoice-form-totals/invoice-form-totals.component";
 import {InvoiceFormPartiesComponent} from "./invoice-form/invoice-form-parties/invoice-form-parties.component";
 import {InvoiceFormSpacingComponent} from "./invoice-form/invoice-form-spacing/invoice-form-spacing.component";
-import {NgxMaskModule} from "ngx-mask";
+import {MaskPipe, NgxMaskModule} from "ngx-mask";
 import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
@@ -61,7 +61,8 @@ import {TranslateModule} from "@ngx-translate/core";
   ],
   providers: [
     CurrencyToWordsPipe,
-    CurrencyPipe
+    CurrencyPipe,
+    MaskPipe
   ]
 })
 export class InvoiceModule {

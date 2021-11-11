@@ -6,6 +6,9 @@ import {Company} from '../db/company.model';
 import {CurrencyToWordsPipe} from './currency-to-words.pipe';
 import {CurrencyPipe} from '@angular/common';
 import {TranslateService} from "@ngx-translate/core";
+import robotoNormal from '../fonts/roboto-normal';
+import robotoBold from '../fonts/roboto-bold';
+import {MaskPipe} from "ngx-mask";
 
 const MARGIN = 14;
 const MEDIUM_FONT_SIZE = 10;
@@ -44,6 +47,13 @@ interface CellDrawing {
   align: 'left' | 'right' | 'center' | 'justify' | undefined,
 }
 
+const addRoboto = function (this:any) {
+  this.addFileToVFS('roboto-normal.ttf', robotoNormal);
+  this.addFont('roboto-normal.ttf', 'roboto', 'normal');
+  this.addFileToVFS('roboto-bold.ttf', robotoBold);
+  this.addFont('roboto-bold.ttf', 'roboto', 'bold');
+};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -52,12 +62,15 @@ export class InvoicePdfService {
   constructor(private invoiceCalculateService: InvoiceCalculateService,
               private currencyToWordsPipe: CurrencyToWordsPipe,
               private currencyPipe: CurrencyPipe,
+              private maskPipe: MaskPipe,
               private t: TranslateService) {
+    jsPDF.API.events.push(['addFonts', addRoboto]);
   }
 
   saveInvoice(invoice: Invoice) {
     const doc = new jsPDF();
     doc.setFontSize(FONT_SIZE);
+    doc.setFont('roboto', 'normal');
     let y = 20;
 
     const documentType:Cell = {label: this.t.instant('invoice.document'), value: this.t.instant('invoice.taxInvoice'), col: 10, span: 4, bold: true};
@@ -82,7 +95,9 @@ export class InvoicePdfService {
     y += this.drawValue(doc, paymentDate, y);
     const paymentType:Cell = {label: this.t.instant('invoice.paymentType'), value: this.t.instant('invoice.moneyTransfer'), col: 0, span: 10};
     y += this.drawValue(doc, paymentType, y);
-    const accountNumber:Cell = {label: this.t.instant('invoice.accountNumber'), value: invoice.seller.accountNumber, col: 0, span: 10};
+    const accountNumberMask = '00 0000 0000 0000 0000 0000 0000';
+    const accountNumberValue = this.maskPipe.transform(invoice.seller.accountNumber, accountNumberMask);
+    const accountNumber:Cell = {label: this.t.instant('invoice.accountNumber'), value: accountNumberValue, col: 0, span: 10, fontSize: MEDIUM_FONT_SIZE};
     this.drawValue(doc, accountNumber, y);
 
     const sy = doc.internal.pageSize.height - 22;
@@ -94,7 +109,7 @@ export class InvoicePdfService {
 
   drawSignature(doc: jsPDF, label: string, col: number, span: number, y: number) {
     doc.setFontSize(SMALL_FONT_SIZE);
-    doc.setFont('helvetica', 'bold')
+    doc.setFont('roboto', 'bold')
     doc.setTextColor(0, 0, 0, 0.54);
     doc.text(label, this.columnX(doc,col + span / 2), y + 1, {
       align: 'center',
@@ -106,11 +121,11 @@ export class InvoicePdfService {
   drawTotals(doc: jsPDF, items:InvoiceItem[], y:number) {
     let cy = y;
     cy += this.drawTableLine(doc, [
-      {value: '', align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.net'), align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.rate'), align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.tax'), align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.gross'), align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: '', align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.net'), align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.rate'), align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.tax'), align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.gross'), align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
     ], cy, HEADER_BACKGROUND, HEADER_COLOR);
     const totals = this.invoiceCalculateService.calculateTotals(items);
     totals.forEach((total, index) => {
@@ -123,12 +138,12 @@ export class InvoicePdfService {
         {value: total.gross.toFixed(2), align: 'right', col: 18, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
       ], cy, ROW_BACKGROUND, ROW_COLOR);
     });
-    const total = this.currencyPipe.transform(totals[0].gross) || '';
+    const total = this.currencyPipe.transform(totals[0].gross, 'PLN', 'code', undefined, 'pl') || '';
     cy += this.drawTableLine(doc, [
       {label: 'To pay', value: total, align: 'right', col: 10, span: 10, nowrap: true, bold: true}
     ], cy, ROW_BACKGROUND, ROW_COLOR);
     cy += this.drawTableLine(doc, [
-      {label: 'In words', value: this.currencyToWordsPipe.transform(totals[0].gross), align: 'right', col: 10, span: 10, fontSize: SMALL_FONT_SIZE}
+      {label: 'In words', value: this.currencyToWordsPipe.transform(totals[0].gross), align: 'right', col: 10, span: 10, fontSize: MEDIUM_FONT_SIZE}
     ], cy, ROW_BACKGROUND, ROW_COLOR);
     return cy - y;
   }
@@ -136,14 +151,14 @@ export class InvoicePdfService {
   drawItems(doc: jsPDF, items:InvoiceItem[], y:number) {
     let cy = y;
     cy += this.drawTableLine(doc, [
-      {value: this.t.instant('invoice.idx'), align: 'left', col: 0, span: 1, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.item'), align: 'left', col: 1, span: 7, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.qty'), align: 'left', col: 8, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.price'), align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.net'), align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.rate'), align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.tax'), align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: this.t.instant('invoice.gross'), align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.idx'), align: 'left', col: 0, span: 1, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.item'), align: 'left', col: 1, span: 7, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.qty'), align: 'left', col: 8, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.price'), align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.net'), align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.rate'), align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.tax'), align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
+      {value: this.t.instant('invoice.gross'), align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE, bold: true},
     ], cy, HEADER_BACKGROUND, HEADER_COLOR);
     items.map((item, index) => {
       const net = item.item.price * item.qty;
@@ -213,15 +228,15 @@ export class InvoicePdfService {
     const options: TextOptionsLight = {baseline: drawing.baseline, align: drawing.align};
     if (drawing.labels) {
       doc.setFontSize(SMALL_FONT_SIZE);
-      doc.setFont('helvetica', 'bold')
+      doc.setFont('roboto', 'bold')
       doc.setTextColor(0, 0, 0, 0.54);
       doc.text(drawing.labels, drawing.x, drawing.ly || drawing.y, options);
     }
     doc.setFontSize(drawing.fontSize);
     doc.setTextColor(color);
-    doc.setFont('helvetica', drawing.bold ? 'bold' : 'normal')
+    doc.setFont('roboto', drawing.bold ? 'bold' : 'normal')
     doc.text(drawing.values, drawing.x, drawing.y, options);
-    doc.setFont('helvetica', 'normal')
+    doc.setFont('roboto', 'normal')
     return drawing.h;
   }
 
