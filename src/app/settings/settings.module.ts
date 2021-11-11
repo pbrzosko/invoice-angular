@@ -5,6 +5,7 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {SettingsComponent} from "./settings/settings.component";
 import {SettingsRoutingModule} from "./settings-routing.module";
 import {CompanyModule} from "../company/company.module";
+import {DockModule} from "../dock/dock.module";
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import {CompanyModule} from "../company/company.module";
     LayoutModule,
     CompanyModule,
     SettingsRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    DockModule
   ],
   declarations: [
     SettingsComponent

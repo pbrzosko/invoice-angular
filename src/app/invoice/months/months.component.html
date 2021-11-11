@@ -1,6 +1,7 @@
 <invoice-context-menu addLabel="New invoice" i18n-addLabel="@@invoice.add" addLink="/invoices/add">
 </invoice-context-menu>
 
+<invoice-page-header title="Invoices months" hint="See invoices months" [list]="true"></invoice-page-header>
 <invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
   <invoice-dock-item text=".." icon="folder" link="../"></invoice-dock-item>
   <invoice-dock-item *ngFor="let month of months" [text]="month" [link]="['./', month]"

@@ -8,13 +8,15 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {ConfirmationDialog} from "./confirmation-dialog/confirmation-dialog.component";
+import {PageHeaderComponent} from "./page-header/page-header.component";
 
 @NgModule({
   declarations: [
     DockComponent,
     DockItemComponent,
     ContextMenuComponent,
-    ConfirmationDialog
+    ConfirmationDialog,
+    PageHeaderComponent
   ],
   imports: [
     MatMenuModule,
@@ -26,7 +28,8 @@ import {ConfirmationDialog} from "./confirmation-dialog/confirmation-dialog.comp
   exports: [
     DockComponent,
     DockItemComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    PageHeaderComponent
   ]
 })
 export class DockModule {
