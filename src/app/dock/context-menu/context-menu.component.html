@@ -5,8 +5,8 @@
 </div>
 
 <mat-menu #contextMenu="matMenu">
-  <ng-template matMenuContent let-item="item">
-    <button mat-menu-item routerLink="add">{{addLabel}}</button>
-    <button mat-menu-item *ngIf="item" (click)="itemDeleted(item)" i18n="@@common.delete">Delete</button>
+  <ng-template matMenuContent let-item="item" let-desc="description">
+    <button mat-menu-item routerLink="{{addLink}}">{{addLabel}}</button>
+    <button mat-menu-item *ngIf="item" (click)="openConfirmationDialog(item, desc)" i18n="@@common.delete">Delete</button>
   </ng-template>
 </mat-menu>

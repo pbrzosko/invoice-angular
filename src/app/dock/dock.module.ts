@@ -5,15 +5,21 @@ import {RouterModule} from "@angular/router";
 import {CommonModule} from "@angular/common";
 import {ContextMenuComponent} from "./context-menu/context-menu.component";
 import {MatMenuModule} from "@angular/material/menu";
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
+import {ConfirmationDialog} from "./confirmation-dialog/confirmation-dialog.component";
 
 @NgModule({
   declarations: [
     DockComponent,
     DockItemComponent,
-    ContextMenuComponent
+    ContextMenuComponent,
+    ConfirmationDialog
   ],
   imports: [
     MatMenuModule,
+    MatDialogModule,
+    MatButtonModule,
     CommonModule,
     RouterModule
   ],

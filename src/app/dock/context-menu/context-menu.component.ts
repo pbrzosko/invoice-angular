@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output, ViewChild} from "@angular/core";
 import {MatMenuTrigger} from "@angular/material/menu";
+import {MatDialog} from "@angular/material/dialog";
+import {ConfirmationDialog} from "../confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: 'invoice-context-menu',
@@ -9,20 +11,34 @@ import {MatMenuTrigger} from "@angular/material/menu";
 export class ContextMenuComponent {
 
   @Input() addLabel!: string;
+  @Input() addLink: string = 'add';
   @Output() delete = new EventEmitter<any>();
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
-  menuPosition = { x: '0px', y: '0px' };
+  menuPosition = {x: '0px', y: '0px'};
 
-  openMenu(event: MouseEvent, item: any) {
+  constructor(private dialog: MatDialog) {
+  }
+
+  openMenu(event: MouseEvent, item: any = null, description: string = '') {
     event.preventDefault();
     event.stopPropagation();
     this.menuPosition.x = event.clientX + 'px';
     this.menuPosition.y = event.clientY + 'px';
-    this.menuTrigger.menuData = {'item': item };
+    this.menuTrigger.menuData = {'item': item, 'description': description};
     this.menuTrigger.openMenu();
   }
 
-  itemDeleted(item: any) {
-    this.delete.emit(item);
+  openConfirmationDialog(item: any, description: string) {
+    const confirm = this.dialog.open(ConfirmationDialog, {
+      data: {
+        item: item,
+        description: description
+      }
+    });
+    confirm.afterClosed().subscribe(result => {
+      if (result) {
+        this.delete.emit(result);
+      }
+    });
   }
 }

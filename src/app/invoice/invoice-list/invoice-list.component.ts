@@ -1,7 +1,8 @@
-import {Component, OnDestroy, OnInit} from "@angular/core";
+import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {InvoiceService} from "../invoice.service";
 import {Invoice} from "../../db/invoice.model";
+import {ContextMenuComponent} from "../../dock/context-menu/context-menu.component";
 
 @Component({
   selector: 'invoice-invoice-list',
@@ -9,6 +10,7 @@ import {Invoice} from "../../db/invoice.model";
 })
 export class InvoiceListComponent implements OnInit, OnDestroy {
 
+  @ViewChild(ContextMenuComponent) contextMenu!: ContextMenuComponent;
   invoices: Invoice[] = [];
   private sub: any;
 
@@ -30,7 +32,7 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
   }
 
   async delete(invoice: Invoice) {
-    //await this.invoiceService.delete(invoice.id);
+    await this.invoiceService.delete(invoice.year, invoice.month, invoice.id);
     await this.ngOnInit();
   }
 }

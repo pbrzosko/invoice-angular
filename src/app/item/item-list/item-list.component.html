@@ -3,5 +3,5 @@
 
 <invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
   <invoice-dock-item *ngFor="let item of items" [text]="item.name" icon="item" [link]="['.', item.id]"
-                     (contextmenu)="contextMenu.openMenu($event, item)"></invoice-dock-item>
+                     (contextmenu)="contextMenu.openMenu($event, item, item.name)"></invoice-dock-item>
 </invoice-grid-layout>

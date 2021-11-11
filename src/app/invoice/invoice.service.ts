@@ -32,8 +32,8 @@ export class InvoiceService {
     await this.db.invoices.add(invoice);
   }
 
-  async update(invoice: Invoice) {
-    await this.db.invoices.update([invoice.year, invoice.month, invoice.id], invoice);
+  async delete(year: number, month: number, id: number) {
+    await this.db.invoices.delete([year, month, id]);
   }
 
   async years() {

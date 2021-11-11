@@ -1,4 +1,8 @@
-<invoice-grid-layout>
+<invoice-context-menu (delete)="delete($event)" addLabel="New invoice" i18n-addLabel="@@invoice.add" addLink="/invoices/add">
+</invoice-context-menu>
+
+<invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
   <invoice-dock-item text=".." icon="folder" link="../"></invoice-dock-item>
-  <invoice-dock-item *ngFor="let inv of invoices" [text]="inv.id" icon="invoice" [link]="['.', inv.id]"></invoice-dock-item>
+  <invoice-dock-item *ngFor="let inv of invoices" [text]="inv.id" icon="invoice" [link]="['.', inv.id]"
+                     (contextmenu)="contextMenu.openMenu($event, inv, inv.id + '/' + inv.month + '/' + inv.year)"></invoice-dock-item>
 </invoice-grid-layout>
