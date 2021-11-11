@@ -3,7 +3,6 @@ import {InvoiceService} from "../invoice.service";
 import {Invoice} from "../../db/invoice.model";
 import {InvoicePdfService} from "../invoice-pdf.service";
 import {ActivatedRoute} from "@angular/router";
-import {Subject} from "rxjs";
 
 @Component({
   selector: 'invoice-invoice-detail',
@@ -11,7 +10,7 @@ import {Subject} from "rxjs";
 })
 export class InvoiceDetailComponent {
 
-  invoice$ = new Subject<Invoice | undefined>();
+  invoice: Invoice | undefined | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,9 +22,7 @@ export class InvoiceDetailComponent {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     const month = parseInt(this.route.snapshot.paramMap.get('month')!, 10);
     const year = parseInt(this.route.snapshot.paramMap.get('year')!, 10);
-    const invoice = await this.invoiceService.get(year, month, id);
-    this.invoice$.next(invoice);
-    this.invoice$.complete();
+    this.invoice = await this.invoiceService.get(year, month, id);
   }
 
   async export(invoice: Invoice) {

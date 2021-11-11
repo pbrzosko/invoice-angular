@@ -1,0 +1,28 @@
+<ng-container [formGroup]="invoiceForm">
+  <div gdColumn="1 / span 6" [gdRow]="row" class="pr invoice-company">
+    <mat-form-field>
+      <mat-label i18n="@@invoice.seller">Seller</mat-label>
+      <input matInput readonly [value]="seller?.name">
+    </mat-form-field>
+    <div class="mat-small">
+      <div>{{seller?.street}}</div>
+      <div>{{seller?.zip}} {{seller?.city}}</div>
+      <div><span i18n="@@company.tin" *ngIf="seller">NIP: </span>{{seller?.tin}}</div>
+    </div>
+  </div>
+  <div gdColumn="7 / span 5" [gdRow]="row" class="invoice-company">
+    <mat-form-field>
+      <mat-label i18n="@@invoice.buyer">Buyer</mat-label>
+      <input matInput readonly [value]="invoiceForm.get('buyer')?.value?.name" *ngIf="readonly">
+      <mat-select matInput formControlName="buyer" required *ngIf="!readonly">
+        <mat-option *ngFor="let comp of companies" [value]="comp">{{comp.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="mat-small">
+      <div>{{invoiceForm.get('buyer')?.value?.street}}</div>
+      <div>{{invoiceForm.get('buyer')?.value?.zip}} {{invoiceForm.get('buyer')?.value?.city}}</div>
+      <div><span i18n="@@company.tin"
+                 *ngIf="invoiceForm.get('buyer')?.value">NIP: </span>{{invoiceForm.get('buyer')?.value?.tin}}</div>
+    </div>
+  </div>
+</ng-container>

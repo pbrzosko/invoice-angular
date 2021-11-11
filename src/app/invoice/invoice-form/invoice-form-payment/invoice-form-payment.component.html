@@ -1,0 +1,17 @@
+<ng-container [formGroup]="invoiceForm">
+  <div gdColumn="1 / span 6" [gdRow]="row" gdColumns="repeat(5, 1fr)"
+       gdAlignColumns="start" class="p-0">
+    <mat-form-field gdColumn="1 / span 2">
+      <mat-label i18n="@@invoice.paymentDate">Payment date</mat-label>
+      <input matInput formControlName="paymentDate" required type="date" readonly>
+    </mat-form-field>
+    <mat-form-field gdColumn="1 / span 2">
+      <mat-label i18n="@@invoice.paymentType">Payment type</mat-label>
+      <input matInput readonly value="Money transfer">
+    </mat-form-field>
+    <mat-form-field gdColumn="1 / span 3">
+      <mat-label i18n="@@invoice.accountNumber">Account number</mat-label>
+      <input matInput readonly [value]="this.invoiceForm.get('seller')?.value?.accountNumber">
+    </mat-form-field>
+  </div>
+</ng-container>

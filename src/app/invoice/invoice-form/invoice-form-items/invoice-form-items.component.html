@@ -1,0 +1,76 @@
+<ng-container [formGroup]="invoiceForm">
+  <div gdColumn="1" [gdRow]="row" class="p-0 border-left border-top border-bottom table-header" fxLayout="row"
+       fxLayoutAlign="center center">
+    <div class="mat-icon-button" *ngIf="readonly" i18n="@@invoice.idx">Idx</div>
+    <button mat-icon-button color="white" (click)="addItem()" aria-label="Add new item"
+            aria-label-i18n="@@invoice.addItem" type="button" *ngIf="!readonly">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div i18n="@@invoice.item" gdColumn="2 / span 4" [gdRow]="row" fxLayout="row" fxLayoutAlign="start center"
+       class="border-top border-bottom font-weight-bold table-header">Item or service
+  </div>
+  <div i18n="@@invoice.qty" gdColumn="6" [gdRow]="row" fxLayout="row" fxLayoutAlign="start center"
+       class="border-top border-bottom font-weight-bold table-header">Qty
+  </div>
+  <div i18n="@@invoice.price" gdColumn="7" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">Price
+  </div>
+  <div i18n="@@invoice.net" gdColumn="8" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">Net
+  </div>
+  <div i18n="@@invoice.rate" gdColumn="9" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">Rate
+  </div>
+  <div i18n="@@invoice.tax" gdColumn="10" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">Tax
+  </div>
+  <div i18n="@@invoice.gross" gdColumn="11" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom border-right font-weight-bold table-header">Gross
+  </div>
+
+  <ng-container formArrayName="items" *ngFor="let item of items.controls; let itemIndex=index">
+    <ng-container [formGroupName]="itemIndex">
+      <div gdColumn="1" [gdRow]="row + 1 + itemIndex" class="p-0 border-left border-bottom" fxLayout="row"
+           fxLayoutAlign="center center">
+        <button mat-icon-button color="primary" (click)="deleteItem(itemIndex)" aria-label="Delete item"
+                aria-label-i18n="@@invoice.deleteItem" type="button" *ngIf="!readonly">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <span *ngIf="readonly">{{itemIndex + 1}}.</span>
+      </div>
+      <div gdColumn="2 / span 4" [gdRow]="row + 1 + itemIndex" class="border-bottom invoice-item">
+        <mat-form-field>
+          <input matInput readonly [value]="item.value.item.name" *ngIf="readonly" class="item-form-field">
+          <mat-select matInput formControlName="item" required *ngIf="!readonly" class="item-form-field">
+            <mat-option *ngFor="let opt of options" [value]="opt">{{opt.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div gdColumn="6" [gdRow]="row + 1 + itemIndex" class="border-bottom invoice-item">
+        <mat-form-field>
+          <input matInput readonly [value]="item.value.qty" *ngIf="readonly">
+          <input type="number" matInput formControlName="qty" required *ngIf="!readonly"/>
+          <span matSuffix>{{item.get('item')?.value?.unit}}</span>
+        </mat-form-field>
+      </div>
+      <div gdColumn="7" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
+        {{item.get('price')?.value | number:'1.2-2'}}
+      </div>
+      <div gdColumn="8" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
+        {{item.get('net')?.value | number:'1.2-2'}}
+      </div>
+      <div gdColumn="9" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
+        {{item.get('rate')?.value}}{{item.get('rate')?.value ? '%' : ''}}
+      </div>
+      <div gdColumn="10" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row"
+           fxLayoutAlign="end center">
+        {{item.get('tax')?.value | number:'1.2-2'}}
+      </div>
+      <div gdColumn="11" [gdRow]="row + 1 + itemIndex" class="border-bottom border-right" fxLayout="row"
+           fxLayoutAlign="end center">
+        {{item.get('gross')?.value | number:'1.2-2'}}
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-container>

@@ -16,6 +16,13 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatIconModule} from "@angular/material/icon";
 import {CurrencyToWordsPipe} from "./currency-to-words.pipe";
 import {InvoiceDetailComponent} from "./invoice-detail/invoice-detail.component";
+import {InvoiceFormInfoComponent} from "./invoice-form/invoice-form-info/invoice-form-info.component";
+import {InvoiceFormItemsComponent} from "./invoice-form/invoice-form-items/invoice-form-items.component";
+import {InvoiceFormPaymentComponent} from "./invoice-form/invoice-form-payment/invoice-form-payment.component";
+import {InvoiceFormSignaturesComponent} from "./invoice-form/invoice-form-signatures/invoice-form-signatures.component";
+import {InvoiceFormTotalsComponent} from "./invoice-form/invoice-form-totals/invoice-form-totals.component";
+import {InvoiceFormPartiesComponent} from "./invoice-form/invoice-form-parties/invoice-form-parties.component";
+import {InvoiceFormSpacingComponent} from "./invoice-form/invoice-form-spacing/invoice-form-spacing.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +30,13 @@ import {InvoiceDetailComponent} from "./invoice-detail/invoice-detail.component"
     MonthsComponent,
     InvoiceListComponent,
     InvoiceFormComponent,
+    InvoiceFormInfoComponent,
+    InvoiceFormPartiesComponent,
+    InvoiceFormItemsComponent,
+    InvoiceFormPaymentComponent,
+    InvoiceFormSignaturesComponent,
+    InvoiceFormTotalsComponent,
+    InvoiceFormSpacingComponent,
     InvoiceAddComponent,
     InvoiceDetailComponent,
     CurrencyToWordsPipe
