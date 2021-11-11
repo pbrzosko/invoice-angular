@@ -5,16 +5,16 @@
     <div class="mat-icon-button"></div>
   </div>
   <div gdColumn="8" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom table-header font-weight-bold">{{'invoice.net' | translate}}
+       class="border-top border-bottom table-header font-weight-bold text-right">{{'invoice.net' | translate}}
   </div>
   <div gdColumn="9" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom table-header font-weight-bold">{{'invoice.rate' | translate}}
+       class="border-top border-bottom table-header font-weight-bold text-right">{{'invoice.rate' | translate}}
   </div>
   <div gdColumn="10" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom table-header font-weight-bold">{{'invoice.tax' | translate}}
+       class="border-top border-bottom table-header font-weight-bold text-right">{{'invoice.tax' | translate}}
   </div>
   <div gdColumn="11" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom table-header border-right font-weight-bold">{{'invoice.gross' | translate}}
+       class="border-top border-bottom table-header border-right font-weight-bold text-right">{{'invoice.gross' | translate}}
   </div>
 
   <ng-container formArrayName="totals" *ngFor="let total of totals.controls; let itemIndex=index">

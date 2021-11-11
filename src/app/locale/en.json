@@ -74,11 +74,13 @@
       "delete": "Delete invoice"
     },
     "document": "Document type",
+    "taxInvoice": "VAT Invoice",
     "issueDate": "Issue date",
     "number": "Invoice number",
     "invoiceDate": "Invoice date",
     "seller": "Seller",
     "buyer": "Buyer",
+    "idx": "Idx",
     "item": "Item",
     "qty": "Quantity",
     "price": "Price",
@@ -91,7 +93,9 @@
     "moneyTransfer": "Money transfer",
     "accountNumber": "Account number",
     "total": "To pay:",
-    "totalWords": "In words:"
+    "totalWords": "In words:",
+    "totalWithin": "Within",
+    "totalTotal": "Total"
   },
   "settings": {
     "edit": {

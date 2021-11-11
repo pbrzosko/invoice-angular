@@ -1,7 +1,7 @@
 <ng-container [formGroup]="invoiceForm">
   <div gdColumn="1" [gdRow]="row" class="p-0 border-left border-top border-bottom table-header" fxLayout="row"
        fxLayoutAlign="center center">
-    <div class="mat-icon-button" *ngIf="readonly">{{'invoice.idx' | translate}}</div>
+    <div *ngIf="readonly">{{'invoice.idx' | translate}}</div>
     <button mat-icon-button color="white" (click)="addItem()" type="button" *ngIf="!readonly">
       <mat-icon>add</mat-icon>
     </button>
@@ -13,19 +13,19 @@
        class="border-top border-bottom font-weight-bold table-header">{{'invoice.qty' | translate}}
   </div>
   <div gdColumn="7" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">{{'invoice.price' | translate}}
+       class="border-top border-bottom font-weight-bold table-header text-right">{{'invoice.price' | translate}}
   </div>
   <div gdColumn="8" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">{{'invoice.net' | translate}}
+       class="border-top border-bottom font-weight-bold table-header text-right">{{'invoice.net' | translate}}
   </div>
   <div gdColumn="9" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">{{'invoice.rate' | translate}}
+       class="border-top border-bottom font-weight-bold table-header text-right">{{'invoice.rate' | translate}}
   </div>
   <div gdColumn="10" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">{{'invoice.tax' | translate}}
+       class="border-top border-bottom font-weight-bold table-header text-right">{{'invoice.tax' | translate}}
   </div>
   <div gdColumn="11" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom border-right font-weight-bold table-header">{{'invoice.gross' | translate}}
+       class="border-top border-bottom border-right font-weight-bold table-header text-right">{{'invoice.gross' | translate}}
   </div>
 
   <ng-container formArrayName="items" *ngFor="let item of items.controls; let itemIndex=index">

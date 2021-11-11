@@ -74,11 +74,13 @@
       "delete": "Skasuje fakturę"
     },
     "document": "Typ dokumentu",
+    "taxInvoice": "Faktura VAT",
     "issueDate": "Data wystawienia",
     "number": "Numer",
     "invoiceDate": "Data sprzedaży",
     "seller": "Sprzedawca",
     "buyer": "Nabywca",
+    "idx": "Lp.",
     "item": "Towar lub usługa",
     "qty": "Ilość",
     "price": "Cena netto",
@@ -91,7 +93,9 @@
     "moneyTransfer": "Przelew",
     "accountNumber": "Numer konta",
     "total": "Razem do zapłaty:",
-    "totalWords": "Słownie:"
+    "totalWords": "Słownie:",
+    "totalWithin": "W tym",
+    "totalTotal": "Razem"
   },
   "settings": {
     "edit": {

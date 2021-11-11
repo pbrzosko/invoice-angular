@@ -5,6 +5,7 @@ import {Invoice, InvoiceItem} from '../db/invoice.model';
 import {Company} from '../db/company.model';
 import {CurrencyToWordsPipe} from './currency-to-words.pipe';
 import {CurrencyPipe} from '@angular/common';
+import {TranslateService} from "@ngx-translate/core";
 
 const MARGIN = 14;
 const MEDIUM_FONT_SIZE = 10;
@@ -50,7 +51,8 @@ export class InvoicePdfService {
 
   constructor(private invoiceCalculateService: InvoiceCalculateService,
               private currencyToWordsPipe: CurrencyToWordsPipe,
-              private currencyPipe: CurrencyPipe) {
+              private currencyPipe: CurrencyPipe,
+              private t: TranslateService) {
   }
 
   saveInvoice(invoice: Invoice) {

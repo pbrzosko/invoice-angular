@@ -32,7 +32,7 @@ export class InvoiceCalculateService {
       gross: 0
     };
     taxes.forEach((value, key) => {
-      const label = totals.length === 0 ? this.t.instant('total.within') : '';
+      const label = totals.length === 0 ? this.t.instant('invoice.totalWithin') : '';
       const tax = (value * key / 100);
       total.net += value;
       total.tax += tax;
@@ -46,7 +46,7 @@ export class InvoiceCalculateService {
       });
     });
     totals.unshift({
-      label: this.t.instant('total.total'),
+      label: this.t.instant('invoice.totalTotal'),
       net: total.net,
       rate: 'X',
       tax: total.tax,

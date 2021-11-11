@@ -2,7 +2,7 @@
   <div gdColumn="7 / span 2" [gdRow]="row">
     <mat-form-field>
       <mat-label>{{'invoice.document' | translate}}</mat-label>
-      <input matInput readonly value="Faktura VAT">
+      <input matInput readonly [value]="'invoice.taxInvoice' | translate">
     </mat-form-field>
   </div>
   <div gdColumn="10 / span 2" [gdRow]="row" class="last">
