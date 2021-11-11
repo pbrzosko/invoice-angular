@@ -1,4 +1,4 @@
 <invoice-detail-layout>
-  <invoice-page-header title="Company" hint="Add new company"></invoice-page-header>
+  <invoice-page-header [title]="'company.add.title' | translate" [hint]="'company.add.hint' | translate"></invoice-page-header>
   <invoice-company-form (submit)="add($event)" [object]="null"></invoice-company-form>
 </invoice-detail-layout>

@@ -7,6 +7,6 @@
 <mat-menu #contextMenu="matMenu">
   <ng-template matMenuContent let-item="item" let-desc="description">
     <button mat-menu-item routerLink="{{addLink}}">{{addLabel}}</button>
-    <button mat-menu-item *ngIf="item" (click)="openConfirmationDialog(item, desc)" i18n="@@common.delete">Delete</button>
+    <button mat-menu-item *ngIf="item" (click)="openConfirmationDialog(item, desc)">{{deleteLabel}}</button>
   </ng-template>
 </mat-menu>

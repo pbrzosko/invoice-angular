@@ -1,7 +1,7 @@
-<invoice-context-menu (delete)="delete($event)" addLabel="New item" i18n-addLabel="@@item.add">
+<invoice-context-menu (delete)="delete($event)" [addLabel]="'item.menu.add' | translate" [deleteLabel]="'item.menu.delete' | translate">
 </invoice-context-menu>
 
-<invoice-page-header title="Items" hint="Items list" [list]="true"></invoice-page-header>
+<invoice-page-header [title]="'item.list.title' | translate" [hint]="'item.list.hint' | translate" [list]="true"></invoice-page-header>
 <invoice-grid-layout (contextmenu)="contextMenu.openMenu($event, null)">
   <invoice-dock-item *ngFor="let item of items" [text]="item.name" icon="item" [link]="['.', item.id]"
                      (contextmenu)="contextMenu.openMenu($event, item, item.name)"></invoice-dock-item>

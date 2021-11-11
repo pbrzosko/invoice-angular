@@ -2,16 +2,16 @@
   <div gdColumn="1 / span 6" [gdRow]="row" gdColumns="repeat(5, 1fr)"
        gdAlignColumns="start" class="p-0">
     <mat-form-field gdColumn="1 / span 2">
-      <mat-label i18n="@@invoice.paymentDate">Payment date</mat-label>
+      <mat-label>{{'invoice.paymentDate' | translate}}</mat-label>
       <input matInput formControlName="paymentDate" required type="date" readonly>
     </mat-form-field>
     <mat-form-field gdColumn="1 / span 2">
-      <mat-label i18n="@@invoice.paymentType">Payment type</mat-label>
+      <mat-label>{{'invoice.paymentType' | translate}}</mat-label>
       <input matInput readonly value="Money transfer">
     </mat-form-field>
     <ng-container formGroupName="seller">
       <mat-form-field gdColumn="1 / span 3">
-        <mat-label i18n="@@invoice.accountNumber">Account number</mat-label>
+        <mat-label>{{'invoice.accountNumber' | translate}}</mat-label>
         <input matInput readonly formControlName="accountNumber" mask="00 0000 0000 0000 0000 0000 0000">
       </mat-form-field>
     </ng-container>

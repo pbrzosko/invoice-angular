@@ -1,26 +1,26 @@
 <ng-container [formGroup]="invoiceForm">
   <div gdColumn="7 / span 2" [gdRow]="row">
     <mat-form-field>
-      <mat-label i18n="@@invoice.document">Document type</mat-label>
+      <mat-label>{{'invoice.document' | translate}}</mat-label>
       <input matInput readonly value="Faktura VAT">
     </mat-form-field>
   </div>
   <div gdColumn="10 / span 2" [gdRow]="row" class="last">
     <mat-form-field>
-      <mat-label i18n="@@invoice.issueDate">Issue date</mat-label>
+      <mat-label>{{'invoice.issueDate' | translate}}</mat-label>
       <input matInput formControlName="issueDate" required type="date" [readonly]="readonly">
     </mat-form-field>
   </div>
   <div gdColumn="7 / span 2" [gdRow]="row + 1">
     <mat-form-field>
-      <mat-label i18n="@@invoice.number">Number</mat-label>
+      <mat-label>{{'invoice.number' | translate}}</mat-label>
       <input matInput readonly
              [value]="invoiceForm.get('id')?.value + '/' + invoiceForm.get('month')?.value + '/' + invoiceForm.get('year')?.value">
     </mat-form-field>
   </div>
   <div gdColumn="10 / span 2" [gdRow]="row + 1" class="last">
     <mat-form-field>
-      <mat-label i18n="@@invoice.invoiceDate">Invoice date</mat-label>
+      <mat-label>{{'invoice.invoiceDate' | translate}}</mat-label>
       <input matInput formControlName="invoiceDate" required type="date" [readonly]="readonly">
     </mat-form-field>
   </div>

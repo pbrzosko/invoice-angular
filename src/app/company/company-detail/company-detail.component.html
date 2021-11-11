@@ -1,4 +1,4 @@
 <invoice-detail-layout>
-  <invoice-page-header title="Company" hint="Company details"></invoice-page-header>
+  <invoice-page-header [title]="'company.edit.title' | translate" [hint]="'company.edit.hint' | translate"></invoice-page-header>
   <invoice-company-form (submit)="save($event)" [object]="company"></invoice-company-form>
 </invoice-detail-layout>

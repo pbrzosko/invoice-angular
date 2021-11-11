@@ -1,11 +1,79 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import {TranslateService} from "@ngx-translate/core";
 
 @Pipe({
   name: 'currencyToWords'
 })
 export class CurrencyToWordsPipe implements PipeTransform {
+
+  z = this.t.instant('numbers.0');
+  and = this.t.instant('numbers.and');
+  a = [
+    '',
+    this.t.instant('numbers.1'),
+    this.t.instant('numbers.2'),
+    this.t.instant('numbers.3'),
+    this.t.instant('numbers.4'),
+    this.t.instant('numbers.5'),
+    this.t.instant('numbers.6'),
+    this.t.instant('numbers.7'),
+    this.t.instant('numbers.8'),
+    this.t.instant('numbers.9'),
+    this.t.instant('numbers.10'),
+    this.t.instant('numbers.11'),
+    this.t.instant('numbers.12'),
+    this.t.instant('numbers.13'),
+    this.t.instant('numbers.14'),
+    this.t.instant('numbers.15'),
+    this.t.instant('numbers.16'),
+    this.t.instant('numbers.17'),
+    this.t.instant('numbers.18'),
+    this.t.instant('numbers.19')
+  ];
+  b = [
+    '',
+    '',
+    this.t.instant('numbers.20'),
+    this.t.instant('numbers.30'),
+    this.t.instant('numbers.40'),
+    this.t.instant('numbers.50'),
+    this.t.instant('numbers.60'),
+    this.t.instant('numbers.70'),
+    this.t.instant('numbers.80'),
+    this.t.instant('numbers.90')
+  ];
+  h = [
+    '',
+    this.t.instant('numbers.100'),
+    this.t.instant('numbers.200'),
+    this.t.instant('numbers.300'),
+    this.t.instant('numbers.400'),
+    this.t.instant('numbers.500'),
+    this.t.instant('numbers.600'),
+    this.t.instant('numbers.700'),
+    this.t.instant('numbers.800'),
+    this.t.instant('numbers.900')
+  ];
+  g = [
+    [this.t.instant('numbers.cents.all'), this.t.instant('numbers.cents.1'), this.t.instant('numbers.cents.24')],
+    [this.t.instant('numbers.dollars.all'), this.t.instant('numbers.dollars.1'), this.t.instant('numbers.dollars.24')],
+    [this.t.instant('numbers.thousands.all'), this.t.instant('numbers.thousands.1'), this.t.instant('numbers.thousands.24')],
+    [this.t.instant('numbers.millions.all'), this.t.instant('numbers.millions.1'), this.t.instant('numbers.millions.24')],
+    [this.t.instant('numbers.billions.all'), this.t.instant('numbers.billions.1'), this.t.instant('numbers.billions.24')],
+    [this.t.instant('numbers.quadrillions.all'), this.t.instant('numbers.quadrillions.1'), this.t.instant('numbers.quadrillions.24')],
+    [this.t.instant('numbers.quintillions.all'), this.t.instant('numbers.quintillions.1'), this.t.instant('numbers.quintillions.24')],
+    [this.t.instant('numbers.sextillions.all'), this.t.instant('numbers.sextillions.1'), this.t.instant('numbers.sextillions.24')],
+    [this.t.instant('numbers.septillions.all'), this.t.instant('numbers.septillions.1'), this.t.instant('numbers.septillions.24')],
+    [this.t.instant('numbers.octillions.all'), this.t.instant('numbers.octillions.1'), this.t.instant('numbers.octillions.24')],
+    [this.t.instant('numbers.nonillions.all'), this.t.instant('numbers.nonillions.1'), this.t.instant('numbers.nonillions.24')],
+    [this.t.instant('numbers.decillions.all'), this.t.instant('numbers.decillions.1'), this.t.instant('numbers.decillions.24')]
+  ];
+
+  constructor(private t: TranslateService) {
+  }
+
   transform(value: number): string {
-    return numToWords(String(value.toFixed(2)));
+    return numToWords(String(value.toFixed(2)), this.z, this.and, this.a, this.b, this.h, this.g);
   }
 }
 
@@ -28,69 +96,7 @@ const not = x => !x;
 //@ts-ignore
 const chunk = n => xs => isEmpty(xs) ? [] : [take(n)(xs), ...chunk (n) (drop (n) (xs))];
 
-let numToWords = (n:string) => {
-  let z = $localize `:@@0:zero`;
-  let and = $localize `:@@and:and`;
-  let a = [
-    '',
-    $localize `:@@1:one`,
-    $localize `:@@2:two`,
-    $localize `:@@3:three`,
-    $localize `:@@4:four`,
-    $localize `:@@5:five`,
-    $localize `:@@6:six`,
-    $localize `:@@7:seven`,
-    $localize `:@@8:eight`,
-    $localize `:@@9:nine`,
-    $localize `:@@10:ten`,
-    $localize `:@@11:eleven`,
-    $localize `:@@12:twelve`,
-    $localize `:@@13:thirteen`,
-    $localize `:@@14:fourteen`,
-    $localize `:@@15:fifteen`,
-    $localize `:@@16:sixteen`,
-    $localize `:@@17:seventeen`,
-    $localize `:@@18:eighteen`,
-    $localize `:@@19:nineteen`
-  ];
-  let b = [
-    '',
-    '',
-    $localize `:@@20:twenty`,
-    $localize `:@@30:thirty`,
-    $localize `:@@40:forty`,
-    $localize `:@@50:fifty`,
-    $localize `:@@60:sixty`,
-    $localize `:@@70:seventy`,
-    $localize `:@@80:eighty`,
-    $localize `:@@90:ninety`
-  ];
-  let h = [
-    '',
-    $localize `:@@100:one hundred`,
-    $localize `:@@200:two hundred`,
-    $localize `:@@300:three hundred`,
-    $localize `:@@400:four hundred`,
-    $localize `:@@500:five hundred`,
-    $localize `:@@600:six hundred`,
-    $localize `:@@700:seven hundred`,
-    $localize `:@@800:eight hundred`,
-    $localize `:@@900:nine hundred`
-  ];
-  let g = [
-    [$localize `:@@cents.all:cents`, $localize `:@@cents.1:cent`, $localize `:@@cents.24:cents`],
-    [$localize `:@@dollars.all:dollars`, $localize `:@@dollars.1:dollar`, $localize `:@@dollars.24:dollars`],
-    [$localize `:@@thousands.all:thousands`, $localize `:@@thousands.1:thousand`, $localize `:@@thousands.24:thousands`],
-    [$localize `:@@millions.all:millions`, $localize `:@@millions.1:million`, $localize `:@@millions.24:millions`],
-    [$localize `:@@billions.all:billions`, $localize `:@@billions.1:billion`, $localize `:@@billions.24:billions`],
-    [$localize `:@@quadrillions.all:quadrillions`, $localize `:@@quadrillions.1:quadrillion`, $localize `:@@quadrillions.24:quadrillions`],
-    [$localize `:@@quintillions.all:quintillions`, $localize `:@@quintillions.1:quintillion`, $localize `:@@quintillions.24:quintillions`],
-    [$localize `:@@sextillions.all:sextillions`, $localize `:@@sextillions.1:sextillion`, $localize `:@@sextillions.24:sextillions`],
-    [$localize `:@@septillions.all:septillions`, $localize `:@@septillions.1:septillion`, $localize `:@@septillions.24:septillions`],
-    [$localize `:@@octillions.all:octillions`, $localize `:@@octillions.1:octillion`, $localize `:@@octillions.24:octillions`],
-    [$localize `:@@nonillions.all:nonillions`, $localize `:@@nonillions.1:nonillion`, $localize `:@@nonillions.24:nonillions`],
-    [$localize `:@@decillions.all:decillions`, $localize `:@@decillions.1:decillion`, $localize `:@@decillions.24:decillions`]
-  ];
+let numToWords = (n:string, z: string, and: string, a: string[], b: string[], h: string[], g: string[][]) => {
 
   let groupName = (huns:number, tens:number, ones:number, i:number) => {
     if (huns === 0 && tens === 0 && ones === 1) {

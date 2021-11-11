@@ -12,6 +12,7 @@ import {CommonModule} from "@angular/common";
 import {ItemFormComponent} from "./item-form/item-form.component";
 import {ItemAddComponent} from "./item-add/item-add.component";
 import {MatSelectModule} from "@angular/material/select";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
@@ -23,7 +24,10 @@ import {MatSelectModule} from "@angular/material/select";
     MatSelectModule,
     LayoutModule,
     ItemRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TranslateModule.forChild({
+      extend: true
+    })
   ],
   declarations: [
     ItemFormComponent,

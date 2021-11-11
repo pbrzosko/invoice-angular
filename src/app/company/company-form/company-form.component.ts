@@ -4,6 +4,7 @@ import {EventEmitter} from "@angular/core";
 import {Location} from "@angular/common";
 import {Company} from "../../db/company.model";
 import {ObjectListenerComponent} from "../../object-listener.component";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'invoice-company-form',
@@ -12,7 +13,7 @@ import {ObjectListenerComponent} from "../../object-listener.component";
 export class CompanyFormComponent extends ObjectListenerComponent<Company>{
 
   @Input() disableName = true;
-  @Input() submitLabel: string = $localize `:@@common.save:Save`;
+  @Input() submitLabel: string = this.t.instant('common.save')
   @Output() submit = new EventEmitter<Company>();
 
   companyForm: FormGroup = this.formBuilder.group({
@@ -25,7 +26,8 @@ export class CompanyFormComponent extends ObjectListenerComponent<Company>{
   });
 
   constructor(private location: Location,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private t: TranslateService) {
     super();
   }
 

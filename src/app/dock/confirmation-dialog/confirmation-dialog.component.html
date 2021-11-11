@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Delete</h2>
+<h2 mat-dialog-title>{{'common.delete' | translate}}</h2>
 <mat-dialog-content class="confirmation-dialog-content">
-  Are you sure you want to delete <b>{{data.description}}</b>?
+  {{'common.confirm' | translate}} <b>{{data.description}}</b>?
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-raised-button color="primary" [mat-dialog-close]="data.item">Yes</button>

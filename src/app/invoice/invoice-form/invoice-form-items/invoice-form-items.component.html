@@ -1,40 +1,38 @@
 <ng-container [formGroup]="invoiceForm">
   <div gdColumn="1" [gdRow]="row" class="p-0 border-left border-top border-bottom table-header" fxLayout="row"
        fxLayoutAlign="center center">
-    <div class="mat-icon-button" *ngIf="readonly" i18n="@@invoice.idx">Idx</div>
-    <button mat-icon-button color="white" (click)="addItem()" aria-label="Add new item"
-            aria-label-i18n="@@invoice.addItem" type="button" *ngIf="!readonly">
+    <div class="mat-icon-button" *ngIf="readonly">{{'invoice.idx' | translate}}</div>
+    <button mat-icon-button color="white" (click)="addItem()" type="button" *ngIf="!readonly">
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div i18n="@@invoice.item" gdColumn="2 / span 4" [gdRow]="row" fxLayout="row" fxLayoutAlign="start center"
-       class="border-top border-bottom font-weight-bold table-header">Item or service
+  <div gdColumn="2 / span 4" [gdRow]="row" fxLayout="row" fxLayoutAlign="start center"
+       class="border-top border-bottom font-weight-bold table-header">{{'invoice.item' | translate}}
   </div>
-  <div i18n="@@invoice.qty" gdColumn="6" [gdRow]="row" fxLayout="row" fxLayoutAlign="start center"
-       class="border-top border-bottom font-weight-bold table-header">Qty
+  <div gdColumn="6" [gdRow]="row" fxLayout="row" fxLayoutAlign="start center"
+       class="border-top border-bottom font-weight-bold table-header">{{'invoice.qty' | translate}}
   </div>
-  <div i18n="@@invoice.price" gdColumn="7" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">Price
+  <div gdColumn="7" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">{{'invoice.price' | translate}}
   </div>
-  <div i18n="@@invoice.net" gdColumn="8" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">Net
+  <div gdColumn="8" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">{{'invoice.net' | translate}}
   </div>
-  <div i18n="@@invoice.rate" gdColumn="9" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">Rate
+  <div gdColumn="9" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">{{'invoice.rate' | translate}}
   </div>
-  <div i18n="@@invoice.tax" gdColumn="10" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom font-weight-bold table-header">Tax
+  <div gdColumn="10" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom font-weight-bold table-header">{{'invoice.tax' | translate}}
   </div>
-  <div i18n="@@invoice.gross" gdColumn="11" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
-       class="border-top border-bottom border-right font-weight-bold table-header">Gross
+  <div gdColumn="11" [gdRow]="row" fxLayout="row" fxLayoutAlign="end center"
+       class="border-top border-bottom border-right font-weight-bold table-header">{{'invoice.gross' | translate}}
   </div>
 
   <ng-container formArrayName="items" *ngFor="let item of items.controls; let itemIndex=index">
     <ng-container [formGroupName]="itemIndex">
       <div gdColumn="1" [gdRow]="row + 1 + itemIndex" class="p-0 border-left border-bottom" fxLayout="row"
            fxLayoutAlign="center center">
-        <button mat-icon-button color="primary" (click)="deleteItem(itemIndex)" aria-label="Delete item"
-                aria-label-i18n="@@invoice.deleteItem" type="button" *ngIf="!readonly">
+        <button mat-icon-button color="primary" (click)="deleteItem(itemIndex)" type="button" *ngIf="!readonly">
           <mat-icon>delete</mat-icon>
         </button>
         <span *ngIf="readonly">{{itemIndex + 1}}.</span>

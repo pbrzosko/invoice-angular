@@ -1,11 +1,16 @@
 import {Injectable} from "@angular/core";
 import {InvoiceItem, TotalItem} from "../db/invoice.model";
+import {TranslateService} from "@ngx-translate/core";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class InvoiceCalculateService {
+
+  constructor(private t: TranslateService) {
+  }
+
 
   calculateTotals(items: InvoiceItem[]) {
     const totals: TotalItem[] = [];
@@ -27,7 +32,7 @@ export class InvoiceCalculateService {
       gross: 0
     };
     taxes.forEach((value, key) => {
-      const label = totals.length === 0 ? $localize `:@@total.within:Within` : '';
+      const label = totals.length === 0 ? this.t.instant('total.within') : '';
       const tax = (value * key / 100);
       total.net += value;
       total.tax += tax;
@@ -41,7 +46,7 @@ export class InvoiceCalculateService {
       });
     });
     totals.unshift({
-      label: $localize `:@@total.total:Total`,
+      label: this.t.instant('total.total'),
       net: total.net,
       rate: 'X',
       tax: total.tax,

@@ -11,6 +11,8 @@ import {FlexLayoutModule} from "@angular/flex-layout";
 import {SettingsModule} from "./settings/settings.module";
 import {ItemModule} from "./item/item.module";
 import {NgxMaskModule} from "ngx-mask";
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {JsonLoader} from "./locale/locale.loader";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,14 @@ import {NgxMaskModule} from "ngx-mask";
     DockModule,
     MatToolbarModule,
     AppRoutingModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useClass: JsonLoader
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

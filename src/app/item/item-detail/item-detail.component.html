@@ -1,4 +1,4 @@
 <invoice-detail-layout>
-  <invoice-page-header title="Item" hint="Item details"></invoice-page-header>
+  <invoice-page-header [title]="'item.edit.title' | translate" [hint]="'item.edit.hint' | translate"></invoice-page-header>
   <invoice-item-form [object]="item" (submit)="save($event)"></invoice-item-form>
 </invoice-detail-layout>

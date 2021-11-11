@@ -1,4 +1,4 @@
 <invoice-detail-layout>
-  <invoice-page-header title="Item" hint="Add new item"></invoice-page-header>
+  <invoice-page-header [title]="'item.add.title' | translate" [hint]="'item.add.hint' | translate"></invoice-page-header>
   <invoice-item-form [object]="null" (submit)="add($event)"></invoice-item-form>
 </invoice-detail-layout>

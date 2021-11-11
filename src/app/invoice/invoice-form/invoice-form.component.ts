@@ -5,6 +5,7 @@ import {Location} from "@angular/common";
 import {InvoiceService} from "../invoice.service";
 import {Invoice} from "../../db/invoice.model";
 import {ObjectListenerComponent} from "../../object-listener.component";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'invoice-invoice-form',
@@ -13,7 +14,7 @@ import {ObjectListenerComponent} from "../../object-listener.component";
 })
 export class InvoiceFormComponent extends ObjectListenerComponent<Invoice> {
 
-  @Input() submitLabel: string = $localize`@@common.save:Save`;
+  @Input() submitLabel: string = this.t.instant('common.save');
   @Output() submit = new EventEmitter<Invoice>();
   @Output() export = new EventEmitter<Invoice>();
 
@@ -43,7 +44,8 @@ export class InvoiceFormComponent extends ObjectListenerComponent<Invoice> {
 
   constructor(private location: Location,
               private formBuilder: FormBuilder,
-              private invoiceService: InvoiceService) {
+              private invoiceService: InvoiceService,
+              private t: TranslateService) {
     super();
   }
 

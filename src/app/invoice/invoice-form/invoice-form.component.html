@@ -24,8 +24,8 @@
 
   <div gdColumn="1 / span 11" [gdRow]="items + totals + 15" fxLayout="row" fxLayoutAlign="end"
        fxLayoutGap="1em" class="last">
-    <button mat-raised-button type="button" i18n="@@common.cancel" (click)="back($event)">Cancel</button>
-    <button mat-raised-button color="primary" type="submit" i18n="@@common.save" [disabled]="!invoiceForm.valid">Save
+    <button mat-raised-button type="button" (click)="back($event)">{{'common.cancel' | translate}}</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!invoiceForm.valid">{{'common.save' | translate}}
     </button>
   </div>
 </form>

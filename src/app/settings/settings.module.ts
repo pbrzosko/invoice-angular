@@ -6,6 +6,7 @@ import {SettingsComponent} from "./settings/settings.component";
 import {SettingsRoutingModule} from "./settings-routing.module";
 import {CompanyModule} from "../company/company.module";
 import {DockModule} from "../dock/dock.module";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
@@ -14,7 +15,10 @@ import {DockModule} from "../dock/dock.module";
     CompanyModule,
     SettingsRoutingModule,
     ReactiveFormsModule,
-    DockModule
+    DockModule,
+    TranslateModule.forChild({
+      extend: true
+    })
   ],
   declarations: [
     SettingsComponent

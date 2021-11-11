@@ -1,0 +1,208 @@
+{
+  "application": {
+    "title": "My Invoice"
+  },
+  "company": {
+    "list": {
+      "title": "Companies",
+      "hint": "Here you can see all your companies. Click an item to enter its details. Use right mouse button to create a new company or to delete an existing one."
+    },
+    "edit": {
+      "title": "Edit company",
+      "hint": "Here are the details of selected company. After making changes click Save to confirm, or Cancel to discard modifications."
+    },
+    "add": {
+      "title": "Add company",
+      "hint": "Fill in the form of company creation. After that, click Save to create a new company, or Cancel to go back to the list."
+    },
+    "menu": {
+      "add": "Add new company",
+      "delete": "Delete company"
+    },
+    "name": "Company name",
+    "accountNumber": "Account number",
+    "street": "Street",
+    "zip": "Zip code",
+    "city": "City",
+    "tin": "Tax identification number"
+  },
+  "item": {
+    "list": {
+      "title": "Items",
+      "hint": "Here you can see all your items or service. Click an item to enter its details. Use right mouse button to create a new item or to delete an existing one."
+    },
+    "edit": {
+      "title": "Edit item",
+      "hint": "Here are the details of selected item. After making changes click Save to confirm, or Cancel to discard modifications."
+    },
+    "add": {
+      "title": "Add item",
+      "hint": "Fill in the form of item creation. After that, click Save to create a new item, or Cancel to go back to the list."
+    },
+    "menu": {
+      "add": "Add new item",
+      "delete": "Delete item"
+    },
+    "name": "Item name",
+    "unit": "Unit",
+    "price": "Item price",
+    "tax": "Tax rate"
+  },
+  "invoice": {
+    "years": {
+      "title": "Invoices years",
+      "hint": "Here you can see all years, in which an invoice was issued. Click an item to enter this year details. Use right mouse button to create a new invoice."
+    },
+    "months": {
+      "title": "Invoices months",
+      "hint": "Here you can see all months from selected year, in which an invoice was issued. Click an item to enter selected month details. Use right mouse button to create a new invoice."
+    },
+    "list": {
+      "title": "Invoices",
+      "hint": "Here you can see all your invoices from selected year and month. Click and item to view its details. Use right mouse button to create a new invoice or to delete an existing one."
+    },
+    "edit": {
+      "title": "Invoice details",
+      "hint": "Here are the details of selected invoice. It is not possible to modify a saved invoice. Please use Save button to export invoice to PDF."
+    },
+    "add": {
+      "title": "Add invoice",
+      "hint": "Fill in the form of invoice creation. Please select buyer and add at least one item. After that, click Save to save the invoice, or Cancel to go back to the list."
+    },
+    "menu": {
+      "add": "Add new invoice",
+      "delete": "Delete invoice"
+    },
+    "document": "Document type",
+    "issueDate": "Issue date",
+    "number": "Invoice number",
+    "invoiceDate": "Invoice date",
+    "seller": "Seller",
+    "buyer": "Buyer",
+    "item": "Item",
+    "qty": "Quantity",
+    "price": "Price",
+    "net": "Net",
+    "rate": "Rate",
+    "tax": "Tax",
+    "gross": "Gross",
+    "paymentDate": "Payment date",
+    "paymentType": "Payment type",
+    "moneyTransfer": "Money transfer",
+    "accountNumber": "Account number",
+    "total": "To pay:",
+    "totalWords": "In words:"
+  },
+  "settings": {
+    "edit": {
+      "title": "Settings",
+      "hint": "Here are application settings. Please provide your company data here and save it. Without providing your company information, you won't be able to issue any invoice."
+    }
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Are you sure you want to delete",
+    "delete": "Delete"
+  },
+  "numbers": {
+    "0": "zero",
+    "and": "and",
+    "1": "one",
+    "2": "two",
+    "3": "theee",
+    "4": "four",
+    "5": "five",
+    "6": "six",
+    "7": "seven",
+    "8": "eight",
+    "9": "nine",
+    "10": "ten",
+    "11": "eleven",
+    "12": "twelve",
+    "13": "thirteen",
+    "14": "fourteen",
+    "15": "fifteen",
+    "16": "sixteen",
+    "17": "seventeen",
+    "18": "eighteen",
+    "19": "nineteen",
+    "20": "twenty",
+    "30": "thirty",
+    "40": "forty",
+    "50": "fifty",
+    "60": "sixty",
+    "70": "seventy",
+    "80": "eighty",
+    "90": "ninety",
+    "100": "one hundred",
+    "200": "two hundred",
+    "300": "three hundred",
+    "400": "four hundred",
+    "500": "five hundred",
+    "600": "six hundred",
+    "700": "seven hundred",
+    "800": "eight hundred",
+    "900": "nine hundred",
+    "cents": {
+      "all": "cents",
+      "1": "cent",
+      "24": "cents"
+    },
+    "dollars": {
+      "all": "dollars",
+      "1": "dollar",
+      "24": "dollars"
+    },
+    "thousands": {
+      "all": "thousands",
+      "1": "thousand",
+      "24": "thousands"
+    },
+    "millions": {
+      "all": "millions",
+      "1": "million",
+      "24": "millions"
+    },
+    "billions": {
+      "all": "billions",
+      "1": "billion",
+      "24": "billions"
+    },
+    "quadrillions": {
+      "all": "quadrillions",
+      "1": "quadrillion",
+      "24": "quadrillions"
+    },
+    "quintillions": {
+      "all": "quintillions",
+      "1": "quintillion",
+      "24": "quintillions"
+    },
+    "sextillions": {
+      "all": "sextillions",
+      "1": "sextillion",
+      "24": "sextillions"
+    },
+    "septillions": {
+      "all": "septillions",
+      "1": "septillion",
+      "24": "septillions"
+    },
+    "octillions": {
+      "all": "octillions",
+      "1": "octillion",
+      "24": "octillions"
+    },
+    "nonillions": {
+      "all": "nonillions",
+      "1": "nonillion",
+      "24": "nonillions"
+    },
+    "decillions": {
+      "all": "decillions",
+      "1": "decillion",
+      "24": "decillions"
+    }
+  }
+}

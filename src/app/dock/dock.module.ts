@@ -9,6 +9,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 import {ConfirmationDialog} from "./confirmation-dialog/confirmation-dialog.component";
 import {PageHeaderComponent} from "./page-header/page-header.component";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -23,7 +24,10 @@ import {PageHeaderComponent} from "./page-header/page-header.component";
     MatDialogModule,
     MatButtonModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    TranslateModule.forChild({
+      extend: true
+    })
   ],
   exports: [
     DockComponent,

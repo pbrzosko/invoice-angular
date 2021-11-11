@@ -11,6 +11,7 @@ import {ConfirmationDialog} from "../confirmation-dialog/confirmation-dialog.com
 export class ContextMenuComponent {
 
   @Input() addLabel!: string;
+  @Input() deleteLabel!: string;
   @Input() addLink: string = 'add';
   @Output() delete = new EventEmitter<any>();
   @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;

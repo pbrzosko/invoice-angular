@@ -24,6 +24,7 @@ import {InvoiceFormTotalsComponent} from "./invoice-form/invoice-form-totals/inv
 import {InvoiceFormPartiesComponent} from "./invoice-form/invoice-form-parties/invoice-form-parties.component";
 import {InvoiceFormSpacingComponent} from "./invoice-form/invoice-form-spacing/invoice-form-spacing.component";
 import {NgxMaskModule} from "ngx-mask";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,10 @@ import {NgxMaskModule} from "ngx-mask";
     InvoiceRoutingModule,
     DockModule,
     ReactiveFormsModule,
-    NgxMaskModule.forChild()
+    NgxMaskModule.forChild(),
+    TranslateModule.forChild({
+      extend: true
+    })
   ],
   providers: [
     CurrencyToWordsPipe,

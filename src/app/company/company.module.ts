@@ -13,6 +13,7 @@ import {CompanyFormComponent} from "./company-form/company-form.component";
 import {CompanyAddComponent} from "./company-add/company-add.component";
 import {DatabaseModule} from "../db/db.module";
 import {NgxMaskModule} from "ngx-mask";
+import {TranslateModule} from "@ngx-translate/core";
 
 @NgModule({
   imports: [
@@ -25,7 +26,10 @@ import {NgxMaskModule} from "ngx-mask";
     CompanyRoutingModule,
     ReactiveFormsModule,
     DatabaseModule,
-    NgxMaskModule.forChild()
+    NgxMaskModule.forChild(),
+    TranslateModule.forChild({
+      extend: true
+    })
   ],
   declarations: [
     CompanyFormComponent,
