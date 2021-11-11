@@ -60,34 +60,34 @@ export class InvoicePdfService {
     doc.setFontSize(FONT_SIZE);
     let y = 20;
 
-    const documentType:Cell = {label: 'Document type', value: 'Faktura VAT', col: 10, span: 4, bold: true};
-    const issueDate:Cell = {label: 'Issue date', value: invoice.issueDate, col: 16, span: 4, align: 'right'};
+    const documentType:Cell = {label: this.t.instant('invoice.document'), value: this.t.instant('invoice.taxInvoice'), col: 10, span: 4, bold: true};
+    const issueDate:Cell = {label: this.t.instant('invoice.issueDate'), value: invoice.issueDate, col: 16, span: 4, align: 'right'};
     this.drawValue(doc, documentType, y);
     y += this.drawValue(doc, issueDate, y) + SPACER;
 
 
-    const invoiceNumber:Cell = {label: 'Number', value: `${invoice.id}/${invoice.month}/${invoice.year}`, col: 10, span: 4, bold: true};
-    const invoiceDate:Cell = {label: 'Invoice date', value: invoice.invoiceDate, col: 16, span: 4, align: 'right'};
+    const invoiceNumber:Cell = {label: this.t.instant('invoice.number'), value: `${invoice.id}/${invoice.month}/${invoice.year}`, col: 10, span: 4, bold: true};
+    const invoiceDate:Cell = {label: this.t.instant('invoice.invoiceDate'), value: invoice.invoiceDate, col: 16, span: 4, align: 'right'};
     this.drawValue(doc, invoiceNumber, y);
     y += this.drawValue(doc, invoiceDate, y) + SPACER;
 
-    this.drawCompany(doc, invoice.seller, 'Seller', 0, 10, y);
-    y += this.drawCompany(doc, invoice.buyer, 'Buyer', 10, 10, y) + 10;
+    this.drawCompany(doc, invoice.seller, this.t.instant('invoice.seller'), 0, 10, y);
+    y += this.drawCompany(doc, invoice.buyer, this.t.instant('invoice.buyer'), 10, 10, y) + 10;
 
     y += this.drawItems(doc, invoice.items, y) + SPACER;
 
     this.drawTotals(doc, invoice.items, y);
 
-    const paymentDate:Cell = {label: 'Payment date', value: invoice.paymentDate, col: 0, span: 10};
+    const paymentDate:Cell = {label: this.t.instant('invoice.paymentDate'), value: invoice.paymentDate, col: 0, span: 10};
     y += this.drawValue(doc, paymentDate, y);
-    const paymentType:Cell = {label: 'Payment type', value: 'Money transfer', col: 0, span: 10};
+    const paymentType:Cell = {label: this.t.instant('invoice.paymentType'), value: this.t.instant('invoice.moneyTransfer'), col: 0, span: 10};
     y += this.drawValue(doc, paymentType, y);
-    const accountNumber:Cell = {label: 'Account number', value: invoice.seller.accountNumber, col: 0, span: 10};
+    const accountNumber:Cell = {label: this.t.instant('invoice.accountNumber'), value: invoice.seller.accountNumber, col: 0, span: 10};
     this.drawValue(doc, accountNumber, y);
 
     const sy = doc.internal.pageSize.height - 22;
-    this.drawSignature(doc, 'Seller', 0, 4, sy);
-    this.drawSignature(doc, 'Buyer', 16, 4, sy);
+    this.drawSignature(doc, this.t.instant('invoice.seller'), 0, 4, sy);
+    this.drawSignature(doc, this.t.instant('invoice.buyer'), 16, 4, sy);
 
     doc.save(`${invoice.seller.name}_${invoice.id}/${invoice.month}/${invoice.year}.pdf`);
   }
@@ -107,10 +107,10 @@ export class InvoicePdfService {
     let cy = y;
     cy += this.drawTableLine(doc, [
       {value: '', align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Net', align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Rate', align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Tax', align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Gross', align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.net'), align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.rate'), align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.tax'), align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.gross'), align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
     ], cy, HEADER_BACKGROUND, HEADER_COLOR);
     const totals = this.invoiceCalculateService.calculateTotals(items);
     totals.forEach((total, index) => {
@@ -136,14 +136,14 @@ export class InvoicePdfService {
   drawItems(doc: jsPDF, items:InvoiceItem[], y:number) {
     let cy = y;
     cy += this.drawTableLine(doc, [
-      {value: 'Idx', align: 'left', col: 0, span: 1, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Item', align: 'left', col: 1, span: 7, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Qty', align: 'left', col: 8, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Price', align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Net', align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Rate', align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Tax', align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
-      {value: 'Gross', align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.idx'), align: 'left', col: 0, span: 1, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.item'), align: 'left', col: 1, span: 7, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.qty'), align: 'left', col: 8, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.price'), align: 'right', col: 10, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.net'), align: 'right', col: 12, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.rate'), align: 'right', col: 14, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.tax'), align: 'right', col: 16, span: 2, fontSize: MEDIUM_FONT_SIZE},
+      {value: this.t.instant('invoice.gross'), align: 'right', col: 18, span: 2, fontSize: MEDIUM_FONT_SIZE},
     ], cy, HEADER_BACKGROUND, HEADER_COLOR);
     items.map((item, index) => {
       const net = item.item.price * item.qty;
