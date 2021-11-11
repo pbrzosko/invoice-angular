@@ -1,3 +1,3 @@
 <invoice-detail-layout>
-  <invoice-company-form [company$]="settings$" (submit)="save($event)" [disableName]="false"></invoice-company-form>
+  <invoice-company-form [object]="settings" (submit)="save($event)" [disableName]="false"></invoice-company-form>
 </invoice-detail-layout>

@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {CompanyService} from "../company.service";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-import {Subject} from "rxjs";
 import {Company} from "../../db/company.model";
 
 @Component({
@@ -11,7 +10,7 @@ import {Company} from "../../db/company.model";
 })
 export class CompanyDetailComponent implements OnInit {
 
-  company$ = new Subject<Company | undefined>();
+  company: Company | undefined;
 
   constructor(
     private location: Location,
@@ -21,9 +20,7 @@ export class CompanyDetailComponent implements OnInit {
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    const company = await this.companyService.get(parseInt(id, 10));
-    this.company$.next(company);
-    this.company$.complete();
+    this.company = await this.companyService.get(parseInt(id, 10));
   }
 
   async save(company: Company) {

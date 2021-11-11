@@ -2,17 +2,16 @@ import {Component, Input, OnInit, Output} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventEmitter} from "@angular/core";
 import {Location} from "@angular/common";
-import {Subject} from "rxjs";
 import {Company} from "../../db/company.model";
+import {ObjectListenerComponent} from "../../object-listener.component";
 
 @Component({
   selector: 'invoice-company-form',
   templateUrl: './company-form.component.html'
 })
-export class CompanyFormComponent implements OnInit {
+export class CompanyFormComponent extends ObjectListenerComponent<Company>{
 
   @Input() disableName = true;
-  @Input() company$!: Subject<Company | undefined>;
   @Input() submitLabel: string = $localize `:@@common.save:Save`;
   @Output() submit = new EventEmitter<Company>();
 
@@ -27,19 +26,17 @@ export class CompanyFormComponent implements OnInit {
 
   constructor(private location: Location,
               private formBuilder: FormBuilder) {
+    super();
   }
 
-  ngOnInit() {
-    const subscription = this.company$.subscribe(company => {
-      if (company) {
-        this.companyForm.addControl('id', new FormControl(null, [Validators.required]));
-        this.companyForm.patchValue(company);
-        if (this.disableName) {
-          this.companyForm.get('name')?.disable();
-        }
+  objectChanged(object: Company | null) {
+    if (object) {
+      this.companyForm.addControl('id', new FormControl(null, [Validators.required]));
+      this.companyForm.patchValue(object);
+      if (this.disableName) {
+        this.companyForm.get('name')?.disable();
       }
-      subscription.unsubscribe();
-    });
+    }
   }
 
   back(event: Event) {

@@ -1,9 +1,8 @@
 import {Component, OnInit} from "@angular/core";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder} from "@angular/forms";
 import {ItemService} from "../item.service";
 import {ActivatedRoute} from "@angular/router";
 import {Location} from "@angular/common";
-import {Subject} from "rxjs";
 import {Item} from "../../db/item.model";
 
 @Component({
@@ -12,7 +11,7 @@ import {Item} from "../../db/item.model";
 })
 export class ItemDetailComponent implements OnInit {
 
-  item$ = new Subject<Item | undefined>();
+  item: Item | undefined;
 
   constructor(
     private location: Location,
@@ -23,9 +22,7 @@ export class ItemDetailComponent implements OnInit {
 
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id')!;
-    const item = await this.itemService.get(parseInt(id, 10));
-    this.item$.next(item);
-    this.item$.complete();
+    this.item = await this.itemService.get(parseInt(id, 10));
   }
 
   async save(item: Item) {

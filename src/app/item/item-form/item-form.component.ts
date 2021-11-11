@@ -2,16 +2,15 @@ import {Component, Input, OnInit, Output} from "@angular/core";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventEmitter} from "@angular/core";
 import {Location} from "@angular/common";
-import {Subject} from "rxjs";
 import {Item} from "../../db/item.model";
+import {ObjectListenerComponent} from "../../object-listener.component";
 
 @Component({
   selector: 'invoice-item-form',
   templateUrl: './item-form.component.html'
 })
-export class ItemFormComponent implements OnInit {
+export class ItemFormComponent extends ObjectListenerComponent<Item> {
 
-  @Input() item$!: Subject<Item | undefined>;
   @Input() submitLabel: string = $localize `@@common.save:Save`;
   @Output() submit = new EventEmitter<Item>();
 
@@ -24,17 +23,15 @@ export class ItemFormComponent implements OnInit {
 
   constructor(private location: Location,
               private formBuilder: FormBuilder) {
+    super();
   }
 
-  ngOnInit() {
-    const subscription = this.item$.subscribe(item => {
-      if (item) {
-        this.itemForm.addControl('id', new FormControl(null, [Validators.required]));
-        this.itemForm.patchValue(item);
-        this.itemForm.get('name')?.disable();
-      }
-      subscription.unsubscribe();
-    });
+  objectChanged(object: Item | null) {
+    if (object) {
+      this.itemForm.addControl('id', new FormControl(null, [Validators.required]));
+      this.itemForm.patchValue(object);
+      this.itemForm.get('name')?.disable();
+    }
   }
 
   back(event: Event) {

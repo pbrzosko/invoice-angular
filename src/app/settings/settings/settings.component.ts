@@ -2,7 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {SettingsService} from "../settings.service";
 import {Location} from "@angular/common";
 import {Company} from "../../db/company.model";
-import {Subject} from "rxjs";
 
 @Component({
   selector: 'invoice-settings',
@@ -10,7 +9,7 @@ import {Subject} from "rxjs";
 })
 export class SettingsComponent implements OnInit {
 
-  settings$ = new Subject<Company | undefined>();
+  settings: Company | undefined;
 
   constructor(
     private location: Location,
@@ -18,9 +17,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const settings = await this.settingsService.getSettings();
-    this.settings$.next(settings);
-    this.settings$.complete();
+    this.settings = await this.settingsService.getSettings();
   }
 
   async save(settings: Company) {
