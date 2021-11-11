@@ -1,8 +1,213 @@
 {
+  "application": {
+    "title": "Moja Faktura"
+  },
   "company": {
-    "list": "Kontrahenci"
+    "list": {
+      "title": "Kontrahenci",
+      "hint": "Tutaj mozesz zobaczyc wszystkich swoich kontrahentow. Kliknij, aby zobaczyć sczegóły. Użyj prawego przycisku myszy, aby stworzyć nowego kontrahenta lub skasować juz istniejącego.",
+    },
+    "edit": {
+      "title": "Edycja kontrahenta",
+      "hint": "Tutaj mozesz edytowac dane swojego kontrahenta. Po dokonaniu zmian, nacisnij Zapisz aby je zatwierdzic, lub Anuluj aby je porzucic.",
+    },
+    "add": {
+      "title": "Nowy kontrahent",
+      "hint": "Wypelnij dane nowego kontrahenta. Nastepnie nacisnij przycisk Zapisz aby go stworzyc, lub Anuluj aby powrocic do listy.",
+    },
+    "menu": {
+      "add": "Dodaj kontrahenta",
+      "delete": "Usun kontrahenta"
+    },
+    "name": "Nazwa firmy",
+    "accountNumber": "Numer konta",
+    "street": "Ulica",
+    "zip": "Kod pocztowy",
+    "city": "Miasto",
+    "tin": "Numer identyfikacji podatkowej"
+  },
+  "item": {
+    "list": {
+      "title": "Towary",
+      "hint": "Tutaj mozesz zobaczyc wszystkie swoje towary lub uslugi. Klinkij, aby zobaczyc szczegoly. Uzyj prawego przycisku myszy, aby stworzyc nowy towar lub usluge lub skasowac juz istniejacy.",
+    },
+    "edit": {
+      "title": "Edycja towaru",
+      "hint": "Tutaj mozesz edytowac dane swojego towaru lub uslugi. Po dokonaniu zmian, nacisnij Zapisz aby je zatwierdzic, lub Anuluj aby je porzucic.",
+    },
+    "add": {
+      "title": "Nowy towar",
+      "hint": "Wypelnij dane nowego towaru lub uslugi. Nastepnie nacisnij przycisk Zapisz aby go stworzyc, lub Anuluj aby powrocic do listy.",
+    },
+    "menu": {
+      "add": "Nowy towar",
+      "delete": "Usun towar"
+    },
+    "name": "Nazwa towaru lub uslugi",
+    "unit": "Jednostka",
+    "price": "Cena jednostkowa",
+    "tax": "VAT"
+  },
+  "invoice": {
+    "years": {
+      "title": "Faktury (lata)",
+      "hint": "To jest lista lat, w ktorych wystawiles fakture. Kliknij, aby zobaczyc szczegoly roku. Uzyj prawego przycisku myszy, aby wystawic nowa fakture.",
+    },
+    "months": {
+      "title": "Faktury (miesiace)",
+      "hint": "To jest lista miesiecy wybranego roku, w ktorych wystawiles fakture. Kliknij, aby zobaczyc szczegoly roku. Uzyj prawego przycisku myszy, aby wystawic nowa fakture.",
+    },
+    "list": {
+      "title": "Faktury",
+      "hint": "To jest lista faktury, ktore wystawiles w ramach wybranego roku i miesiaca. Kliknij, aby zobaczyc szczegoly roku. Uzyj prawego przycisku myszy, aby wystawic nowa fakture lub skasowac juz istniejaca.",
+    },
+    "edit": {
+      "title": "Faktura",
+      "hint": "Tutaj mozesz zobaczyc szczegoly wybranej faktury. Nie jest mozliwe modyfikowanie raz zapisanej faktury. Uzyj przycisku Zapisz aby zachowac ja w formacie PDF.",
+    },
+    "add": {
+      "title": "Nowa faktura",
+      "hint": "Wypelnij dane nowej faktury. Pamietaj, aby podac kupujacego oraz przynajmniej jeden towar lub usluge. Nastepnie, nacisnij Zapisz aby wystawic fakture lub Anuluj aby powrocic do listy",
+    },
+    "menu": {
+      "add": "Wystaw fakture",
+      "delete": "Skasuje fakture"
+    },
+    "document": "Typ dokumentu",
+    "issueDate": "Data wystawienia",
+    "number": "Numer",
+    "invoiceDate": "Data sprzedazy",
+    "seller": "Sprzedawca",
+    "buyer": "Nabywac",
+    "item": "Towar lub usluga",
+    "qty": "Ilosc",
+    "price": "Cena netto",
+    "net": "Wartosc netto",
+    "rate": "Stawka VAT",
+    "tax": "Kwota VAT",
+    "gross": "Wartosc brutto",
+    "paymentDate": "Temin platnosci",
+    "paymentType": "Sposob platnosci",
+    "moneyTransfer": "Przelew",
+    "accountNumber": "Number konta",
+    "total": "Razem do zaplaty:",
+    "totalWords": "Slownie:"
+  },
+  "settings": {
+    "edit": {
+      "title": "Ustawienia",
+      "hint": "To sa ustawienia aplikacji. Wypelnij prosze dane swojej firmy i jest zapisz. Bez podania danych swojej firmy, nie bedziesz w stanie wystawiac faktur.",
+    }
   },
   "common": {
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "cancel": "Anuluj",
+    "confirm": "Czy na pewno chcesz skasowac",
+    "delete": "Usun"
+  },
+  "numbers": {
+    "0": "zero",
+    "and": "i",
+    "1": "jeden",
+    "2": "dwa",
+    "3": "trzy",
+    "4": "cztery",
+    "5": "piec",
+    "6": "szesc",
+    "7": "siedem",
+    "8": "osiem",
+    "9": "dziewiec",
+    "10": "dziesiec",
+    "11": "jedenascie",
+    "12": "dwanascie",
+    "13": "trzynascie",
+    "14": "czternascie",
+    "15": "pietnascie",
+    "16": "szesnascie",
+    "17": "siedemnascie",
+    "18": "osiemnascie",
+    "19": "dziewietnascie",
+    "20": "dwadziescia",
+    "30": "trzydziesci",
+    "40": "czterdziesci",
+    "50": "piecdziesiat",
+    "60": "szczescdziesiat",
+    "70": "siedemdziesiat",
+    "80": "osiemdziesiat",
+    "90": "dziewiecdziesiat",
+    "100": "sto",
+    "200": "dwiescie",
+    "300": "trzysta",
+    "400": "czterysta",
+    "500": "piecset",
+    "600": "szescset",
+    "700": "siedemset",
+    "800": "osiemset",
+    "900": "dziewiecset",
+    "cents": {
+      "all": "groszy",
+      "1": "grosz",
+      "24": "grosze"
+    },
+    "dollars": {
+      "all": "zloty",
+      "1": "zloty",
+      "24": "zlote"
+    },
+    "thousands": {
+      "all": "tysiecy",
+      "1": "tysiac",
+      "24": "tysiace"
+    },
+    "millions": {
+      "all": "milionow",
+      "1": "milion",
+      "24": "miliony"
+    },
+    "billions": {
+      "all": "miliardow",
+      "1": "miliard",
+      "24": "miliardy"
+    },
+    "trillions": {
+      "all": "bilionow",
+      "1": "bilionow",
+      "24": "bilionowy"
+    },
+    "quadrillions": {
+      "all": "trylionow",
+      "1": "trylion",
+      "24": "tryliony"
+    },
+    "quintillions": {
+      "all": "kwadrylionow",
+      "1": "kwadrylion",
+      "24": "kwadryliony"
+    },
+    "sextillions": {
+      "all": "kwintylionow",
+      "1": "kwintylion",
+      "24": "kwintyliony"
+    },
+    "septillions": {
+      "all": "sekstylionow",
+      "1": "sekstylion",
+      "24": "sekstyliony"
+    },
+    "octillions": {
+      "all": "septylionow",
+      "1": "septylion",
+      "24": "septyliony"
+    },
+    "nonillions": {
+      "all": "oktylionow",
+      "1": "oktylion",
+      "24": "oktyliony"
+    },
+    "decillions": {
+      "all": "nonylionow",
+      "1": "nonylion",
+      "24": "nonyliony"
+    }
   }
 }

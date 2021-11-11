@@ -169,6 +169,11 @@
       "1": "billion",
       "24": "billions"
     },
+    "trillions": {
+      "all": "trillions",
+      "1": "trillion",
+      "24": "trillions"
+    },
     "quadrillions": {
       "all": "quadrillions",
       "1": "quadrillion",

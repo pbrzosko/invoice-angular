@@ -60,6 +60,7 @@ export class CurrencyToWordsPipe implements PipeTransform {
     [this.t.instant('numbers.thousands.all'), this.t.instant('numbers.thousands.1'), this.t.instant('numbers.thousands.24')],
     [this.t.instant('numbers.millions.all'), this.t.instant('numbers.millions.1'), this.t.instant('numbers.millions.24')],
     [this.t.instant('numbers.billions.all'), this.t.instant('numbers.billions.1'), this.t.instant('numbers.billions.24')],
+    [this.t.instant('numbers.trillions.all'), this.t.instant('numbers.trillions.1'), this.t.instant('numbers.trillions.24')],
     [this.t.instant('numbers.quadrillions.all'), this.t.instant('numbers.quadrillions.1'), this.t.instant('numbers.quadrillions.24')],
     [this.t.instant('numbers.quintillions.all'), this.t.instant('numbers.quintillions.1'), this.t.instant('numbers.quintillions.24')],
     [this.t.instant('numbers.sextillions.all'), this.t.instant('numbers.sextillions.1'), this.t.instant('numbers.sextillions.24')],
