@@ -12,7 +12,7 @@ please consider storing generated invoices somewhere, where they won't be delete
 
 ### Functionality
 
-Demo: https://pbrzosko.github.com/invoice-angular
+Demo: https://pbrzosko.github.io/invoice-angular
 
 Application displays an OS-like view, where you can manage:
 
@@ -43,7 +43,8 @@ This is a work in progress, depending on my day-to-day work occupation. So pleas
 
 - there are no tests for now, but this has the highest priority on my list
 - there is no error handling whatsoever
+- there is no 404 page defined in the router
 - bundle size could be analyzed for size reduction 
-
+- probably some other ways this application can be broken 
 
 Besides that - please feel free to play with it or use in any way. :sunglasses:
