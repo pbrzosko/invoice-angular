@@ -39,10 +39,11 @@ Currently supported languages:
 
 ### Missing features
 
-This is a work in progress, depending on my day-to-day work occupation. So please keep in mind that:
+This is a work in progress, depending on my day-to-day work occupation. Because of limited time, please keep in mind that:
 
 - there are no tests for now, but this has the highest priority on my list
 - there is no error handling whatsoever
+- there is no responsive web design
 - there is no 404 page defined in the router
 - bundle size could be analyzed for size reduction 
 - probably some other ways this application can be broken 
