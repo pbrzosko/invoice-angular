@@ -13,6 +13,7 @@ import {ItemModule} from "./item/item.module";
 import {NgxMaskModule} from "ngx-mask";
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {JsonLoader} from "./locale/locale.loader";
+import '@angular/common/locales/global/pl';
 
 @NgModule({
   declarations: [

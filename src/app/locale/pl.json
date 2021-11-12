@@ -71,7 +71,7 @@
     },
     "menu": {
       "add": "Wystaw fakturę",
-      "delete": "Skasuje fakturę"
+      "delete": "Usuń fakturę"
     },
     "document": "Typ dokumentu",
     "taxInvoice": "Faktura VAT",

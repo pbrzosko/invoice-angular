@@ -27,7 +27,7 @@
       <div gdColumn="8" [gdRow]="row + 1 + itemIndex" class="border-bottom"
            fxLayout="row" fxLayoutAlign="end center"
            [class.font-weight-bold]="itemIndex === 0">
-        {{total.get('net')?.value | number:'1.2-2'}}
+        {{total.get('net')?.value | currencyFormat}}
       </div>
       <div gdColumn="9" [gdRow]="row + 1 + itemIndex" class="border-bottom"
            fxLayout="row" fxLayoutAlign="end center"
@@ -37,12 +37,12 @@
       <div gdColumn="10" [gdRow]="row + 1 + itemIndex" class="border-bottom"
            fxLayout="row" fxLayoutAlign="end center"
            [class.font-weight-bold]="itemIndex === 0">
-        {{total.get('tax')?.value | number:'1.2-2'}}
+        {{total.get('tax')?.value | currencyFormat}}
       </div>
       <div gdColumn="11" [gdRow]="row + 1 + itemIndex" class="border-bottom border-right"
            fxLayout="row" fxLayoutAlign="end center"
            [class.font-weight-bold]="itemIndex === 0">
-        {{total.get('gross')?.value | number:'1.2-2'}}
+        {{total.get('gross')?.value | currencyFormat}}
       </div>
     </ng-container>
   </ng-container>
@@ -51,7 +51,7 @@
        class="border-bottom border-right border-left"
        fxLayout="column" fxLayoutAlign="center end">
     <span class="form-label">{{'invoice.total' | translate}}</span>
-    <span class="font-weight-bold mat-title mb-0">{{total?.value | currency}}</span>
+    <span class="font-weight-bold mat-title mb-0">{{total?.value | currencyFormat : true}}</span>
   </div>
 
   <div gdColumn="7 / span 5" [gdRow]="row + 2 + totals.length"

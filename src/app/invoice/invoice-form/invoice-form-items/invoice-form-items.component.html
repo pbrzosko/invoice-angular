@@ -53,21 +53,21 @@
         </mat-form-field>
       </div>
       <div gdColumn="7" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
-        {{item.get('price')?.value | number:'1.2-2'}}
+        {{item.get('price')?.value | currencyFormat}}
       </div>
       <div gdColumn="8" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
-        {{item.get('net')?.value | number:'1.2-2'}}
+        {{item.get('net')?.value | currencyFormat}}
       </div>
       <div gdColumn="9" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row" fxLayoutAlign="end center">
         {{item.get('rate')?.value}}{{item.get('rate')?.value ? '%' : ''}}
       </div>
       <div gdColumn="10" [gdRow]="row + 1 + itemIndex" class="border-bottom" fxLayout="row"
            fxLayoutAlign="end center">
-        {{item.get('tax')?.value | number:'1.2-2'}}
+        {{item.get('tax')?.value | currencyFormat}}
       </div>
       <div gdColumn="11" [gdRow]="row + 1 + itemIndex" class="border-bottom border-right" fxLayout="row"
            fxLayoutAlign="end center">
-        {{item.get('gross')?.value | number:'1.2-2'}}
+        {{item.get('gross')?.value | currencyFormat}}
       </div>
     </ng-container>
   </ng-container>

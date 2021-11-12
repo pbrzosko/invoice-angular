@@ -4,11 +4,11 @@ import {InvoiceCalculateService} from './invoice-calculate.service';
 import {Invoice, InvoiceItem} from '../db/invoice.model';
 import {Company} from '../db/company.model';
 import {CurrencyToWordsPipe} from './currency-to-words.pipe';
-import {CurrencyPipe} from '@angular/common';
 import {TranslateService} from "@ngx-translate/core";
 import robotoNormal from '../fonts/roboto-normal';
 import robotoBold from '../fonts/roboto-bold';
 import {MaskPipe} from "ngx-mask";
+import {CurrencyFormatPipe} from "./currency-format.pipe";
 
 const MARGIN = 14;
 const MEDIUM_FONT_SIZE = 10;
@@ -61,7 +61,7 @@ export class InvoicePdfService {
 
   constructor(private invoiceCalculateService: InvoiceCalculateService,
               private currencyToWordsPipe: CurrencyToWordsPipe,
-              private currencyPipe: CurrencyPipe,
+              private currencyPipe: CurrencyFormatPipe,
               private maskPipe: MaskPipe,
               private t: TranslateService) {
     jsPDF.API.events.push(['addFonts', addRoboto]);
@@ -132,13 +132,13 @@ export class InvoicePdfService {
       const bold = index === 0;
       cy += this.drawTableLine(doc, [
         {value: total.label, align: 'right', col: 10, span: 2, bold: bold, fontSize: SMALL_FONT_SIZE},
-        {value: total.net.toFixed(2), align: 'right', col: 12, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(total.net), align: 'right', col: 12, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
         {value: total.rate, align: 'right', col: 14, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
-        {value: total.tax.toFixed(2), align: 'right', col: 16, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
-        {value: total.gross.toFixed(2), align: 'right', col: 18, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(total.tax), align: 'right', col: 16, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(total.gross), align: 'right', col: 18, span: 2, nowrap: true, bold: bold, fontSize: SMALL_FONT_SIZE},
       ], cy, ROW_BACKGROUND, ROW_COLOR);
     });
-    const total = this.currencyPipe.transform(totals[0].gross, 'PLN', 'code', undefined, 'pl') || '';
+    const total = this.currencyPipe.transform(totals[0].gross, true);
     cy += this.drawTableLine(doc, [
       {label: 'To pay', value: total, align: 'right', col: 10, span: 10, nowrap: true, bold: true}
     ], cy, ROW_BACKGROUND, ROW_COLOR);
@@ -167,11 +167,11 @@ export class InvoicePdfService {
         {value: (index + 1) + '.', align: 'left', col: 0, span: 1, nowrap: true, fontSize: SMALL_FONT_SIZE},
         {value: item.item.name, align: 'left', col: 1, span: 7, fontSize: SMALL_FONT_SIZE},
         {value: item.qty + ' ' + item.item.unit, align: 'left', col: 8, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
-        {value: item.item.price.toFixed(2), align: 'right', col: 10, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
-        {value: net.toFixed(2), align: 'right', col: 12, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
-        {value: item.item.tax.toFixed(2), align: 'right', col: 14, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
-        {value: tax.toFixed(2), align: 'right', col: 16, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
-        {value: (net + tax).toFixed(2), align: 'right', col: 18, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(item.item.price), align: 'right', col: 10, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(net), align: 'right', col: 12, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(item.item.tax), align: 'right', col: 14, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(tax), align: 'right', col: 16, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
+        {value: this.currencyPipe.transform(net + tax), align: 'right', col: 18, span: 2, nowrap: true, fontSize: SMALL_FONT_SIZE},
       ], cy, ROW_BACKGROUND, ROW_COLOR);
     });
     return cy - y;

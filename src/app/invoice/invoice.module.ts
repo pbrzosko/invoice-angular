@@ -4,7 +4,7 @@ import {YearsComponent} from "./years/years.component";
 import {MonthsComponent} from "./months/months.component";
 import {InvoiceListComponent} from "./invoice-list/invoice-list.component";
 import {DockModule} from "../dock/dock.module";
-import {CommonModule, CurrencyPipe} from "@angular/common";
+import {CommonModule, CurrencyPipe, DecimalPipe} from "@angular/common";
 import {LayoutModule} from "../layout/layout.module";
 import {InvoiceFormComponent} from "./invoice-form/invoice-form.component";
 import {InvoiceAddComponent} from "./invoice-add/invoice-add.component";
@@ -25,6 +25,7 @@ import {InvoiceFormPartiesComponent} from "./invoice-form/invoice-form-parties/i
 import {InvoiceFormSpacingComponent} from "./invoice-form/invoice-form-spacing/invoice-form-spacing.component";
 import {MaskPipe, NgxMaskModule} from "ngx-mask";
 import {TranslateModule} from "@ngx-translate/core";
+import {CurrencyFormatPipe} from "./currency-format.pipe";
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {TranslateModule} from "@ngx-translate/core";
     InvoiceFormSpacingComponent,
     InvoiceAddComponent,
     InvoiceDetailComponent,
-    CurrencyToWordsPipe
+    CurrencyToWordsPipe,
+    CurrencyFormatPipe
   ],
   imports: [
     FlexLayoutModule,
@@ -62,6 +64,8 @@ import {TranslateModule} from "@ngx-translate/core";
   providers: [
     CurrencyToWordsPipe,
     CurrencyPipe,
+    DecimalPipe,
+    CurrencyFormatPipe,
     MaskPipe
   ]
 })

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from "@angular/core";
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Invoice, InvoiceItem, TotalItem} from "../../../db/invoice.model";
 import {Item} from "../../../db/item.model";
 import {ItemService} from "../../../item/item.service";
@@ -104,7 +104,7 @@ export class InvoiceFormItemsComponent extends ObjectListenerComponent<Invoice> 
       if (rateControl.value) {
         taxControl.setValue(value * rateControl.value / 100);
       }
-      if (taxControl.value) {
+      if (taxControl.value || taxControl.value === 0) {
         grossControl.setValue(value + taxControl.value);
       }
     });
