@@ -16,7 +16,7 @@ export class CurrencyFormatPipe implements PipeTransform {
   }
 
   transform(value: any, ...args: any[]): any {
-    const locale = this.currencies[navigator.language] ? navigator.language : 'en';
+    const locale = (/^pl\b/.test(navigator.language)) ? 'pl' : 'en';
     const currency = this.currencies[locale];
     const currencyFormat = args[0] || false;
     if (currencyFormat) {
