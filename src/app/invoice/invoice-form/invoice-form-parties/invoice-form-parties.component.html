@@ -23,7 +23,7 @@
     <div class="mat-small">
       <div>{{invoiceForm.get('buyer')?.value?.street}}</div>
       <div>{{invoiceForm.get('buyer')?.value?.zip | zipFormat}} {{invoiceForm.get('buyer')?.value?.city}}</div>
-      <div><span *ngIf="invoiceForm.get('buyer')?.value">{{'company.tin' | translate}} </span>{{invoiceForm.get('buyer')?.value?.tin}}</div>
+      <div><span *ngIf="invoiceForm.get('buyer')?.value">{{'company.tins' | translate}}</span>{{invoiceForm.get('buyer')?.value?.tin}}</div>
     </div>
   </div>
 </ng-container>
