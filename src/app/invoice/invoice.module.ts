@@ -26,6 +26,7 @@ import {InvoiceFormSpacingComponent} from "./invoice-form/invoice-form-spacing/i
 import {MaskPipe, NgxMaskModule} from "ngx-mask";
 import {TranslateModule} from "@ngx-translate/core";
 import {CurrencyFormatPipe} from "./currency-format.pipe";
+import {ZipFormatPipe} from "./zip-format.pipe";
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {CurrencyFormatPipe} from "./currency-format.pipe";
     InvoiceAddComponent,
     InvoiceDetailComponent,
     CurrencyToWordsPipe,
-    CurrencyFormatPipe
+    CurrencyFormatPipe,
+    ZipFormatPipe
   ],
   imports: [
     FlexLayoutModule,
@@ -66,6 +68,7 @@ import {CurrencyFormatPipe} from "./currency-format.pipe";
     CurrencyPipe,
     DecimalPipe,
     CurrencyFormatPipe,
+    ZipFormatPipe,
     MaskPipe
   ]
 })

@@ -24,7 +24,8 @@
     "street": "Street",
     "zip": "Zip code",
     "city": "City",
-    "tin": "Tax identification number"
+    "tin": "Tax identification number",
+    "tins": "TIN: "
   },
   "item": {
     "list": {

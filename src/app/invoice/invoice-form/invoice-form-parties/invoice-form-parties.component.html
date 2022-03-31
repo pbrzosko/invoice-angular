@@ -7,8 +7,8 @@
       </mat-form-field>
       <div class="mat-small">
         <div>{{seller?.street}}</div>
-        <div>{{seller?.zip}} {{seller?.city}}</div>
-        <div><span *ngIf="seller">{{'company.tin' | translate}} </span>{{seller?.tin}}</div>
+        <div>{{seller?.zip | zipFormat}} {{seller?.city}}</div>
+        <div><span *ngIf="seller">{{'company.tins' | translate}}</span>{{seller?.tin}}</div>
       </div>
     </div>
   </ng-container>
@@ -22,7 +22,7 @@
     </mat-form-field>
     <div class="mat-small">
       <div>{{invoiceForm.get('buyer')?.value?.street}}</div>
-      <div>{{invoiceForm.get('buyer')?.value?.zip}} {{invoiceForm.get('buyer')?.value?.city}}</div>
+      <div>{{invoiceForm.get('buyer')?.value?.zip | zipFormat}} {{invoiceForm.get('buyer')?.value?.city}}</div>
       <div><span *ngIf="invoiceForm.get('buyer')?.value">{{'company.tin' | translate}} </span>{{invoiceForm.get('buyer')?.value?.tin}}</div>
     </div>
   </div>

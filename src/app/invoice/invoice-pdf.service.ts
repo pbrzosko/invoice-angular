@@ -9,6 +9,7 @@ import robotoNormal from '../fonts/roboto-normal';
 import robotoBold from '../fonts/roboto-bold';
 import {MaskPipe} from "ngx-mask";
 import {CurrencyFormatPipe} from "./currency-format.pipe";
+import {ZipFormatPipe} from "./zip-format.pipe";
 
 const MARGIN = 14;
 const MEDIUM_FONT_SIZE = 10;
@@ -63,6 +64,7 @@ export class InvoicePdfService {
               private currencyToWordsPipe: CurrencyToWordsPipe,
               private currencyPipe: CurrencyFormatPipe,
               private maskPipe: MaskPipe,
+              private zipPipe: ZipFormatPipe,
               private t: TranslateService) {
     jsPDF.API.events.push(['addFonts', addRoboto]);
   }
@@ -186,8 +188,8 @@ export class InvoicePdfService {
     }, y);
     const hm = this.drawMultiline(doc, [
       company.street,
-      company.zip + ' ' + company.city,
-      'NIP: ' + company.tin
+      this.zipPipe.transform(company.zip) + ' ' + company.city,
+      this.t.instant('company.tins') + company.tin
     ], col, span, y + h);
     return hm + h;
   }

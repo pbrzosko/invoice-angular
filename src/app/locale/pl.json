@@ -24,7 +24,8 @@
     "street": "Ulica",
     "zip": "Kod pocztowy",
     "city": "Miasto",
-    "tin": "Numer identyfikacji podatkowej"
+    "tin": "Numer identyfikacji podatkowej",
+    "tins": "NIP: "
   },
   "item": {
     "list": {
@@ -116,7 +117,7 @@
     "2": "dwa",
     "3": "trzy",
     "4": "cztery",
-    "5": "piec",
+    "5": "pięć",
     "6": "sześć",
     "7": "siedem",
     "8": "osiem",
