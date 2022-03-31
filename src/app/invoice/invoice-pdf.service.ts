@@ -142,10 +142,10 @@ export class InvoicePdfService {
     });
     const total = this.currencyPipe.transform(totals[0].gross, true);
     cy += this.drawTableLine(doc, [
-      {label: 'To pay', value: total, align: 'right', col: 10, span: 10, nowrap: true, bold: true}
+      {label: this.t.instant('invoice.total'), value: total, align: 'right', col: 10, span: 10, nowrap: true, bold: true}
     ], cy, ROW_BACKGROUND, ROW_COLOR);
     cy += this.drawTableLine(doc, [
-      {label: 'In words', value: this.currencyToWordsPipe.transform(totals[0].gross), align: 'right', col: 10, span: 10, fontSize: MEDIUM_FONT_SIZE}
+      {label: this.t.instant('invoice.totalWords'), value: this.currencyToWordsPipe.transform(totals[0].gross), align: 'right', col: 10, span: 10, fontSize: MEDIUM_FONT_SIZE}
     ], cy, ROW_BACKGROUND, ROW_COLOR);
     return cy - y;
   }
