@@ -104,8 +104,10 @@ let numToWords = (n:string, z: string, and: string, a: string[], b: string[], h:
       return g[i][1];
     } else if (ones === 2 || ones === 3 || ones === 4) {
       return g[i][2];
-    } else {
+    } else if (huns + tens + ones !== 0 || i <= 1) {
       return g[i][0];
+    } else {
+      return '';
     }
   }
   let numbers = (items: string[]) => {
@@ -119,10 +121,10 @@ let numToWords = (n:string, z: string, and: string, a: string[], b: string[], h:
   // it might edit this again later to show how Monoids could fix this up
   let makeGroup = ([ones,tens,huns]: number[], i:number) => {
     const group = [
-      i === 0 ? and + ' ': '',
-      huns === 0 ? '' : h[huns] + ' ',
-      ones === 0 ? b[tens] : b[tens] && b[tens] + ' ' || '',
-      (ones + tens + huns) === 0 ? z + ' ' : (a[tens*10+ones] || a[ones]) + ' ',
+      i === 0 ? and + ' ': '', // and
+      huns === 0 ? '' : h[huns] + ' ', // hundreds
+      ones === 0 ? b[tens] : b[tens] && b[tens] + ' ' || '', // tens
+      (ones + tens + huns) === 0 || ((ones + tens + huns) === 1 && i > 1) ? '' : (a[tens*10+ones] || a[ones]) + ' ', // ones
       groupName(huns, tens, ones, i)
     ];
     return group.join('');
