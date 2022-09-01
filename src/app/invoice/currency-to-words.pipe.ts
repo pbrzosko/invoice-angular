@@ -102,7 +102,7 @@ let numToWords = (n:string, z: string, and: string, a: string[], b: string[], h:
   let groupName = (huns:number, tens:number, ones:number, i:number) => {
     if (huns === 0 && tens === 0 && ones === 1) {
       return g[i][1];
-    } else if (ones === 2 || ones === 3 || ones === 4) {
+    } else if (tens !== 1 && (ones === 2 || ones === 3 || ones === 4)) {
       return g[i][2];
     } else if (huns + tens + ones !== 0 || i <= 1) {
       return g[i][0];
